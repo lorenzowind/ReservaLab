@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  reservalab_mysql:
+    image: mysql
+    container_name: reservalab_mysql
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: mysql
+      MYSQL_DATABASE: reservalab
+    ports:
+      - 3306:3306
+    networks:
+      - mysql-compose-network
+
+  reservalab_adminer:
+    image: adminer
+    container_name: reservalab_adminer
+    ports:
+      - 8080:8080
+    networks:
+      - mysql-compose-network
+
+networks:
+  mysql-compose-network:
+    driver: bridge
