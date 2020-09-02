@@ -47,6 +47,9 @@ components:
           type: string
         subject:
           type: string
+        avatar:
+          type: string
+          format: binary
         password:
           type: string
         created_at:
@@ -144,6 +147,9 @@ paths:
                       subject:
                         type: string
                         example: "Subject 1, Subject 2"
+                      avatar_url:
+                        type: string
+                        example: null
                       created_at:
                         type: string
                         format: dateformat
@@ -259,6 +265,9 @@ paths:
                   subject:
                     type: string
                     example: "Subject 1, Subject 2"
+                  avatar_url:
+                    type: string
+                    example: null
                   created_at:
                     type: string
                     format: dateformat
@@ -321,6 +330,9 @@ paths:
                   subject:
                     type: string
                     example: "Subject 1, Subject 2"
+                  avatar_url:
+                    type: string
+                    example: null
                   created_at:
                     type: string
                     format: dateformat
@@ -349,15 +361,26 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ExclusiveAccess'
-    get:
-      summary: Get the user data.
+  /users/avatar:
+    patch:
+      summary: Updates the user avatar.
       tags:
         - users
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
       responses:
         '200':
-          description: Returns a JSON containing the authenticated user.
+          description: Returns a JSON containing the updated user with avatar data.
           content:
             application/json:
               schema:
@@ -376,10 +399,13 @@ paths:
                     example: "newuser@email.com"
                   position:
                     type: string
-                    example: "usuario"
+                    example: "teacher"
                   subject:
                     type: string
                     example: "Subject 1, Subject 2"
+                  avatar_url:
+                    type: string
+                    example: "https://image_upload_provider/2196cf1aec2f18533aaf-file_name.png"
                   created_at:
                     type: string
                     format: dateformat
