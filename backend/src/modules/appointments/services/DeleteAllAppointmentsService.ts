@@ -1,5 +1,7 @@
 import { injectable, inject } from 'tsyringe';
 
+import AppError from '@shared/errors/AppError';
+
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
 @injectable()
@@ -20,7 +22,7 @@ class DeleteAllAppointmentsService {
         break;
       }
       default: {
-        break;
+        throw new AppError('Path parameter is not valid.');
       }
     }
   }

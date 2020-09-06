@@ -5,7 +5,6 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
-import ensureIsAdmin from '@shared/infra/http/middlewares/ensureIsAdmin';
 
 import UsersController from '../controllers/UsersController';
 import UserAvatarController from '../controllers/UserAvatarController';
@@ -36,7 +35,7 @@ usersRouter.post(
 );
 
 usersRouter.put(
-  '/:id',
+  '/',
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
@@ -54,12 +53,13 @@ usersRouter.put(
   usersController.update,
 );
 
-usersRouter.delete('/:id', ensureAuthenticated, usersController.delete);
+usersRouter.delete('/', ensureAuthenticated, usersController.delete);
+
+usersRouter.get('/', ensureAuthenticated, usersController.show);
 
 usersRouter.patch(
   '/avatar',
   ensureAuthenticated,
-  ensureIsAdmin,
   upload.single('avatar'),
   userAvatarController.update,
 );

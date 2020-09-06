@@ -39,14 +39,6 @@ export default class DraftLaboratoriesRepository
     return laboratory;
   }
 
-  public async findByNumber(number: number): Promise<Laboratory | undefined> {
-    const laboratory = this.laboratories.find(
-      findLaboratory => findLaboratory.number === number,
-    );
-
-    return laboratory;
-  }
-
   public async create(
     laboratoryData: ICreateLaboratoryDTO,
   ): Promise<Laboratory> {

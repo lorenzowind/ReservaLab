@@ -1,27 +1,30 @@
 import AppError from '@shared/errors/AppError';
 
-import FakeStorageProvider from '@shared/container/providers/StorageProvider/drafts/DraftStorageProvider';
-import FakeUsersRepository from '../repositories/drafts/DraftUsersRepository';
+import DraftStorageProvider from '@shared/container/providers/StorageProvider/drafts/DraftStorageProvider';
+import DraftUsersRepository from '../repositories/drafts/DraftUsersRepository';
 
 import UpdateUserAvatarService from './UpdateUserAvatarService';
 
-let fakeUsersRepository: FakeUsersRepository;
-let fakeStorageProvider: FakeStorageProvider;
+let draftStorageProvider: DraftStorageProvider;
+
+let draftUsersRepository: DraftUsersRepository;
+
 let updateUserAvatar: UpdateUserAvatarService;
 
 describe('UpdateUserAvatar', () => {
   beforeEach(() => {
-    fakeUsersRepository = new FakeUsersRepository();
-    fakeStorageProvider = new FakeStorageProvider();
+    draftStorageProvider = new DraftStorageProvider();
+
+    draftUsersRepository = new DraftUsersRepository();
 
     updateUserAvatar = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
+      draftUsersRepository,
+      draftStorageProvider,
     );
   });
 
   it('should be able to update user with an avatar', async () => {
-    const user = await fakeUsersRepository.create({
+    const user = await draftUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
@@ -47,9 +50,9 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('should delete old avatar when updating new one', async () => {
-    const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
+    const deleteFile = jest.spyOn(draftStorageProvider, 'deleteFile');
 
-    const user = await fakeUsersRepository.create({
+    const user = await draftUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',

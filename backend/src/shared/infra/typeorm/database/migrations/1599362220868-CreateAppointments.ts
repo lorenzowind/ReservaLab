@@ -73,7 +73,7 @@ export default class CreateAppointments1599362220868
         columnNames: ['teacher_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }),
     );
@@ -85,7 +85,7 @@ export default class CreateAppointments1599362220868
         columnNames: ['laboratory_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'laboratories',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       }),
     );

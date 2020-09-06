@@ -49,14 +49,6 @@ class LaboratoriesRepository implements ILaboratoriesRepository {
     return findLaboratory;
   }
 
-  public async findByNumber(number: number): Promise<Laboratory | undefined> {
-    const findLaboratory = await this.ormRepository.findOne({
-      where: { number },
-    });
-
-    return findLaboratory;
-  }
-
   public async create(
     laboratoryData: ICreateLaboratoryDTO,
   ): Promise<Laboratory> {

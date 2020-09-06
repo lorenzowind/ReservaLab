@@ -16,12 +16,10 @@ export default class CreateLaboratories1599358760753
           {
             name: 'name',
             type: 'varchar(255)',
-            isUnique: true,
           },
           {
             name: 'number',
             type: 'tinyint',
-            isUnique: true,
           },
           {
             name: 'created_at',

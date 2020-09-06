@@ -40,44 +40,4 @@ describe('UpdateLaboratory', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  it('should not be able to update to another laboratory name', async () => {
-    await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
-
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 2',
-      number: 2,
-    });
-
-    await expect(
-      updateLaboratory.execute({
-        id: laboratory.id,
-        name: 'Laboratory 1',
-        number: 2,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
-
-  it('should not be able to update to another laboratory number', async () => {
-    await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
-
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 2',
-      number: 2,
-    });
-
-    await expect(
-      updateLaboratory.execute({
-        id: laboratory.id,
-        name: 'Laboratory 2',
-        number: 1,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
 });

@@ -26,22 +26,6 @@ class UpdateLaboratoryService {
       throw new AppError('Laboratory not found.');
     }
 
-    const laboratoryWithUpdatedName = await this.laboratoriesRepository.findByName(
-      name,
-    );
-
-    if (laboratoryWithUpdatedName && laboratoryWithUpdatedName.id !== id) {
-      throw new AppError('Laboratory name already in use.');
-    }
-
-    const laboratoryWithUpdatedNumber = await this.laboratoriesRepository.findByNumber(
-      number,
-    );
-
-    if (laboratoryWithUpdatedNumber && laboratoryWithUpdatedNumber.id !== id) {
-      throw new AppError('Laboratory number already in use.');
-    }
-
     laboratory.name = name;
     laboratory.number = number;
 
