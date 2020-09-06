@@ -8,9 +8,14 @@ import DeleteLaboratoryService from '@modules/laboratories/services/DeleteLabora
 
 export default class LaboratoriesController {
   public async show(request: Request, response: Response): Promise<Response> {
+    const { search = '', page = 1 } = request.query;
+
     const listLaboratories = container.resolve(ListLaboratoriesService);
 
-    const laboratories = await listLaboratories.execute();
+    const laboratories = await listLaboratories.execute(
+      String(search),
+      Number(page),
+    );
 
     return response.json(laboratories);
   }

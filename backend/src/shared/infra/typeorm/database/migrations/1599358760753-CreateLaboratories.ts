@@ -21,6 +21,7 @@ export default class CreateLaboratories1599358760753
           {
             name: 'number',
             type: 'tinyint',
+            isUnique: true,
           },
           {
             name: 'created_at',

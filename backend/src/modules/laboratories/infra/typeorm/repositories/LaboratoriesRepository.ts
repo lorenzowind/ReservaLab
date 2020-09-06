@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Like } from 'typeorm';
 import { v4 } from 'uuid';
 
 import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
@@ -14,6 +14,27 @@ class LaboratoriesRepository implements ILaboratoriesRepository {
     this.ormRepository = getRepository(Laboratory);
   }
 
+  public async findAllLaboratories(
+    search: string,
+    page: number,
+  ): Promise<Laboratory[]> {
+    const laboratories =
+      search !== ''
+        ? await this.ormRepository.find({
+            skip: (page - 1) * 10,
+            take: 10,
+            where: {
+              name: Like(`%${search}%`),
+            },
+          })
+        : await this.ormRepository.find({
+            skip: (page - 1) * 10,
+            take: 10,
+          });
+
+    return laboratories;
+  }
+
   public async findById(id: string): Promise<Laboratory | undefined> {
     const findLaboratory = await this.ormRepository.findOne(id);
 
@@ -23,6 +44,14 @@ class LaboratoriesRepository implements ILaboratoriesRepository {
   public async findByName(name: string): Promise<Laboratory | undefined> {
     const findLaboratory = await this.ormRepository.findOne({
       where: { name },
+    });
+
+    return findLaboratory;
+  }
+
+  public async findByNumber(number: number): Promise<Laboratory | undefined> {
+    const findLaboratory = await this.ormRepository.findOne({
+      where: { number },
     });
 
     return findLaboratory;

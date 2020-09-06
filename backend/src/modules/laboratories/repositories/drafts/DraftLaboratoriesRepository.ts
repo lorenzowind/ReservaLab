@@ -10,6 +10,19 @@ export default class DraftLaboratoriesRepository
   implements ILaboratoriesRepository {
   private laboratories: Laboratory[] = [];
 
+  public async findAllLaboratories(
+    search: string,
+    page: number,
+  ): Promise<Laboratory[]> {
+    const laboratories = search
+      ? this.laboratories.filter(findLaboratory =>
+          findLaboratory.name.includes(search),
+        )
+      : this.laboratories;
+
+    return laboratories.slice((page - 1) * 10, page * 10);
+  }
+
   public async findById(id: string): Promise<Laboratory | undefined> {
     const laboratory = this.laboratories.find(
       findLaboratory => findLaboratory.id === id,
@@ -26,12 +39,20 @@ export default class DraftLaboratoriesRepository
     return laboratory;
   }
 
+  public async findByNumber(number: number): Promise<Laboratory | undefined> {
+    const laboratory = this.laboratories.find(
+      findLaboratory => findLaboratory.number === number,
+    );
+
+    return laboratory;
+  }
+
   public async create(
     laboratoryData: ICreateLaboratoryDTO,
   ): Promise<Laboratory> {
     const laboratory = new Laboratory();
 
-    Object.assign(Laboratory, { id: v4() }, laboratoryData);
+    Object.assign(laboratory, { id: v4() }, laboratoryData);
 
     this.laboratories.push(laboratory);
 
