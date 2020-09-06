@@ -1,0 +1,191 @@
+import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
+import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
+import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
+
+import DeleteAllAppointmentsService from './DeleteAllAppointmentsService';
+
+let draftAppointmentsRepository: DraftAppointmentsRepository;
+let draftUsersRepository: DraftUsersRepository;
+let draftLaboratoriesRepository: DraftLaboratoriesRepository;
+
+let deleteAllAppointments: DeleteAllAppointmentsService;
+
+describe('DeleteAllAppointments', () => {
+  beforeEach(() => {
+    draftAppointmentsRepository = new DraftAppointmentsRepository();
+    draftUsersRepository = new DraftUsersRepository();
+    draftLaboratoriesRepository = new DraftLaboratoriesRepository();
+
+    deleteAllAppointments = new DeleteAllAppointmentsService(
+      draftAppointmentsRepository,
+    );
+  });
+
+  it('should be able to delete all appointments', async () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 8, 6).getTime();
+    });
+
+    const teacher = await draftUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      subjects: 'subject 1',
+      position: 'teacher',
+      password: '123456',
+    });
+
+    const laboratory = await draftLaboratoriesRepository.create({
+      name: 'Laboratory 1',
+      number: 1,
+    });
+
+    const year = 2020;
+    const month = 9;
+    const day = 7;
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day,
+      time: '1',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day,
+      time: '2',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day,
+      time: '3',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day,
+      time: '4',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    deleteAllAppointments.execute('all');
+
+    expect(
+      await draftAppointmentsRepository.findAllAppointmentsByDate(
+        year,
+        month,
+        day,
+      ),
+    ).toEqual([]);
+  });
+
+  it('should be able to delete only old appointments', async () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 8, 4).getTime();
+    });
+
+    const teacher = await draftUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      subjects: 'subject 1',
+      position: 'teacher',
+      password: '123456',
+    });
+
+    const laboratory = await draftLaboratoriesRepository.create({
+      name: 'Laboratory 1',
+      number: 1,
+    });
+
+    const year = 2020;
+    const month = 9;
+    const day = 5;
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day,
+      time: '1',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day: day + 2,
+      time: '2',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day: day + 2,
+      time: '3',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_id: laboratory.id,
+      year,
+      month,
+      day: day + 2,
+      time: '4',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    jest.spyOn(Date, 'now').mockClear();
+
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 8, 6).getTime();
+    });
+
+    deleteAllAppointments.execute('old');
+
+    expect(
+      await draftAppointmentsRepository.findAllAppointmentsByDate(
+        year,
+        month,
+        day,
+      ),
+    ).toEqual([]);
+
+    expect(
+      await draftAppointmentsRepository.findAllAppointmentsByDate(
+        year,
+        month,
+        day + 2,
+      ),
+    ).toHaveLength(3);
+  });
+});

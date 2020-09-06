@@ -55,6 +55,19 @@ class AppointmentsRepository implements IAppointmentsRepository {
   public async remove(appointment: Appointment): Promise<void> {
     await this.ormRepository.remove(appointment);
   }
+
+  public async removeAll(): Promise<void> {
+    await this.ormRepository.clear();
+  }
+
+  public async removeOld(): Promise<void> {
+    await this.ormRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Appointment)
+      .where('concat_ws("-",year,month,day) < curdate()')
+      .execute();
+  }
 }
 
 export default AppointmentsRepository;

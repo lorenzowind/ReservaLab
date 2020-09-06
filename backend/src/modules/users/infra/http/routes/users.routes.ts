@@ -23,8 +23,12 @@ usersRouter.post(
     [Segments.BODY]: {
       name: Joi.string().required(),
       email: Joi.string().email().required(),
-      subjects: Joi.string().required(),
       position: Joi.string().required(),
+      subjects: Joi.string().when('position', {
+        is: 'teacher',
+        then: Joi.required(),
+        otherwise: Joi.allow(''),
+      }),
       password: Joi.string().required(),
     },
   }),
@@ -39,7 +43,11 @@ usersRouter.put(
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       position: Joi.string().required(),
-      subjects: Joi.string().required(),
+      subjects: Joi.string().when('position', {
+        is: 'teacher',
+        then: Joi.required(),
+        otherwise: Joi.optional(),
+      }),
       password: Joi.string().min(6),
     },
   }),

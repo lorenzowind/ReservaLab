@@ -50,7 +50,7 @@ class CreateAppointmentService {
       throw new AppError('Informed laboratory does not exists.');
     }
 
-    const appointmentDate = new Date(year, month - 1, day);
+    const appointmentDate = new Date(year, month - 1, day, 23, 59, 59);
 
     if (isBefore(appointmentDate, Date.now())) {
       throw new AppError('You can not create an appointment on a past date.');

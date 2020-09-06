@@ -3,6 +3,7 @@ import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
 import ensureIsTeacher from '@shared/infra/http/middlewares/ensureIsTeacher';
+import ensureIsAdmin from '@shared/infra/http/middlewares/ensureIsAdmin';
 
 import AppointmentsController from '../controllers/AppointmentsController';
 
@@ -22,7 +23,6 @@ appointmentsRouter.post(
   ensureIsTeacher,
   celebrate({
     [Segments.BODY]: {
-      teacher_id: Joi.string().required(),
       laboratory_id: Joi.string().required(),
       year: Joi.number().required(),
       month: Joi.number().required(),
@@ -57,6 +57,13 @@ appointmentsRouter.delete(
   '/:id',
   ensureAuthenticated,
   appointmentsController.delete,
+);
+
+appointmentsRouter.delete(
+  '/clean/:operation',
+  ensureAuthenticated,
+  ensureIsAdmin,
+  appointmentsController.clean,
 );
 
 export default appointmentsRouter;

@@ -12,4 +12,6 @@ export default interface ILaboratoriesRepository {
   create(data: ICreateAppointmentDTO): Promise<Appointment>;
   save(appointment: Appointment): Promise<Appointment>;
   remove(appointment: Appointment): Promise<void>;
+  removeAll(): Promise<void>;
+  removeOld(): Promise<void>;
 }

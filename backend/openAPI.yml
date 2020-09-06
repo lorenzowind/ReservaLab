@@ -45,7 +45,7 @@ components:
           format: email
         position:
           type: string
-        subject:
+        subjects:
           type: string
         avatar:
           type: string
@@ -147,7 +147,7 @@ paths:
                       position:
                         type: string
                         example: "teacher"
-                      subject:
+                      subjects:
                         type: string
                         example: "Subject 1, Subject 2"
                       avatar_url:
@@ -237,7 +237,7 @@ paths:
                   position:
                     type: string
                     example: "teacher"
-                  subject:
+                  subjects:
                     type: string
                     example: "Subject 1, Subject 2"
                   password:
@@ -265,7 +265,7 @@ paths:
                   position:
                     type: string
                     example: "teacher"
-                  subject:
+                  subjects:
                     type: string
                     example: "Subject 1, Subject 2"
                   avatar_url:
@@ -302,7 +302,7 @@ paths:
                   position:
                     type: string
                     example: "teacher"
-                  subject:
+                  subjects:
                     type: string
                     example: "Subject 1, Subject 2"
                   password:
@@ -330,7 +330,7 @@ paths:
                   position:
                     type: string
                     example: "teacher"
-                  subject:
+                  subjects:
                     type: string
                     example: "Subject 1, Subject 2"
                   avatar_url:
@@ -403,7 +403,7 @@ paths:
                   position:
                     type: string
                     example: "teacher"
-                  subject:
+                  subjects:
                     type: string
                     example: "Subject 1, Subject 2"
                   avatar_url:
@@ -725,6 +725,10 @@ paths:
               schema:
                 type: object
                 properties:
+                  teacher_id:
+                    type: string
+                    format: uuid
+                    example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
                   laboratory_id:
                     type: string
                     format: uuid
@@ -894,3 +898,28 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+  /appointments/clean/{operation}:
+    delete:
+      summary: Deletes the appointments.
+      parameters:
+        - in: path
+          name: operation
+          schema:
+            type: string
+            example: "old"
+          required: true
+          description: String to manage the deletion operation.
+      tags:
+        - appointments
+      security:
+        - bearerAuth: []
+        - positionHeader: []
+      responses:
+        '200':
+          description: Returns a successfully deleted appointments confirmation.
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ExclusiveAccess'

@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { isBefore } from 'date-fns';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 
@@ -62,5 +63,17 @@ export default class DraftAppointmentsRepository
     );
 
     this.appointments.splice(findIndex, 1);
+  }
+
+  public async removeAll(): Promise<void> {
+    this.appointments = [];
+  }
+
+  public async removeOld(): Promise<void> {
+    this.appointments = this.appointments.filter(appointment => {
+      const { year, month, day } = appointment;
+
+      return !isBefore(new Date(year, month - 1, day), Date.now());
+    });
   }
 }

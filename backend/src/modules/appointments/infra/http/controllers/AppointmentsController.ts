@@ -5,6 +5,7 @@ import ListAppointmentsService from '@modules/appointments/services/ListAppointm
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 import UpdateAppointmentService from '@modules/appointments/services/UpdateAppointmentService';
 import DeleteAppointmentService from '@modules/appointments/services/DeleteAppointmentService';
+import DeleteAllAppointmentsService from '@modules/appointments/services/DeleteAllAppointmentsService';
 
 export default class AppointmentsController {
   public async show(request: Request, response: Response): Promise<Response> {
@@ -22,8 +23,8 @@ export default class AppointmentsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
+    const teacher_id = request.user.id;
     const {
-      teacher_id,
       laboratory_id,
       year,
       month,
@@ -85,6 +86,16 @@ export default class AppointmentsController {
     const deleteAppointment = container.resolve(DeleteAppointmentService);
 
     await deleteAppointment.execute(id);
+
+    return response.status(200).send();
+  }
+
+  public async clean(request: Request, response: Response): Promise<Response> {
+    const { operation } = request.params;
+
+    const deleteAppointments = container.resolve(DeleteAllAppointmentsService);
+
+    await deleteAppointments.execute(String(operation));
 
     return response.status(200).send();
   }
