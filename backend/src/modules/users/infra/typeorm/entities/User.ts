@@ -25,7 +25,7 @@ class User {
   position: 'teacher' | 'admin';
 
   @Column()
-  subject: string;
+  subjects: string;
 
   @Column()
   @Exclude()

@@ -8,7 +8,7 @@ import DeleteUserService from '@modules/users/services/DeleteUserService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, email, position, subject, password } = request.body;
+    const { name, email, position, subjects, password } = request.body;
 
     const createUser = container.resolve(CreateUserService);
 
@@ -16,7 +16,7 @@ export default class UsersController {
       name,
       email,
       position,
-      subject,
+      subjects,
       password,
     });
 
@@ -25,7 +25,7 @@ export default class UsersController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const { name, email, position, subject, password } = request.body;
+    const { name, email, position, subjects, password } = request.body;
 
     const updateUser = container.resolve(UpdateUserService);
 
@@ -34,7 +34,7 @@ export default class UsersController {
       name,
       email,
       position,
-      subject,
+      subjects,
       password,
     });
 

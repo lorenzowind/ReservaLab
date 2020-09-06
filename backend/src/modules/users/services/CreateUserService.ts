@@ -23,7 +23,7 @@ class CreateUserService {
     name,
     email,
     position,
-    subject,
+    subjects,
     password,
   }: ICreateUserDTO): Promise<User> {
     const checkUserEmailExists = await this.usersRepository.findByEmail(email);
@@ -37,7 +37,7 @@ class CreateUserService {
     const user = await this.usersRepository.create({
       name,
       email,
-      subject,
+      subjects,
       position,
       password: hashedPassword,
     });

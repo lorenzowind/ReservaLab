@@ -28,7 +28,7 @@ class UpdateProfileService {
     name,
     email,
     position,
-    subject,
+    subjects,
     password,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(id);
@@ -46,7 +46,7 @@ class UpdateProfileService {
     user.name = name;
     user.email = email;
     user.position = position;
-    user.subject = subject;
+    user.subjects = subjects;
 
     user.password = await this.hashProvider.generateHash(password);
 

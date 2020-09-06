@@ -26,7 +26,7 @@ export default class CreateUsers1599087815298 implements MigrationInterface {
             type: "enum('teacher', 'admin')",
           },
           {
-            name: 'subject',
+            name: 'subjects',
             type: 'varchar(255)',
           },
           {

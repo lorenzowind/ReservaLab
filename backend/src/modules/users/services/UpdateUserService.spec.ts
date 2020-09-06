@@ -26,7 +26,7 @@ describe('UpdateProfile', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -35,7 +35,7 @@ describe('UpdateProfile', () => {
       name: 'John Doe II',
       email: 'johndoeII@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -50,7 +50,7 @@ describe('UpdateProfile', () => {
         name: 'John Doe',
         email: 'johndoe@example.com',
         position: 'teacher',
-        subject: 'subject 1',
+        subjects: 'subject 1',
         password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -61,7 +61,7 @@ describe('UpdateProfile', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -69,7 +69,7 @@ describe('UpdateProfile', () => {
       name: 'John Doe II',
       email: 'johndoeII@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -78,7 +78,7 @@ describe('UpdateProfile', () => {
         id: user.id,
         name: user.name,
         email: 'johndoe@example.com',
-        subject: user.subject,
+        subjects: user.subjects,
         position: user.position,
         password: '123456',
       }),
@@ -90,7 +90,7 @@ describe('UpdateProfile', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -98,7 +98,7 @@ describe('UpdateProfile', () => {
       id: user.id,
       name: user.name,
       email: user.email,
-      subject: user.subject,
+      subjects: user.subjects,
       position: user.position,
       password: '123123',
     });
