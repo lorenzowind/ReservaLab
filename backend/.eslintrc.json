@@ -18,6 +18,7 @@
         "prettier"
     ],
     "rules": {
+      "array-callback-return": "off",
       "camelcase": "off",
       "class-methods-use-this": "off",
       "prettier/prettier": "error",

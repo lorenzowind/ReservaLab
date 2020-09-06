@@ -25,7 +25,7 @@ describe('UpdateUserAvatar', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 
@@ -53,7 +53,7 @@ describe('UpdateUserAvatar', () => {
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
-      subject: 'subject 1',
+      subjects: 'subject 1',
       password: '123456',
     });
 

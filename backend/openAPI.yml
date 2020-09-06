@@ -84,9 +84,12 @@ components:
         laboratory_id:
           type: string
           format: uuid
-        date:
-          type: string
-          format: date
+        year:
+          type: number
+        month:
+          type: number
+        day:
+          type: number
         time:
           type: string
         subject:
@@ -632,9 +635,15 @@ paths:
                   time:
                     type: string
                     example: "1, 2"
-                  date:
-                    type: string
-                    example: "2020-09-02"
+                  year:
+                    type: number
+                    example: 2020
+                  month:
+                    type: number
+                    example: 9
+                  day:
+                    type: number
+                    example: 2
                   subject:
                     type: string
                     example: "Subject Name"
@@ -664,9 +673,15 @@ paths:
                   time:
                     type: string
                     example: "1, 2"
-                  date:
-                    type: string
-                    example: "2020-09-02"
+                  year:
+                    type: number
+                    example: 2020
+                  month:
+                    type: number
+                    example: 9
+                  day:
+                    type: number
+                    example: 2
                   subject:
                     type: string
                     example: "Subject Name"
@@ -717,9 +732,15 @@ paths:
                   time:
                     type: string
                     example: "1, 2"
-                  date:
-                    type: string
-                    example: "2020-09-02"
+                  year:
+                    type: number
+                    example: 2020
+                  month:
+                    type: number
+                    example: 9
+                  day:
+                    type: number
+                    example: 2
                   subject:
                     type: string
                     example: "Subject Name"
@@ -749,9 +770,15 @@ paths:
                   time:
                     type: string
                     example: "1, 2"
-                  date:
-                    type: string
-                    example: "2020-09-02"
+                  year:
+                    type: number
+                    example: 2020
+                  month:
+                    type: number
+                    example: 9
+                  day:
+                    type: number
+                    example: 2
                   subject:
                     type: string
                     example: "Subject Name"
@@ -840,9 +867,15 @@ paths:
                     time:
                       type: string
                       example: "1, 2"
-                    date:
-                      type: string
-                      example: "2020-09-02"
+                    year:
+                      type: number
+                      example: 2020
+                    month:
+                      type: number
+                      example: 9
+                    day:
+                      type: number
+                      example: 2
                     subject:
                       type: string
                       example: "Subject Name"
