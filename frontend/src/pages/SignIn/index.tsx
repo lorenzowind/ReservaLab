@@ -22,16 +22,11 @@ const SignIn: React.FC = () => {
         <h1>ReservaLab</h1>
 
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <strong>Email</strong>
-          <Input name="email" icon={FiMail} placeholder="E-mail" />
+          <strong>E-mail</strong>
+          <Input name="email" icon={FiMail} />
 
           <strong>Senha</strong>
-          <Input
-            name="password"
-            icon={FiLock}
-            type="password"
-            placeholder="Senha"
-          />
+          <Input name="password" icon={FiLock} type="password" />
 
           <Link to="forgot-password">Esqueci minha senha</Link>
 
