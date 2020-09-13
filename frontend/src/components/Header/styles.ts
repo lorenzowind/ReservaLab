@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { transparentize, shade } from 'polished';
+import { shade } from 'polished';
 
 const appearFromTop = keyframes`
   from {
@@ -38,7 +38,7 @@ export const Container = styled.div`
     strong {
       font-size: 24px;
       font-weight: 500;
-      color: ${transparentize(0.5, '#bfd73e')};
+      color: #dce89b;
     }
 
     h2 {
