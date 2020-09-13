@@ -1,7 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
-const appearFromBottom = keyframes`
+const appearWithFade = keyframes`
   from {
     opacity: 0;
   }
@@ -27,7 +27,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
 
-  animation: ${appearFromBottom} 1s;
+  animation: ${appearWithFade} 1s;
 
   h1 {
     font-size: 84px;

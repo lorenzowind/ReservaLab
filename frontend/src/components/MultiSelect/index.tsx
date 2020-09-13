@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { IconBaseProps } from 'react-icons';
 import Select from 'react-select';
 
@@ -45,7 +45,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const handleSelectBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!selectedOptions);
+    setIsFilled(!!selectedOptions.length);
   }, [selectedOptions]);
 
   return (
