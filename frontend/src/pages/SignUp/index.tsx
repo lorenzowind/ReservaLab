@@ -74,9 +74,7 @@ const SignUp: React.FC = () => {
             .join(', '),
         };
 
-        await api.post('users', userData).then(() => {
-          setLoading(false);
-        });
+        await api.post('users', userData);
 
         history.push('/');
 
@@ -86,8 +84,6 @@ const SignUp: React.FC = () => {
           description: 'Você já pode fazer seu login no ReservaLab',
         });
       } catch (err) {
-        setLoading(false);
-
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
 
@@ -101,6 +97,8 @@ const SignUp: React.FC = () => {
           title: 'Erro no cadastro',
           description: 'Ocorreu um erro ao fazer cadastro, tente novamente.',
         });
+      } finally {
+        setLoading(false);
       }
     },
     [addToast, history, selectedSubjects],
