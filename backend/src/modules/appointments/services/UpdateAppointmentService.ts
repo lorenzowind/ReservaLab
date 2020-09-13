@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import { isBefore } from 'date-fns';
 
 import AppError from '@shared/errors/AppError';
 
@@ -6,7 +7,6 @@ import IAppointmentsRepository from '@modules/appointments/repositories/IAppoint
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
 
-import { isBefore } from 'date-fns';
 import Appointment from '../infra/typeorm/entities/Appointment';
 
 import IUpdateAppointmentDTO from '../dtos/ICreateOrUpdateAppointmentDTO';

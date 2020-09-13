@@ -2,7 +2,7 @@ import Appointment from '../infra/typeorm/entities/Appointment';
 
 import ICreateAppointmentDTO from '../dtos/ICreateOrUpdateAppointmentDTO';
 
-export default interface ILaboratoriesRepository {
+export default interface IAppointmentsRepository {
   findAllAppointmentsByDate(
     year: number,
     month: number,

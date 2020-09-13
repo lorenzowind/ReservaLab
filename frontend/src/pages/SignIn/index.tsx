@@ -1,9 +1,49 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import { FiMail, FiLock } from 'react-icons/fi';
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 
-import { Container } from './styles';
+import { Link } from 'react-router-dom';
+import { Background, Container } from './styles';
+
+import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 const SignIn: React.FC = () => {
-  return <Container>SignIn</Container>;
+  const formRef = useRef<FormHandles>(null);
+
+  const handleSubmit = useCallback(() => {
+    console.log('It works...');
+  }, []);
+
+  return (
+    <Background>
+      <Container>
+        <h1>ReservaLab</h1>
+
+        <Form ref={formRef} onSubmit={handleSubmit}>
+          <strong>Email</strong>
+          <Input name="email" icon={FiMail} placeholder="E-mail" />
+
+          <strong>Senha</strong>
+          <Input
+            name="password"
+            icon={FiLock}
+            type="password"
+            placeholder="Senha"
+          />
+
+          <Link to="forgot-password">Esqueci minha senha</Link>
+
+          <Button type="submit">Entrar</Button>
+
+          <h2>
+            Não tem conta? <Link to="signup">Crie agora!</Link>
+          </h2>
+        </Form>
+      </Container>
+    </Background>
+  );
 };
 
 export default SignIn;

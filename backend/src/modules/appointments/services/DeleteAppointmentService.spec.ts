@@ -25,7 +25,7 @@ describe('DeleteAppointment', () => {
 
   it('should not be able to delete a non existing appointment', async () => {
     await expect(
-      deleteAppointment.execute('Non existing holiday id'),
+      deleteAppointment.execute('Non existing appointment id'),
     ).rejects.toBeInstanceOf(AppError);
   });
 
