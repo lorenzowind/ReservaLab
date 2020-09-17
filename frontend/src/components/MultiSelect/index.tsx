@@ -45,7 +45,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const handleSelectBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!selectedOptions.length);
+    setIsFilled(!!selectedOptions);
   }, [selectedOptions]);
 
   return (
