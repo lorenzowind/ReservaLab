@@ -4,7 +4,7 @@ import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
 
-import api from '../../services/api';
+// import api from '../../services/api';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -21,7 +21,7 @@ import {
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Laboratories from '../../components/Laboratories';
-import ModalCreateAppointment from '../../components/ModalCreateAppointment';
+import ModalCreateAppointment from '../../components/Modal/ModalCreateAppointment';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -88,11 +88,7 @@ const SignIn: React.FC = () => {
   async function handleCreateAppointment(
     appointment: Omit<IAppointment, 'id'>,
   ): Promise<void> {
-    try {
-      await api.post('appointments', appointment);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log('Working...');
   }
 
   const disabledDays = useMemo(() => {

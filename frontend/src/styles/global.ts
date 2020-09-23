@@ -26,4 +26,8 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  .ReactModal__Body--open {
+    overflow-y: hidden;
+  }
 `;

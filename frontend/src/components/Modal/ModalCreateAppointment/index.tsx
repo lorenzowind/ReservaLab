@@ -4,11 +4,11 @@ import { FormHandles } from '@unform/core';
 
 import { Form, CloseModal } from './styles';
 
-import Modal from '../Modal';
-import Select from '../Select';
-import MultiSelect, { Option } from '../MultiSelect';
-import Button from '../Button';
-import DateInput from '../DateInput';
+import Modal from '..';
+import Select from '../../Select';
+import MultiSelect, { Option } from '../../MultiSelect';
+import Button from '../../Button';
+import DateInput from '../../DateInput';
 
 interface IAppointment {
   id: number;
