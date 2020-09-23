@@ -3,22 +3,159 @@ import { shade } from 'polished';
 
 export const Container = styled.div`
   width: 100%;
-  padding: 160px 0 60px 0;
+  padding: 140px 0 60px 0;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
 export const Content = styled.div`
-  max-width: 1120px;
+  width: 1120px;
+  margin-top: 20px;
+  display: flex;
 
+  button {
+    margin-top: 30px;
+    height: 60px;
+    width: 100%;
+  }
+`;
+
+export const Appointments = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 10px;
+
+  > strong {
+    font-weight: 700;
+    font-size: 24px;
+    color: #bfd73e;
+    margin: 20px 0;
+  }
+`;
+
+export const Appointment = styled.div`
+  height: 130px;
+  width: 90%;
+  border-radius: 13px;
+  background: #dce89b;
+
+  header {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    background: #2f3342;
+    border-radius: 13px 13px 0 0;
+    padding: 16px;
+
+    h1 {
+      font-weight: 700;
+      font-size: 20px;
+      color: #bfd73e;
+    }
+  }
+
+  > div {
+    height: 90px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+
+    > section {
+      display: flex;
+      flex-direction: column;
+
+      article {
+        display: flex;
+        flex-direction: row;
+
+        h1 {
+          font-weight: 700;
+          font-size: 20px;
+          color: #2f3342;
+
+          &:first-child {
+            padding-right: 10px;
+            margin-right: 10px;
+            border-right: 3px solid #2f3342;
+          }
+        }
+      }
+
+      > h1 {
+        font-weight: 500;
+        font-size: 20px;
+        color: #2f3342;
+      }
+    }
+  }
+
+  & + div {
+    margin-top: 20px;
+  }
+`;
+
+export const UserAvatar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  margin-right: 16px;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: #bfd73e;
+  border: 0;
+  transition: background-color 0.2s;
+
+  img {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 3px solid #bfd73e;
+    transition: border-color 0.2s;
+  }
+
+  svg {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+  }
 `;
 
-export const Schedule = styled.div``;
+export const Schedule = styled.div`
+  flex: 1;
+
+  > strong {
+    font-weight: 700;
+    font-size: 42px;
+    color: #bfd73e;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 24px;
+    color: #bfd73e;
+  }
+
+  > section {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    h2 {
+      &:first-child {
+        padding-right: 20px;
+        margin-right: 20px;
+        border-right: 3px solid #bfd73e;
+      }
+    }
+  }
+`;
 
 export const Calendar = styled.aside`
   width: 380px;
