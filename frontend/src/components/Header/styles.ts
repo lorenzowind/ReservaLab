@@ -15,12 +15,11 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  z-index: 1;
   width: 100%;
   height: 100px;
   position: absolute;
   background: #f8f8f8;
-  border: solid 0.5px #707070;
+  border-bottom: solid 0.5px #707070;
 
   animation: ${appearFromTop} 1s;
 

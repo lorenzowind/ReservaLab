@@ -1,9 +1,10 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import { FiUser } from 'react-icons/fi';
-
 import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
+
+import api from '../../services/api';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -20,16 +21,23 @@ import {
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Laboratories from '../../components/Laboratories';
+import ModalCreateAppointment from '../../components/ModalCreateAppointment';
 
 interface MonthAvailabilityItem {
   day: number;
   available: boolean;
 }
 
+interface IAppointment {
+  id: number;
+}
+
 const SignIn: React.FC = () => {
   const [selectedLaboratory, setSelectedLaboratory] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [monthAvailability, setMonthAvailability] = useState<
     MonthAvailabilityItem[]
@@ -73,6 +81,20 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
+  function toggleModal(): void {
+    setModalOpen(!modalOpen);
+  }
+
+  async function handleCreateAppointment(
+    appointment: Omit<IAppointment, 'id'>,
+  ): Promise<void> {
+    try {
+      await api.post('appointments', appointment);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter(monthDay => !monthDay.available)
@@ -90,6 +112,12 @@ const SignIn: React.FC = () => {
   return (
     <>
       <Header isAdmin={user.position === 'admin'} />
+
+      <ModalCreateAppointment
+        isOpen={modalOpen}
+        setIsOpen={toggleModal}
+        handleCreateAppointment={handleCreateAppointment}
+      />
 
       <Container>
         <Laboratories
@@ -213,7 +241,14 @@ const SignIn: React.FC = () => {
               />
             </Calendar>
 
-            <Button type="button">+ Agendar laboratório</Button>
+            <Button
+              type="button"
+              onClick={() => {
+                setModalOpen(!modalOpen);
+              }}
+            >
+              + Agendar laboratório
+            </Button>
           </section>
         </Content>
       </Container>

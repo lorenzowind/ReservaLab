@@ -16,7 +16,7 @@ interface MultiSelectProps {
   selectedOptions: Option[];
   setSelectedOptions(options: Option[]): void;
   containerStyle?: object;
-  icon: React.ComponentType<IconBaseProps>;
+  icon?: React.ComponentType<IconBaseProps>;
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({

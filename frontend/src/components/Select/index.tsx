@@ -1,49 +1,49 @@
 import React, {
-  InputHTMLAttributes,
+  SelectHTMLAttributes,
   useEffect,
   useRef,
   useState,
   useCallback,
 } from 'react';
 import { IconBaseProps } from 'react-icons';
-import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
 
-import { Container, Error } from './styles';
+import { Container } from './styles';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name: string;
   containerStyle?: object;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
-const Input: React.FC<InputProps> = ({
+const Select: React.FC<SelectProps> = ({
   name,
   containerStyle = {},
   icon: Icon,
+  children,
   ...rest
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const SelectRef = useRef<HTMLSelectElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
 
   const { fieldName, defaultValue, error, registerField } = useField(name);
 
-  const handleInputFocus = useCallback(() => {
+  const handleSelectFocus = useCallback(() => {
     setIsFocused(true);
   }, []);
 
-  const handleInputBlur = useCallback(() => {
+  const handleSelectBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!inputRef.current?.value);
+    setIsFilled(!!SelectRef.current?.value);
   }, []);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: inputRef.current,
+      ref: SelectRef.current,
       path: 'value',
     });
   }, [fieldName, registerField]);
@@ -56,21 +56,18 @@ const Input: React.FC<InputProps> = ({
       isFocused={isFocused}
     >
       {Icon && <Icon size={20} />}
-      <input
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        defaultValue={defaultValue}
-        ref={inputRef}
-        {...rest}
-      />
 
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle color="#c53030" size={20} />
-        </Error>
-      )}
+      <select
+        onFocus={handleSelectFocus}
+        onBlur={handleSelectBlur}
+        defaultValue={defaultValue}
+        ref={SelectRef}
+        {...rest}
+      >
+        {children}
+      </select>
     </Container>
   );
 };
 
-export default Input;
+export default Select;

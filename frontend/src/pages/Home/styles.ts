@@ -137,21 +137,22 @@ export const Schedule = styled.div`
   }
 
   h2 {
-    font-weight: 500;
+    font-weight: 700;
     font-size: 24px;
-    color: #bfd73e;
+    color: #2f3342;
   }
 
   > section {
     display: flex;
     flex-direction: row;
-    margin-bottom: 10px;
 
     h2 {
+      margin-top: 10px;
+
       &:first-child {
         padding-right: 20px;
         margin-right: 20px;
-        border-right: 3px solid #bfd73e;
+        border-right: 3px solid #2f3342;
       }
     }
   }
