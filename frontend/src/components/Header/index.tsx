@@ -1,5 +1,6 @@
 import React from 'react';
 import { FiUser } from 'react-icons/fi';
+import { useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -10,6 +11,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
+  const history = useHistory();
+
   const { user, signOut } = useAuth();
 
   return (
@@ -28,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
           Sair
         </button>
 
-        <UserAvatar>
+        <UserAvatar onClick={() => history.push('/profile')}>
           {user.avatar_url ? (
             <img src={user.avatar_url} alt="User Avatar" />
           ) : (

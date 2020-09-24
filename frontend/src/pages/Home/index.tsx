@@ -590,7 +590,7 @@ const SignIn: React.FC = () => {
                   ) : null}
                 </>
               ) : (
-                <strong>Nenhum laboratório foi selecionado</strong>
+                <strong>Selecione um laboratório</strong>
               )}
             </Appointments>
           </Schedule>
