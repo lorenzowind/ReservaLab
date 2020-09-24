@@ -1,8 +1,10 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { FiUser } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
+
+import api from '../../services/api';
 
 import { useAuth } from '../../hooks/auth';
 
@@ -27,10 +29,42 @@ interface MonthAvailabilityItem {
 }
 
 interface IAppointment {
-  id: number;
+  id: string;
+  teacher_id: string;
+  laboratory_number: number;
+  time: string;
+  year: number;
+  month: number;
+  day: number;
+  subject: string;
+  classroom: string;
+}
+
+interface IAppointments {
+  first: IAppointment[];
+  second: IAppointment[];
+  third: IAppointment[];
+  fourth: IAppointment[];
+  fifth: IAppointment[];
+  sixth: IAppointment[];
+  seventh: IAppointment[];
+  eighth: IAppointment[];
+  extra: IAppointment[];
 }
 
 const SignIn: React.FC = () => {
+  const [appointments, setAppointments] = useState<IAppointments>({
+    first: [],
+    second: [],
+    third: [],
+    fourth: [],
+    fifth: [],
+    sixth: [],
+    seventh: [],
+    eighth: [],
+    extra: [],
+  });
+
   const [selectedLaboratory, setSelectedLaboratory] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -42,6 +76,79 @@ const SignIn: React.FC = () => {
   >([]);
 
   const { user } = useAuth();
+
+  useEffect(() => {
+    api
+      .get<IAppointment[]>('appointments/all', {
+        params: {
+          year: selectedDate.getFullYear(),
+          month: selectedDate.getMonth() + 1,
+          day: selectedDate.getDate(),
+        },
+      })
+      .then(response => {
+        const auxAppointments: IAppointments = {
+          first: [],
+          second: [],
+          third: [],
+          fourth: [],
+          fifth: [],
+          sixth: [],
+          seventh: [],
+          eighth: [],
+          extra: [],
+        };
+
+        // eslint-disable-next-line array-callback-return
+        response.data.map(appointment => {
+          const timesArray = appointment.time.split(', ');
+
+          // eslint-disable-next-line array-callback-return
+          timesArray.map(time => {
+            switch (time) {
+              case '1': {
+                auxAppointments.first.push(appointment);
+                break;
+              }
+              case '2': {
+                auxAppointments.second.push(appointment);
+                break;
+              }
+              case '3': {
+                auxAppointments.third.push(appointment);
+                break;
+              }
+              case '4': {
+                auxAppointments.fourth.push(appointment);
+                break;
+              }
+              case '5': {
+                auxAppointments.fifth.push(appointment);
+                break;
+              }
+              case '6': {
+                auxAppointments.sixth.push(appointment);
+                break;
+              }
+              case '7': {
+                auxAppointments.seventh.push(appointment);
+                break;
+              }
+              case '8': {
+                auxAppointments.eighth.push(appointment);
+                break;
+              }
+              default: {
+                auxAppointments.extra.push(appointment);
+                break;
+              }
+            }
+          });
+        });
+
+        setAppointments(auxAppointments);
+      });
+  }, [selectedDate, modalOpen]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
@@ -128,74 +235,362 @@ const SignIn: React.FC = () => {
             </h2>
 
             <Appointments>
-              <strong>1º Tempo</strong>
-              <Appointment>
-                <header>
-                  <h1>Laboratório: Sala {selectedLaboratory}</h1>
-                </header>
+              {selectedLaboratory ? (
+                <>
+                  <strong>1º Tempo</strong>
+                  {appointments.first.length ? (
+                    <>
+                      {appointments.first
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
 
-                <div>
-                  <UserAvatar>
-                    {user.avatar_url ? (
-                      <img src={user.avatar_url} alt="User Avatar" />
-                    ) : (
-                      <FiUser />
-                    )}
-                  </UserAvatar>
-                  <section>
-                    <article>
-                      <h1>Programação Web</h1>
-                      <h1>3CI</h1>
-                    </article>
-                    <h1>Prof. Lorenzo Windmoller Martins</h1>
-                  </section>
-                </div>
-              </Appointment>
-              <Appointment>
-                <header>
-                  <h1>Laboratório: Sala {selectedLaboratory}</h1>
-                </header>
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
 
-                <div>
-                  <UserAvatar>
-                    {user.avatar_url ? (
-                      <img src={user.avatar_url} alt="User Avatar" />
-                    ) : (
-                      <FiUser />
-                    )}
-                  </UserAvatar>
-                  <section>
-                    <article>
-                      <h1>Programação Web</h1>
-                      <h1>3CI</h1>
-                    </article>
-                    <h1>Prof. Lorenzo Windmoller Martins</h1>
-                  </section>
-                </div>
-              </Appointment>
-              <strong>2º Tempo</strong>
-              <Appointment>
-                <header>
-                  <h1>Laboratório: Sala {selectedLaboratory}</h1>
-                </header>
+                  <strong>2º Tempo</strong>
+                  {appointments.second.length ? (
+                    <>
+                      {appointments.second
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
 
-                <div>
-                  <UserAvatar>
-                    {user.avatar_url ? (
-                      <img src={user.avatar_url} alt="User Avatar" />
-                    ) : (
-                      <FiUser />
-                    )}
-                  </UserAvatar>
-                  <section>
-                    <article>
-                      <h1>Programação Web</h1>
-                      <h1>3CI</h1>
-                    </article>
-                    <h1>Prof. Lorenzo Windmoller Martins</h1>
-                  </section>
-                </div>
-              </Appointment>
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>3º Tempo</strong>
+                  {appointments.third.length ? (
+                    <>
+                      {appointments.third
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>4º Tempo</strong>
+                  {appointments.fourth.length ? (
+                    <>
+                      {appointments.fourth
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>5º Tempo</strong>
+                  {appointments.fifth.length ? (
+                    <>
+                      {appointments.fifth
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>6º Tempo</strong>
+                  {appointments.sixth.length ? (
+                    <>
+                      {appointments.sixth
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>7º Tempo</strong>
+                  {appointments.seventh.length ? (
+                    <>
+                      {appointments.seventh
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>8º Tempo</strong>
+                  {appointments.eighth.length ? (
+                    <>
+                      {appointments.eighth
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+
+                  <strong>Atendimento</strong>
+                  {appointments.extra.length ? (
+                    <>
+                      {appointments.extra
+                        .filter(
+                          appointment =>
+                            appointment.laboratory_number ===
+                            selectedLaboratory,
+                        )
+                        .map(filteredAppointment => (
+                          <Appointment key={filteredAppointment.id}>
+                            <header>
+                              <h1>Laboratório: Sala {selectedLaboratory}</h1>
+                            </header>
+
+                            <div>
+                              <UserAvatar>
+                                {user.avatar_url ? (
+                                  <img
+                                    src={user.avatar_url}
+                                    alt="User Avatar"
+                                  />
+                                ) : (
+                                  <FiUser />
+                                )}
+                              </UserAvatar>
+                              <section>
+                                <article>
+                                  <h1>{filteredAppointment.subject}</h1>
+                                  <h1>{filteredAppointment.classroom}</h1>
+                                </article>
+                                <h1>{filteredAppointment.teacher_id}</h1>
+                              </section>
+                            </div>
+                          </Appointment>
+                        ))}
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                <strong>Nenhum laboratório foi selecionado</strong>
+              )}
             </Appointments>
           </Schedule>
 

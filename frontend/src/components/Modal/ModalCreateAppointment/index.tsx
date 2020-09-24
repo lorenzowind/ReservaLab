@@ -24,7 +24,7 @@ import Loading from '../../Loading';
 import { Form, CloseModal } from './styles';
 
 interface ICreateAppointmentData {
-  laboratory: string;
+  laboratory_number: string;
   time: string;
   year: number;
   month: number;
@@ -48,18 +48,18 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 }) => {
   const formRef = useRef<FormHandles>(null);
 
+  const { addToast } = useToast();
+  const { user } = useAuth();
+
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(selectedDate);
 
   const [classroomsArray] = useState(getClassroomsArray());
-  const [subjectsArray] = useState(getSubjectsArray());
+  const [subjectsArray] = useState(user.subjects.split(', '));
   const [laboratoriesArray] = useState(getLaboratoriesArray());
 
   const [timesSelect] = useState(getTimesArray());
   const [selectedTimes, setSelectedTimes] = useState<Option[]>([]);
-
-  const { addToast } = useToast();
-  const { token, user } = useAuth();
 
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
@@ -67,11 +67,11 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         formRef.current?.setErrors({});
 
         const schema = Yup.object().shape({
-          laboratory: Yup.mixed().test(
+          laboratory_number: Yup.mixed().test(
             'match',
             'Laboratório é obrigatório',
             () => {
-              return data.laboratory !== '0';
+              return data.laboratory_number !== '0';
             },
           ),
           subject: Yup.mixed().test('match', 'Disciplina é obrigatória', () => {
@@ -91,7 +91,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         }
 
         const laboratoryData = {
-          laboratory_number: Number(data.laboratory),
+          laboratory_number: Number(data.laboratory_number),
           time: selectedTimes
             .map(selectedTime => selectedTime.value)
             .join(', '),
@@ -107,11 +107,18 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         await api
           .post('appointments', laboratoryData, {
             headers: {
-              Authorization: `Bearer ${token}`,
               user_position: user.position,
             },
           })
           .then(() => {
+            addToast({
+              type: 'success',
+              title: 'Agendamento criado com sucesso',
+              description: `Agendamento criado para o dia ${date.toLocaleDateString()} no laboratório ${Number(
+                data.laboratory_number,
+              )}.`,
+            });
+
             setIsOpen();
           });
       } catch (err) {
@@ -133,7 +140,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [selectedTimes, date, token, user.position, setIsOpen, addToast],
+    [selectedTimes, date, user.position, setIsOpen, addToast],
   );
 
   return (
@@ -159,7 +166,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               <strong>Laboratório</strong>
               <Select
                 icon={FiCpu}
-                name="laboratory"
+                name="laboratory_number"
                 defaultValue={selectedLaboratory}
               >
                 <option value="0" disabled>
