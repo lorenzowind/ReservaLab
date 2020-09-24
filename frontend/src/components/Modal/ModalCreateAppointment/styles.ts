@@ -28,7 +28,7 @@ export const Form = styled(Unform)`
     padding: 16px 46px;
 
     width: 100%;
-    height: 100px;
+    height: 120px;
     background: #f8f8f8;
     border-bottom: solid 0.5px #707070;
 
@@ -76,7 +76,6 @@ export const Form = styled(Unform)`
     margin-top: 10px;
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: space-between;
     padding: 16px 46px;
 
@@ -85,7 +84,7 @@ export const Form = styled(Unform)`
       flex-direction: column;
 
       > div {
-        margin: 10px 0 15px 0;
+        margin: 15px 0 40px 0;
         width: 300px;
         height: 60px;
         padding: 8px 16px;
@@ -96,7 +95,8 @@ export const Form = styled(Unform)`
   > button {
     height: 60px;
     width: 50%;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 45px;
   }
 `;
 

@@ -5,7 +5,7 @@ import AppError from '@shared/errors/AppError';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
+// import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
 
 import Appointment from '../infra/typeorm/entities/Appointment';
 
@@ -22,16 +22,13 @@ class UpdateAppointmentService {
     private appointmentsRepository: IAppointmentsRepository,
 
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository,
-
-    @inject('LaboratoriesRepository')
-    private laboratoriesRepository: ILaboratoriesRepository,
+    private usersRepository: IUsersRepository, // @inject('LaboratoriesRepository') // private laboratoriesRepository: ILaboratoriesRepository,
   ) {}
 
   public async execute({
     id,
     teacher_id,
-    laboratory_id,
+    laboratory_number,
     year,
     month,
     day,
@@ -53,13 +50,13 @@ class UpdateAppointmentService {
       throw new AppError('Informed subject is not from the teacher.');
     }
 
-    const checkLaboratoryExists = await this.laboratoriesRepository.findById(
-      laboratory_id,
-    );
+    // const checkLaboratoryExists = await this.laboratoriesRepository.findById(
+    //   laboratory_id,
+    // );
 
-    if (!checkLaboratoryExists) {
-      throw new AppError('Informed laboratory does not exists.');
-    }
+    // if (!checkLaboratoryExists) {
+    //   throw new AppError('Informed laboratory does not exists.');
+    // }
 
     const appointmentDate = new Date(year, month - 1, day);
 
@@ -77,6 +74,7 @@ class UpdateAppointmentService {
       time.split(', ').map(specificTime => {
         if (
           existingAppointment.time.split(', ').includes(specificTime) &&
+          existingAppointment.laboratory_number === laboratory_number &&
           existingAppointment.id !== id
         ) {
           throw new AppError('This appointment is already booked.');
@@ -85,7 +83,7 @@ class UpdateAppointmentService {
     });
 
     appointment.teacher_id = teacher_id;
-    appointment.laboratory_id = laboratory_id;
+    appointment.laboratory_number = laboratory_number;
     appointment.year = year;
     appointment.month = month;
     appointment.day = day;

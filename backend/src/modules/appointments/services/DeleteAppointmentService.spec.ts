@@ -2,13 +2,13 @@ import AppError from '@shared/errors/AppError';
 
 import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
 import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
-import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
+// import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
 
 import DeleteAppointmentService from './DeleteAppointmentService';
 
 let draftAppointmentsRepository: DraftAppointmentsRepository;
 let draftUsersRepository: DraftUsersRepository;
-let draftLaboratoriesRepository: DraftLaboratoriesRepository;
+// let draftLaboratoriesRepository: DraftLaboratoriesRepository;
 
 let deleteAppointment: DeleteAppointmentService;
 
@@ -16,7 +16,7 @@ describe('DeleteAppointment', () => {
   beforeEach(() => {
     draftAppointmentsRepository = new DraftAppointmentsRepository();
     draftUsersRepository = new DraftUsersRepository();
-    draftLaboratoriesRepository = new DraftLaboratoriesRepository();
+    // draftLaboratoriesRepository = new DraftLaboratoriesRepository();
 
     deleteAppointment = new DeleteAppointmentService(
       draftAppointmentsRepository,
@@ -42,14 +42,14 @@ describe('DeleteAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 7,

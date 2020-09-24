@@ -25,7 +25,7 @@ export default class AppointmentsController {
   public async create(request: Request, response: Response): Promise<Response> {
     const teacher_id = request.user.id;
     const {
-      laboratory_id,
+      laboratory_number,
       year,
       month,
       day,
@@ -38,7 +38,7 @@ export default class AppointmentsController {
 
     const appointment = await createAppointment.execute({
       teacher_id,
-      laboratory_id,
+      laboratory_number,
       year,
       month,
       day,
@@ -54,7 +54,7 @@ export default class AppointmentsController {
     const { id } = request.params;
     const {
       teacher_id,
-      laboratory_id,
+      laboratory_number,
       year,
       month,
       day,
@@ -68,7 +68,7 @@ export default class AppointmentsController {
     const appointment = await updateAppointment.execute({
       id,
       teacher_id,
-      laboratory_id,
+      laboratory_number,
       year,
       month,
       day,

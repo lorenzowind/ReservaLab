@@ -2,13 +2,13 @@ import AppError from '@shared/errors/AppError';
 
 import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
 import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
-import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
+// import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
 
 import UpdateAppointmentService from './UpdateAppointmentService';
 
 let draftAppointmentsRepository: DraftAppointmentsRepository;
 let draftUsersRepository: DraftUsersRepository;
-let draftLaboratoriesRepository: DraftLaboratoriesRepository;
+// let draftLaboratoriesRepository: DraftLaboratoriesRepository;
 
 let updateAppointment: UpdateAppointmentService;
 
@@ -16,12 +16,12 @@ describe('UpdateAppointment', () => {
   beforeEach(() => {
     draftAppointmentsRepository = new DraftAppointmentsRepository();
     draftUsersRepository = new DraftUsersRepository();
-    draftLaboratoriesRepository = new DraftLaboratoriesRepository();
+    // draftLaboratoriesRepository = new DraftLaboratoriesRepository();
 
     updateAppointment = new UpdateAppointmentService(
       draftAppointmentsRepository,
       draftUsersRepository,
-      draftLaboratoriesRepository,
+      // draftLaboratoriesRepository,
     );
   });
 
@@ -38,14 +38,14 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 7,
@@ -57,7 +57,7 @@ describe('UpdateAppointment', () => {
     const updatedAppointment = await updateAppointment.execute({
       id: appointment.id,
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 8,
@@ -85,14 +85,14 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 7,
@@ -105,7 +105,7 @@ describe('UpdateAppointment', () => {
       updateAppointment.execute({
         id: appointment.id,
         teacher_id: teacher.id,
-        laboratory_id: laboratory.id,
+        laboratory_number: 1,
         year: 2020,
         month: 9,
         day: 7,
@@ -116,7 +116,7 @@ describe('UpdateAppointment', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update an appointments on the same time of another', async () => {
+  it('should not be able to update an appointment on the same time of another', async () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
@@ -129,10 +129,10 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const year = 2020;
     const month = 9;
@@ -140,7 +140,7 @@ describe('UpdateAppointment', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -151,7 +151,7 @@ describe('UpdateAppointment', () => {
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -164,7 +164,7 @@ describe('UpdateAppointment', () => {
       updateAppointment.execute({
         id: appointment.id,
         teacher_id: teacher.id,
-        laboratory_id: laboratory.id,
+        laboratory_number: 1,
         year: appointment.year,
         month: appointment.month,
         day: appointment.day,
@@ -173,6 +173,65 @@ describe('UpdateAppointment', () => {
         classroom: 'Classroom 2',
       }),
     ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should be able to update an appointment on the same time of another in a different laboratory', async () => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
+      return new Date(2020, 8, 6).getTime();
+    });
+
+    const teacher = await draftUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      subjects: 'subject 1',
+      position: 'teacher',
+      password: '123456',
+    });
+
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
+
+    const year = 2020;
+    const month = 9;
+    const day = 7;
+
+    await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_number: 1,
+      year,
+      month,
+      day,
+      time: '3',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 1',
+    });
+
+    const appointment = await draftAppointmentsRepository.create({
+      teacher_id: teacher.id,
+      laboratory_number: 1,
+      year,
+      month,
+      day,
+      time: '4',
+      subject: teacher.subjects.split(', ')[0],
+      classroom: 'Classroom 2',
+    });
+
+    const updatedAppointment = await updateAppointment.execute({
+      id: appointment.id,
+      teacher_id: teacher.id,
+      laboratory_number: 2,
+      year: appointment.year,
+      month: appointment.month,
+      day: appointment.day,
+      time: '1, 3',
+      subject: appointment.subject,
+      classroom: 'Classroom 2',
+    });
+
+    expect(updatedAppointment.laboratory_number).toBe(2);
   });
 
   it('should not be able to update from a non existing appointment', async () => {
@@ -188,16 +247,16 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     await expect(
       updateAppointment.execute({
         id: 'non existing appointment id',
         teacher_id: teacher.id,
-        laboratory_id: laboratory.id,
+        laboratory_number: 1,
         year: 2020,
         month: 9,
         day: 7,
@@ -221,14 +280,14 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 7,
@@ -241,7 +300,7 @@ describe('UpdateAppointment', () => {
       updateAppointment.execute({
         id: appointment.id,
         teacher_id: 'non existing teacher id',
-        laboratory_id: laboratory.id,
+        laboratory_number: 1,
         year: appointment.year,
         month: appointment.month,
         day: appointment.day,
@@ -252,49 +311,49 @@ describe('UpdateAppointment', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to update an appointment with non existing laboratory', async () => {
-    jest.spyOn(Date, 'now').mockImplementation(() => {
-      return new Date(2020, 8, 6).getTime();
-    });
+  // it('should not be able to update an appointment with non existing laboratory', async () => {
+  //   jest.spyOn(Date, 'now').mockImplementation(() => {
+  //     return new Date(2020, 8, 6).getTime();
+  //   });
 
-    const teacher = await draftUsersRepository.create({
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      subjects: 'subject 1',
-      position: 'teacher',
-      password: '123456',
-    });
+  //   const teacher = await draftUsersRepository.create({
+  //     name: 'John Doe',
+  //     email: 'johndoe@example.com',
+  //     subjects: 'subject 1',
+  //     position: 'teacher',
+  //     password: '123456',
+  //   });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+  //   const laboratory = await draftLaboratoriesRepository.create({
+  //     name: 'Laboratory 1',
+  //     number: 1,
+  //   });
 
-    const appointment = await draftAppointmentsRepository.create({
-      teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
-      year: 2020,
-      month: 9,
-      day: 7,
-      time: '1, 2',
-      subject: '',
-      classroom: 'Classroom 1',
-    });
+  //   const appointment = await draftAppointmentsRepository.create({
+  //     teacher_id: teacher.id,
+  //     laboratory_id: laboratory.id,
+  //     year: 2020,
+  //     month: 9,
+  //     day: 7,
+  //     time: '1, 2',
+  //     subject: '',
+  //     classroom: 'Classroom 1',
+  //   });
 
-    await expect(
-      updateAppointment.execute({
-        id: appointment.id,
-        teacher_id: teacher.id,
-        laboratory_id: 'non existing laboratory id',
-        year: appointment.year,
-        month: appointment.month,
-        day: appointment.day,
-        time: appointment.time,
-        subject: teacher.subjects.split(', ')[0],
-        classroom: appointment.classroom,
-      }),
-    ).rejects.toBeInstanceOf(AppError);
-  });
+  //   await expect(
+  //     updateAppointment.execute({
+  //       id: appointment.id,
+  //       teacher_id: teacher.id,
+  //       laboratory_id: 'non existing laboratory id',
+  //       year: appointment.year,
+  //       month: appointment.month,
+  //       day: appointment.day,
+  //       time: appointment.time,
+  //       subject: teacher.subjects.split(', ')[0],
+  //       classroom: appointment.classroom,
+  //     }),
+  //   ).rejects.toBeInstanceOf(AppError);
+  // });
 
   it('should not be able to update an appointment with a past date', async () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
@@ -309,14 +368,14 @@ describe('UpdateAppointment', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 6,
@@ -329,7 +388,7 @@ describe('UpdateAppointment', () => {
       updateAppointment.execute({
         id: appointment.id,
         teacher_id: teacher.id,
-        laboratory_id: laboratory.id,
+        laboratory_number: 1,
         year: appointment.year,
         month: appointment.month,
         day: 5,

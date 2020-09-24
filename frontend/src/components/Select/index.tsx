@@ -23,7 +23,7 @@ const Select: React.FC<SelectProps> = ({
   children,
   ...rest
 }) => {
-  const SelectRef = useRef<HTMLSelectElement>(null);
+  const selectRef = useRef<HTMLSelectElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
@@ -37,13 +37,13 @@ const Select: React.FC<SelectProps> = ({
   const handleSelectBlur = useCallback(() => {
     setIsFocused(false);
 
-    setIsFilled(!!SelectRef.current?.value);
+    setIsFilled(selectRef.current?.value !== '0');
   }, []);
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: SelectRef.current,
+      ref: selectRef.current,
       path: 'value',
     });
   }, [fieldName, registerField]);
@@ -61,7 +61,7 @@ const Select: React.FC<SelectProps> = ({
         onFocus={handleSelectFocus}
         onBlur={handleSelectBlur}
         defaultValue={defaultValue}
-        ref={SelectRef}
+        ref={selectRef}
         {...rest}
       >
         {children}

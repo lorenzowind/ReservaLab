@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-import Laboratory from '@modules/laboratories/infra/typeorm/entities/Laboratory';
+// import Laboratory from '@modules/laboratories/infra/typeorm/entities/Laboratory';
 
 @Entity('appointments')
 class Appointment {
@@ -23,12 +23,15 @@ class Appointment {
   @JoinColumn({ name: 'teacher_id' })
   teacher: User;
 
-  @Column()
-  laboratory_id: string;
+  // @Column()
+  // laboratory_id: string;
 
-  @ManyToOne(() => Laboratory)
-  @JoinColumn({ name: 'laboratory_id' })
-  laboratory: Laboratory;
+  // @ManyToOne(() => Laboratory)
+  // @JoinColumn({ name: 'laboratory_id' })
+  // laboratory: Laboratory;
+
+  @Column()
+  laboratory_number: number;
 
   @Column()
   year: number;

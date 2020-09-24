@@ -23,7 +23,7 @@ appointmentsRouter.post(
   ensureIsTeacher,
   celebrate({
     [Segments.BODY]: {
-      laboratory_id: Joi.string().required(),
+      laboratory_number: Joi.number().required(),
       year: Joi.number().required(),
       month: Joi.number().required(),
       day: Joi.number().required(),
@@ -41,7 +41,7 @@ appointmentsRouter.put(
   celebrate({
     [Segments.BODY]: {
       teacher_id: Joi.string().required(),
-      laboratory_id: Joi.string().required(),
+      laboratory_number: Joi.number().required(),
       year: Joi.number().required(),
       month: Joi.number().required(),
       day: Joi.number().required(),

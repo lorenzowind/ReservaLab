@@ -34,11 +34,48 @@ export const Container = styled.div<ContainerProps>`
     color: #2f3342;
     font-weight: 400;
     font-size: 20px;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    div {
+      color: #2f3342;
+    }
 
     > div {
+      flex: 1;
       border: 0;
       box-shadow: 0 0 0 0;
       cursor: pointer;
+
+      &:nth-child(2) {
+        height: 100%;
+      }
+
+      > div {
+        height: 100%;
+
+        &:first-child {
+          overflow-y: auto;
+        }
+
+        &::-webkit-scrollbar {
+          width: 7px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: #888;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background: #555;
+        }
+      }
 
       &:nth-child(3) {
         box-shadow: 0 0 0 0.5px #707070;

@@ -1,6 +1,6 @@
 export default interface ICreateOrUpdateAppointmentDTO {
   teacher_id: string;
-  laboratory_id: string;
+  laboratory_number: number;
   year: number;
   month: number;
   day: number;

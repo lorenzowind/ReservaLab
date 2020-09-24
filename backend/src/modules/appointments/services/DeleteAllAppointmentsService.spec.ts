@@ -2,13 +2,13 @@ import AppError from '@shared/errors/AppError';
 
 import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
 import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
-import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
+// import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
 
 import DeleteAllAppointmentsService from './DeleteAllAppointmentsService';
 
 let draftAppointmentsRepository: DraftAppointmentsRepository;
 let draftUsersRepository: DraftUsersRepository;
-let draftLaboratoriesRepository: DraftLaboratoriesRepository;
+// let draftLaboratoriesRepository: DraftLaboratoriesRepository;
 
 let deleteAllAppointments: DeleteAllAppointmentsService;
 
@@ -16,7 +16,7 @@ describe('DeleteAllAppointments', () => {
   beforeEach(() => {
     draftAppointmentsRepository = new DraftAppointmentsRepository();
     draftUsersRepository = new DraftUsersRepository();
-    draftLaboratoriesRepository = new DraftLaboratoriesRepository();
+    // draftLaboratoriesRepository = new DraftLaboratoriesRepository();
 
     deleteAllAppointments = new DeleteAllAppointmentsService(
       draftAppointmentsRepository,
@@ -36,10 +36,10 @@ describe('DeleteAllAppointments', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const year = 2020;
     const month = 9;
@@ -47,7 +47,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -58,7 +58,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -69,7 +69,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -80,7 +80,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -113,10 +113,10 @@ describe('DeleteAllAppointments', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     const year = 2020;
     const month = 9;
@@ -124,7 +124,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day,
@@ -135,7 +135,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day: day + 2,
@@ -146,7 +146,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day: day + 2,
@@ -157,7 +157,7 @@ describe('DeleteAllAppointments', () => {
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year,
       month,
       day: day + 2,
@@ -204,14 +204,14 @@ describe('DeleteAllAppointments', () => {
       password: '123456',
     });
 
-    const laboratory = await draftLaboratoriesRepository.create({
-      name: 'Laboratory 1',
-      number: 1,
-    });
+    // const laboratory = await draftLaboratoriesRepository.create({
+    //   name: 'Laboratory 1',
+    //   number: 1,
+    // });
 
     await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
-      laboratory_id: laboratory.id,
+      laboratory_number: 1,
       year: 2020,
       month: 9,
       day: 7,

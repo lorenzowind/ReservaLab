@@ -7,8 +7,10 @@ import * as Yup from 'yup';
 
 import api from '../../services/api';
 
-import { useToast } from '../../hooks/toast';
 import getValidationErrors from '../../utils/getValidationErrors';
+import getSubjectsArray from '../../utils/getSubjectsArray';
+
+import { useToast } from '../../hooks/toast';
 
 import { Background, Container } from './styles';
 
@@ -33,12 +35,14 @@ const SignUp: React.FC = () => {
 
   const { addToast } = useToast();
 
-  const [subjectsSelect, setSubjectsSelect] = useState<Option[]>([
-    {
-      label: 'teste',
-      value: 'teste',
-    },
-  ]);
+  const [subjectsSelect] = useState<Option[]>(() => {
+    return getSubjectsArray().map(subject => {
+      return {
+        label: subject,
+        value: subject,
+      };
+    });
+  });
   const [selectedSubjects, setSelectedSubjects] = useState<Option[]>([]);
 
   const handleSubmit = useCallback(

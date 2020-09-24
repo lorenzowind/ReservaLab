@@ -4,8 +4,6 @@ import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
 
-// import api from '../../services/api';
-
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -85,12 +83,6 @@ const SignIn: React.FC = () => {
     setModalOpen(!modalOpen);
   }
 
-  async function handleCreateAppointment(
-    appointment: Omit<IAppointment, 'id'>,
-  ): Promise<void> {
-    console.log('Working...');
-  }
-
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter(monthDay => !monthDay.available)
@@ -112,7 +104,8 @@ const SignIn: React.FC = () => {
       <ModalCreateAppointment
         isOpen={modalOpen}
         setIsOpen={toggleModal}
-        handleCreateAppointment={handleCreateAppointment}
+        selectedLaboratory={selectedLaboratory}
+        selectedDate={selectedDate}
       />
 
       <Container>
