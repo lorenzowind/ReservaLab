@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 
 import api from '../../services/api';
 
-import { useAuth } from '../../hooks/auth';
+import { useAuth, User } from '../../hooks/auth';
 
 import {
   Container,
@@ -31,6 +31,7 @@ interface MonthAvailabilityItem {
 interface IAppointment {
   id: string;
   teacher_id: string;
+  teacher: User;
   laboratory_number: number;
   time: string;
   year: number;
@@ -237,7 +238,7 @@ const SignIn: React.FC = () => {
             <Appointments>
               {selectedLaboratory ? (
                 <>
-                  <strong>1º Tempo</strong>
+                  <strong>(07:20 - 08:10) 1º Tempo</strong>
                   {appointments.first.length ? (
                     <>
                       {appointments.first
@@ -254,9 +255,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -268,7 +269,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -276,7 +277,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>2º Tempo</strong>
+                  <strong>(08:10 - 09:00) 2º Tempo</strong>
                   {appointments.second.length ? (
                     <>
                       {appointments.second
@@ -293,9 +294,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -307,7 +308,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -315,7 +316,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>3º Tempo</strong>
+                  <strong>(09:10 - 10:00) 3º Tempo</strong>
                   {appointments.third.length ? (
                     <>
                       {appointments.third
@@ -332,9 +333,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -346,7 +347,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -354,7 +355,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>4º Tempo</strong>
+                  <strong>(10:00 - 10:50) 4º Tempo</strong>
                   {appointments.fourth.length ? (
                     <>
                       {appointments.fourth
@@ -371,9 +372,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -385,7 +386,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -393,7 +394,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>5º Tempo</strong>
+                  <strong>(12:50 - 13:40) 5º Tempo</strong>
                   {appointments.fifth.length ? (
                     <>
                       {appointments.fifth
@@ -410,9 +411,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -424,7 +425,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -432,7 +433,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>6º Tempo</strong>
+                  <strong>(13:40 - 14:30) 6º Tempo</strong>
                   {appointments.sixth.length ? (
                     <>
                       {appointments.sixth
@@ -449,9 +450,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -463,7 +464,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -471,7 +472,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>7º Tempo</strong>
+                  <strong>(14:50 - 15:40) 7º Tempo</strong>
                   {appointments.seventh.length ? (
                     <>
                       {appointments.seventh
@@ -488,9 +489,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -502,7 +503,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -510,7 +511,7 @@ const SignIn: React.FC = () => {
                     </>
                   ) : null}
 
-                  <strong>8º Tempo</strong>
+                  <strong>(15:40 - 16:30) 8º Tempo</strong>
                   {appointments.eighth.length ? (
                     <>
                       {appointments.eighth
@@ -527,9 +528,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -541,7 +542,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
@@ -566,9 +567,9 @@ const SignIn: React.FC = () => {
 
                             <div>
                               <UserAvatar>
-                                {user.avatar_url ? (
+                                {filteredAppointment.teacher.avatar_url ? (
                                   <img
-                                    src={user.avatar_url}
+                                    src={filteredAppointment.teacher.avatar_url}
                                     alt="User Avatar"
                                   />
                                 ) : (
@@ -580,7 +581,7 @@ const SignIn: React.FC = () => {
                                   <h1>{filteredAppointment.subject}</h1>
                                   <h1>{filteredAppointment.classroom}</h1>
                                 </article>
-                                <h1>{filteredAppointment.teacher_id}</h1>
+                                <h1>{filteredAppointment.teacher.name}</h1>
                               </section>
                             </div>
                           </Appointment>
