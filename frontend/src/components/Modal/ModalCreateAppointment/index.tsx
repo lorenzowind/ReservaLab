@@ -11,12 +11,10 @@ import { useAuth } from '../../../hooks/auth';
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getTimesArray from '../../../utils/getTimesArray';
 import getClassroomsArray from '../../../utils/getClassroomsArray';
-import getSubjectsArray from '../../../utils/getSubjectsArray';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
 
 import Modal from '..';
 import Select from '../../Select';
-import MultiSelect, { Option } from '../../MultiSelect';
 import Button from '../../Button';
 import DateInput from '../../DateInput';
 import Loading from '../../Loading';
@@ -35,15 +33,11 @@ interface ICreateAppointmentData {
 
 interface IModalProps {
   isOpen: boolean;
-  selectedLaboratory: number;
-  selectedDate: Date;
   setIsOpen: () => void;
 }
 
 const ModalCreateAppointment: React.FC<IModalProps> = ({
   isOpen,
-  selectedLaboratory,
-  selectedDate,
   setIsOpen,
 }) => {
   const formRef = useRef<FormHandles>(null);
@@ -52,18 +46,13 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState(selectedDate);
+  const [date, setDate] = useState(new Date());
 
   const [classroomsArray] = useState(getClassroomsArray());
   const [subjectsArray] = useState(user.subjects.split(', '));
   const [laboratoriesArray] = useState(getLaboratoriesArray());
 
   const [timesSelect] = useState(getTimesArray());
-  const [selectedTimes, setSelectedTimes] = useState<Option[]>([]);
-
-  useEffect(() => {
-    setDate(selectedDate);
-  }, [selectedDate]);
 
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
@@ -78,6 +67,9 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               return data.laboratory_number !== '0';
             },
           ),
+          time: Yup.mixed().test('match', 'Tempo de aula é obrigatório', () => {
+            return data.subject !== '0';
+          }),
           subject: Yup.mixed().test('match', 'Disciplina é obrigatória', () => {
             return data.subject !== '0';
           }),
@@ -90,15 +82,9 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           abortEarly: false,
         });
 
-        if (!selectedTimes.length) {
-          throw new Error();
-        }
-
         const laboratoryData = {
           laboratory_number: Number(data.laboratory_number),
-          time: selectedTimes
-            .map(selectedTime => selectedTime.value)
-            .join(', '),
+          time: data.time,
           year: date.getFullYear(),
           month: date.getMonth() + 1,
           day: date.getDate(),
@@ -144,7 +130,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [selectedTimes, date, user.position, setIsOpen, addToast],
+    [date, user.position, addToast, setIsOpen],
   );
 
   return (
@@ -168,11 +154,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           <div>
             <section>
               <strong>Laboratório</strong>
-              <Select
-                icon={FiCpu}
-                name="laboratory_number"
-                defaultValue={selectedLaboratory}
-              >
+              <Select icon={FiCpu} name="laboratory_number" defaultValue="0">
                 <option value="0" disabled>
                   Selecione laboratório
                 </option>
@@ -196,14 +178,17 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               </Select>
             </section>
             <section>
-              <strong>Tempo(s)</strong>
-              <MultiSelect
-                options={timesSelect}
-                icon={FiClock}
-                placeholder="Selecione"
-                selectedOptions={selectedTimes}
-                setSelectedOptions={setSelectedTimes}
-              />
+              <strong>Tempo de aula</strong>
+              <Select icon={FiClock} name="time" defaultValue="0">
+                <option value="0" disabled>
+                  Selecione tempo
+                </option>
+                {timesSelect.map(time => (
+                  <option key={time.label} value={time.value}>
+                    {time.label}
+                  </option>
+                ))}
+              </Select>
 
               <strong>Disciplina</strong>
               <Select icon={FiBook} name="subject" defaultValue="0">

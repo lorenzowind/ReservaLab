@@ -34,7 +34,7 @@ export const Content = styled.div`
   }
 `;
 
-export const Appointments = styled.div`
+export const AppointmentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

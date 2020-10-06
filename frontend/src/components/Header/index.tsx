@@ -8,15 +8,16 @@ import { Container, UserAvatar } from './styles';
 
 interface HeaderProps {
   isAdmin: boolean;
+  isHome: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
+const Header: React.FC<HeaderProps> = ({ isAdmin, isHome }) => {
   const history = useHistory();
 
   const { user, signOut } = useAuth();
 
   return (
-    <Container>
+    <Container isHome={isHome}>
       <div>
         <h1>ReservaLab</h1>
 

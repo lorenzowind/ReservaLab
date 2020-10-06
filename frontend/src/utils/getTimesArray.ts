@@ -22,6 +22,14 @@ export default function getTimesArray(): Option[] {
       value: '4',
     },
     {
+      label: '10:50 - 11:40',
+      value: 'extra1',
+    },
+    {
+      label: '11:40 - 12:30',
+      value: 'extra2',
+    },
+    {
       label: '5º Tempo',
       value: '5',
     },
@@ -36,10 +44,6 @@ export default function getTimesArray(): Option[] {
     {
       label: '8º Tempo',
       value: '8',
-    },
-    {
-      label: 'Atendimento',
-      value: 'extra',
     },
   ];
 }

@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 const appearFromTop = keyframes`
@@ -10,7 +10,11 @@ const appearFromTop = keyframes`
   }
 `;
 
-export const Container = styled.div`
+interface HeaderProps {
+  isHome: boolean;
+}
+
+export const Container = styled.div<HeaderProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -21,7 +25,11 @@ export const Container = styled.div`
   background: #f8f8f8;
   border-bottom: solid 0.5px #707070;
 
-  animation: ${appearFromTop} 1s;
+  ${props =>
+    props.isHome &&
+    css`
+      animation: ${appearFromTop} 1s;
+    `}
 
   h1 {
     font-size: 36px;

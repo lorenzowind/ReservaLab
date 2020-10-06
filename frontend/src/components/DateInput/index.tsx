@@ -23,6 +23,7 @@ const DateInput: React.FC<Props> = ({ date, setDate }) => {
       <KeyboardDatePicker
         disableToolbar
         disablePast
+        maxDate={new Date(new Date().setDate(new Date().getDate() + 14))}
         error={false}
         helperText={null}
         variant="inline"
