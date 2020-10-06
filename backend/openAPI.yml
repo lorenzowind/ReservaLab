@@ -305,7 +305,10 @@ paths:
                   subjects:
                     type: string
                     example: "Subject 1, Subject 2"
-                  password:
+                  old_password:
+                    type: string
+                    example: "old user password"
+                  new_password:
                     type: string
                     example: "new user password"
       responses:

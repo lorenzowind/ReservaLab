@@ -26,7 +26,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should be able to create a new appointment', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -58,7 +58,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should not be able to create a new appointment with wrong subject', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -90,7 +90,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should be able to create two appointments consecutively', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -137,7 +137,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should not be able to create two appointments on the same time', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -233,7 +233,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should not be able to create a new appointment with non existing teacher', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -284,7 +284,7 @@ describe('CreateAppointment', () => {
   // });
 
   it('should not be able to create a new appointment in a past date', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 
@@ -316,7 +316,7 @@ describe('CreateAppointment', () => {
   });
 
   it('should be able to create a new appointment for today', async () => {
-    jest.spyOn(Date, 'now').mockImplementationOnce(() => {
+    jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
 

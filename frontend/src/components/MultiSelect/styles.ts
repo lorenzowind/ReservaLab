@@ -49,6 +49,12 @@ export const Container = styled.div<ContainerProps>`
       box-shadow: 0 0 0 0;
       cursor: pointer;
 
+      &:first-child {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+
       &:nth-child(2) {
         height: 100%;
       }

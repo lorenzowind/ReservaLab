@@ -36,7 +36,8 @@ describe('UpdateProfile', () => {
       email: 'johndoeII@example.com',
       position: 'teacher',
       subjects: 'subject 1',
-      password: '123456',
+      old_password: '',
+      new_password: '',
     });
 
     expect(updatedUser.name).toBe('John Doe II');
@@ -51,7 +52,8 @@ describe('UpdateProfile', () => {
         email: 'johndoe@example.com',
         position: 'teacher',
         subjects: 'subject 1',
-        password: '123456',
+        old_password: '123456',
+        new_password: '123123',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -80,7 +82,8 @@ describe('UpdateProfile', () => {
         email: 'johndoe@example.com',
         subjects: user.subjects,
         position: user.position,
-        password: '123456',
+        old_password: '123456',
+        new_password: '123123',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -100,9 +103,32 @@ describe('UpdateProfile', () => {
       email: user.email,
       subjects: user.subjects,
       position: user.position,
-      password: '123123',
+      old_password: '123456',
+      new_password: '123123',
     });
 
     expect(updatedUser.password).toBe('123123');
+  });
+
+  it('should not be able to update the password with a non matched old password', async () => {
+    const user = await draftUsersRepository.create({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      position: 'teacher',
+      subjects: 'subject 1',
+      password: '123456',
+    });
+
+    await expect(
+      UpdateUser.execute({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        subjects: user.subjects,
+        position: user.position,
+        old_password: '123123',
+        new_password: '123123',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
   });
 });
