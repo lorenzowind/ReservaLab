@@ -1,5 +1,12 @@
-import React, { useRef, useState, useCallback } from 'react';
-import { FiArrowLeft, FiCamera, FiUser } from 'react-icons/fi';
+import React, { useRef, useState, useCallback, ChangeEvent } from 'react';
+import {
+  FiArrowLeft,
+  FiBook,
+  FiCamera,
+  FiLock,
+  FiMail,
+  FiUser,
+} from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
@@ -137,6 +144,38 @@ const Profile: React.FC = () => {
     [addToast, selectedSubjects, updateUser, user.position],
   );
 
+  const handleSubmitAvatar = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      try {
+        if (e.target.files) {
+          const data = new FormData();
+
+          data.append('avatar', e.target.files[0]);
+
+          setLoading(true);
+
+          await api.patch('users/avatar', data).then(response => {
+            updateUser(response.data);
+
+            addToast({
+              type: 'success',
+              title: 'Avatar atualizado!',
+            });
+          });
+        }
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao atualizar avatar',
+          description: 'Ocorreu um erro, tente novamente.',
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, updateUser],
+  );
+
   return (
     <>
       {loading && <Loading zIndex={1} />}
@@ -156,9 +195,11 @@ const Profile: React.FC = () => {
               ) : (
                 <FiUser />
               )}
-              <div>
+              <label htmlFor="avatar">
                 <FiCamera />
-              </div>
+
+                <input type="file" id="avatar" onChange={handleSubmitAvatar} />
+              </label>
             </>
           </UserImage>
 
@@ -166,10 +207,10 @@ const Profile: React.FC = () => {
             <section>
               <InputsSection>
                 <strong>Nome completo</strong>
-                <Input name="name" defaultValue={user.name} />
+                <Input name="name" defaultValue={user.name} icon={FiUser} />
 
                 <strong>Email</strong>
-                <Input name="email" defaultValue={user.email} />
+                <Input name="email" defaultValue={user.email} icon={FiMail} />
 
                 <strong>Disciplinas</strong>
                 <MultiSelect
@@ -178,18 +219,23 @@ const Profile: React.FC = () => {
                   selectedOptions={selectedSubjects}
                   setSelectedOptions={setSelectedSubjects}
                   defaultValues={selectedSubjects}
+                  icon={FiBook}
                 />
               </InputsSection>
 
               <InputsSection>
                 <strong>Senha atual</strong>
-                <Input name="password" type="password" />
+                <Input name="password" type="password" icon={FiLock} />
 
                 <strong>Nova senha</strong>
-                <Input name="new_password" type="password" />
+                <Input name="new_password" type="password" icon={FiLock} />
 
                 <strong>Confirmar senha</strong>
-                <Input name="password_confirmation" type="password" />
+                <Input
+                  name="password_confirmation"
+                  type="password"
+                  icon={FiLock}
+                />
               </InputsSection>
             </section>
 

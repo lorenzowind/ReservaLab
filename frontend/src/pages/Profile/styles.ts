@@ -114,7 +114,7 @@ export const UserImage = styled.div`
     color: #fff;
   }
 
-  div {
+  label {
     width: 65px;
     height: 65px;
     border-radius: 50%;
@@ -122,12 +122,12 @@ export const UserImage = styled.div`
     right: 0;
     position: absolute;
     background: #94969d;
-    cursor: pointer;
 
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s;
+    cursor: pointer;
 
     &:hover {
       background: ${shade(0.2, '#94969d')};
@@ -137,6 +137,10 @@ export const UserImage = styled.div`
       width: 35px;
       height: 35px;
       color: #fff;
+    }
+
+    input {
+      display: none;
     }
   }
 `;
