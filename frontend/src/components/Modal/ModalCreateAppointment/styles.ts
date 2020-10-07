@@ -77,7 +77,7 @@ export const Form = styled(Unform)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 16px 46px;
+    padding: 16px 46px 0 46px;
 
     section {
       display: flex;
@@ -95,8 +95,7 @@ export const Form = styled(Unform)`
   > button {
     height: 60px;
     width: 50%;
-    margin-top: 10px;
-    margin-bottom: 45px;
+    margin-bottom: 25px;
   }
 `;
 

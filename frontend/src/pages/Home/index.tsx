@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { FiUser } from 'react-icons/fi';
 import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
@@ -7,14 +6,13 @@ import 'react-day-picker/lib/style.css';
 import api from '../../services/api';
 
 import { useAuth, User } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 
 import {
   Container,
   Schedule,
   Content,
   AppointmentsContainer,
-  Appointment,
-  UserAvatar,
   Calendar,
 } from './styles';
 
@@ -22,14 +20,17 @@ import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Laboratories from '../../components/Laboratories';
 import Appointments from '../../components/Appointments';
+import Loading from '../../components/Loading';
+
 import ModalCreateAppointment from '../../components/Modal/ModalCreateAppointment';
+import ModalAppointmentInfo from '../../components/Modal/ModalAppointmentInfo';
 
 interface MonthAvailabilityItem {
   day: number;
   available: boolean;
 }
 
-interface IAppointment {
+export interface IAppointment {
   id: string;
   teacher_id: string;
   teacher: User;
@@ -86,90 +87,109 @@ const SignIn: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<IAppointment>(
+    {} as IAppointment,
+  );
+
+  const [modalCreateOpen, setModalCreateOpen] = useState(false);
+  const [modalInfoOpen, setModalInfoOpen] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const [monthAvailability, setMonthAvailability] = useState<
     MonthAvailabilityItem[]
   >([]);
 
   const { user } = useAuth();
+  const { addToast } = useToast();
 
   useEffect(() => {
     const loadAppointments = async () => {
-      await api
-        .get<IAppointment[]>('appointments/all', {
-          params: {
-            year: selectedDate.getFullYear(),
-            month: selectedDate.getMonth() + 1,
-            day: selectedDate.getDate(),
-          },
-        })
-        .then(response => {
-          const auxAppointments: IAppointments = {
-            first: [],
-            second: [],
-            third: [],
-            fourth: [],
-            extra1: [],
-            extra2: [],
-            fifth: [],
-            sixth: [],
-            seventh: [],
-            eighth: [],
-          };
+      try {
+        setLoading(true);
 
-          // eslint-disable-next-line array-callback-return
-          response.data.map(appointment => {
-            switch (appointment.time) {
-              case '1': {
-                auxAppointments.first.push(appointment);
-                break;
+        await api
+          .get<IAppointment[]>('appointments/all', {
+            params: {
+              year: selectedDate.getFullYear(),
+              month: selectedDate.getMonth() + 1,
+              day: selectedDate.getDate(),
+            },
+          })
+          .then(response => {
+            const auxAppointments: IAppointments = {
+              first: [],
+              second: [],
+              third: [],
+              fourth: [],
+              extra1: [],
+              extra2: [],
+              fifth: [],
+              sixth: [],
+              seventh: [],
+              eighth: [],
+            };
+
+            // eslint-disable-next-line array-callback-return
+            response.data.map(appointment => {
+              switch (appointment.time) {
+                case '1': {
+                  auxAppointments.first.push(appointment);
+                  break;
+                }
+                case '2': {
+                  auxAppointments.second.push(appointment);
+                  break;
+                }
+                case '3': {
+                  auxAppointments.third.push(appointment);
+                  break;
+                }
+                case '4': {
+                  auxAppointments.fourth.push(appointment);
+                  break;
+                }
+                case '5': {
+                  auxAppointments.fifth.push(appointment);
+                  break;
+                }
+                case '6': {
+                  auxAppointments.sixth.push(appointment);
+                  break;
+                }
+                case '7': {
+                  auxAppointments.seventh.push(appointment);
+                  break;
+                }
+                case '8': {
+                  auxAppointments.eighth.push(appointment);
+                  break;
+                }
+                case 'extra1': {
+                  auxAppointments.extra1.push(appointment);
+                  break;
+                }
+                default: {
+                  auxAppointments.extra2.push(appointment);
+                  break;
+                }
               }
-              case '2': {
-                auxAppointments.second.push(appointment);
-                break;
-              }
-              case '3': {
-                auxAppointments.third.push(appointment);
-                break;
-              }
-              case '4': {
-                auxAppointments.fourth.push(appointment);
-                break;
-              }
-              case '5': {
-                auxAppointments.fifth.push(appointment);
-                break;
-              }
-              case '6': {
-                auxAppointments.sixth.push(appointment);
-                break;
-              }
-              case '7': {
-                auxAppointments.seventh.push(appointment);
-                break;
-              }
-              case '8': {
-                auxAppointments.eighth.push(appointment);
-                break;
-              }
-              case 'extra1': {
-                auxAppointments.extra1.push(appointment);
-                break;
-              }
-              default: {
-                auxAppointments.extra2.push(appointment);
-                break;
-              }
-            }
+            });
+
+            setAppointments(auxAppointments);
           });
-
-          setAppointments(auxAppointments);
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro na busca por agendamentos',
         });
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadAppointments();
-  }, [selectedDate, modalOpen]);
+  }, [selectedDate, addToast]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
@@ -207,8 +227,12 @@ const SignIn: React.FC = () => {
     }
   }, []);
 
-  function toggleModal(): void {
-    setModalOpen(!modalOpen);
+  function toggleModalCreate(): void {
+    setModalCreateOpen(!modalCreateOpen);
+  }
+
+  function toggleModalInfo(): void {
+    setModalInfoOpen(!modalInfoOpen);
   }
 
   const disabledDays = useMemo(() => {
@@ -273,9 +297,20 @@ const SignIn: React.FC = () => {
 
   return (
     <>
+      {loading && <Loading zIndex={1} />}
+
       <Header isAdmin={user.position === 'admin'} isHome />
 
-      <ModalCreateAppointment isOpen={modalOpen} setIsOpen={toggleModal} />
+      <ModalAppointmentInfo
+        appointment={selectedAppointment}
+        isOpen={modalInfoOpen}
+        setIsOpen={toggleModalInfo}
+      />
+
+      <ModalCreateAppointment
+        isOpen={modalCreateOpen}
+        setIsOpen={toggleModalCreate}
+      />
 
       <Container>
         <Laboratories
@@ -297,7 +332,11 @@ const SignIn: React.FC = () => {
             </h2>
 
             <AppointmentsContainer>
-              <Appointments appointments={filteredAppointments} />
+              <Appointments
+                appointments={filteredAppointments}
+                setSelectedAppointment={setSelectedAppointment}
+                toggleModalInfo={toggleModalInfo}
+              />
             </AppointmentsContainer>
           </Schedule>
 
@@ -335,7 +374,7 @@ const SignIn: React.FC = () => {
             <Button
               type="button"
               onClick={() => {
-                setModalOpen(!modalOpen);
+                setModalCreateOpen(!modalCreateOpen);
               }}
             >
               + Agendar laboratório

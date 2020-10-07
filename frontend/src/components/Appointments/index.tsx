@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
-import { IFilteredAppointments } from '../../pages/Home';
+import { IAppointment, IFilteredAppointments } from '../../pages/Home';
 
 import {
   Container,
@@ -18,9 +18,25 @@ import {
 
 interface AppointmentsProps {
   appointments: IFilteredAppointments;
+  setSelectedAppointment: React.Dispatch<React.SetStateAction<IAppointment>>;
+  toggleModalInfo: () => void;
 }
 
-const Appointments: React.FC<AppointmentsProps> = ({ appointments }) => {
+const Appointments: React.FC<AppointmentsProps> = ({
+  appointments,
+  setSelectedAppointment,
+  toggleModalInfo,
+}) => {
+  const handleSelectAppointment = useCallback(
+    (appointment: IAppointment | undefined) => {
+      if (appointment) {
+        setSelectedAppointment(appointment);
+        toggleModalInfo();
+      }
+    },
+    [setSelectedAppointment, toggleModalInfo],
+  );
+
   return (
     <Container>
       <LeftColumn>
@@ -114,12 +130,22 @@ const Appointments: React.FC<AppointmentsProps> = ({ appointments }) => {
       <RightColumn>
         <InfoSection>
           <strong>Professor(a)</strong>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.first}
+            onClick={() => {
+              handleSelectAppointment(appointments.first);
+            }}
+          >
             <strong>
               {appointments.first ? appointments.first.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.second}
+            onClick={() => {
+              handleSelectAppointment(appointments.second);
+            }}
+          >
             <strong>
               {appointments.second ? appointments.second.teacher.name : '-'}
             </strong>
@@ -127,32 +153,62 @@ const Appointments: React.FC<AppointmentsProps> = ({ appointments }) => {
           <NameSection>
             <strong>-</strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.third}
+            onClick={() => {
+              handleSelectAppointment(appointments.third);
+            }}
+          >
             <strong>
               {appointments.third ? appointments.third.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.fourth}
+            onClick={() => {
+              handleSelectAppointment(appointments.fourth);
+            }}
+          >
             <strong>
               {appointments.fourth ? appointments.fourth.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.extra1}
+            onClick={() => {
+              handleSelectAppointment(appointments.extra1);
+            }}
+          >
             <strong>
               {appointments.extra1 ? appointments.extra1.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.extra2}
+            onClick={() => {
+              handleSelectAppointment(appointments.extra2);
+            }}
+          >
             <strong>
               {appointments.extra2 ? appointments.extra2.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.fifth}
+            onClick={() => {
+              handleSelectAppointment(appointments.fifth);
+            }}
+          >
             <strong>
               {appointments.fifth ? appointments.fifth.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.sixth}
+            onClick={() => {
+              handleSelectAppointment(appointments.sixth);
+            }}
+          >
             <strong>
               {appointments.sixth ? appointments.sixth.teacher.name : '-'}
             </strong>
@@ -160,12 +216,22 @@ const Appointments: React.FC<AppointmentsProps> = ({ appointments }) => {
           <NameSection>
             <strong>-</strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.seventh}
+            onClick={() => {
+              handleSelectAppointment(appointments.seventh);
+            }}
+          >
             <strong>
               {appointments.seventh ? appointments.seventh.teacher.name : '-'}
             </strong>
           </NameSection>
-          <NameSection>
+          <NameSection
+            isOccupied={!!appointments.eighth}
+            onClick={() => {
+              handleSelectAppointment(appointments.eighth);
+            }}
+          >
             <strong>
               {appointments.eighth ? appointments.eighth.teacher.name : '-'}
             </strong>

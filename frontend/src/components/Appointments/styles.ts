@@ -1,7 +1,11 @@
+import { shade } from 'polished';
 import styled, { css } from 'styled-components';
 
 interface IntervalSectionProps {
   isExpanded?: boolean;
+}
+interface NameSectionProps {
+  isOccupied?: boolean;
 }
 
 export const Container = styled.div`
@@ -154,7 +158,7 @@ export const LunchSection = styled.div`
   }
 `;
 
-export const NameSection = styled.div`
+export const NameSection = styled.div<NameSectionProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -164,6 +168,17 @@ export const NameSection = styled.div`
   background: #bfd73e;
   border-radius: 5px;
   color: #fff;
+  transition: background-color 0.2s;
+
+  ${props =>
+    props.isOccupied &&
+    css`
+      cursor: pointer;
+
+      &:hover {
+        background: ${shade(0.2, '#bfd73e')};
+      }
+    `}
 
   > strong {
     padding: 5px;
