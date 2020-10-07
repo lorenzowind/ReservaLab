@@ -94,6 +94,8 @@ const SignIn: React.FC = () => {
   const [modalCreateOpen, setModalCreateOpen] = useState(false);
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
 
+  const [toRefresh, setToRefresh] = useState(true);
+
   const [loading, setLoading] = useState(false);
 
   const [monthAvailability, setMonthAvailability] = useState<
@@ -188,12 +190,16 @@ const SignIn: React.FC = () => {
       }
     };
 
-    loadAppointments();
-  }, [selectedDate, addToast]);
+    if (toRefresh) {
+      loadAppointments();
+      setToRefresh(false);
+    }
+  }, [selectedDate, addToast, toRefresh]);
 
   const handleDateChange = useCallback((day: Date, modifiers: DayModifiers) => {
     if (modifiers.available && !modifiers.disabled) {
       setSelectedDate(day);
+      setToRefresh(true);
     }
   }, []);
 
@@ -305,11 +311,13 @@ const SignIn: React.FC = () => {
         appointment={selectedAppointment}
         isOpen={modalInfoOpen}
         setIsOpen={toggleModalInfo}
+        setToRefresh={setToRefresh}
       />
 
       <ModalCreateAppointment
         isOpen={modalCreateOpen}
         setIsOpen={toggleModalCreate}
+        setToRefresh={setToRefresh}
       />
 
       <Container>

@@ -34,11 +34,13 @@ interface ICreateAppointmentData {
 interface IModalProps {
   isOpen: boolean;
   setIsOpen: () => void;
+  setToRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalCreateAppointment: React.FC<IModalProps> = ({
   isOpen,
   setIsOpen,
+  setToRefresh,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
@@ -110,6 +112,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
             });
 
             setIsOpen();
+            setToRefresh(true);
           });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -130,7 +133,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [date, user.position, addToast, setIsOpen],
+    [date, user.position, addToast, setIsOpen, setToRefresh],
   );
 
   return (

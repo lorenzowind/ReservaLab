@@ -168,7 +168,6 @@ export const NameSection = styled.div<NameSectionProps>`
   background: #bfd73e;
   border-radius: 5px;
   color: #fff;
-  transition: background-color 0.2s;
 
   ${props =>
     props.isOccupied &&

@@ -1,4 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
+
+import api from '../../../services/api';
+
+import { useToast } from '../../../hooks/toast';
 
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
 import getTimesArray from '../../../utils/getTimesArray';
@@ -7,6 +11,7 @@ import { IAppointment } from '../../../pages/Home';
 
 import Modal from '..';
 import Button from '../../Button';
+import Loading from '../../Loading';
 
 import { Container, CloseModal } from './styles';
 
@@ -14,6 +19,7 @@ interface IModalProps {
   appointment: IAppointment;
   isOpen: boolean;
   setIsOpen: () => void;
+  setToRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const laboratories = getLaboratoriesArray();
@@ -23,7 +29,12 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
   appointment,
   isOpen,
   setIsOpen,
+  setToRefresh,
 }) => {
+  const [loading, setLoading] = useState(false);
+
+  const { addToast } = useToast();
+
   const laboratory = useMemo(() => {
     return laboratories.find(
       findLaboratory => findLaboratory.number === appointment.laboratory_number,
@@ -42,8 +53,33 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
     ).toLocaleDateString();
   }, [appointment]);
 
+  const handleDeleteAppointment = useCallback(async () => {
+    try {
+      setLoading(true);
+
+      await api.delete(`appointments/${appointment.id}`).then(() => {
+        addToast({
+          type: 'success',
+          title: 'Agendamento excluído com sucesso',
+        });
+
+        setIsOpen();
+        setToRefresh(true);
+      });
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao excluir agendamento',
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [addToast, appointment, setIsOpen, setToRefresh]);
+
   return (
     <>
+      {loading && <Loading zIndex={1} />}
+
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <CloseModal onClick={setIsOpen}>
           <strong>X</strong>
@@ -93,7 +129,11 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
             </section>
           </div>
 
-          <Button type="button" color="#9B3B37">
+          <Button
+            type="button"
+            color="#9B3B37"
+            onClick={handleDeleteAppointment}
+          >
             Excluir
           </Button>
         </Container>
