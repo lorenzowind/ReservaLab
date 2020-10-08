@@ -2,13 +2,11 @@ import AppError from '@shared/errors/AppError';
 
 import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
 import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
-// import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
 
 import DeleteAppointmentService from './DeleteAppointmentService';
 
 let draftAppointmentsRepository: DraftAppointmentsRepository;
 let draftUsersRepository: DraftUsersRepository;
-// let draftLaboratoriesRepository: DraftLaboratoriesRepository;
 
 let deleteAppointment: DeleteAppointmentService;
 
@@ -16,7 +14,6 @@ describe('DeleteAppointment', () => {
   beforeEach(() => {
     draftAppointmentsRepository = new DraftAppointmentsRepository();
     draftUsersRepository = new DraftUsersRepository();
-    // draftLaboratoriesRepository = new DraftLaboratoriesRepository();
 
     deleteAppointment = new DeleteAppointmentService(
       draftAppointmentsRepository,
@@ -35,17 +32,13 @@ describe('DeleteAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const appointment = await draftAppointmentsRepository.create({
       teacher_id: teacher.id,
@@ -56,6 +49,7 @@ describe('DeleteAppointment', () => {
       time: '1, 2',
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     await deleteAppointment.execute(appointment.id);

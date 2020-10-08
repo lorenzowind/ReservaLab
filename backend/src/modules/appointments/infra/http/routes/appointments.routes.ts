@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
-import ensureIsTeacher from '@shared/infra/http/middlewares/ensureIsTeacher';
 import ensureIsAdmin from '@shared/infra/http/middlewares/ensureIsAdmin';
 
 import AppointmentsController from '../controllers/AppointmentsController';
@@ -20,7 +19,6 @@ appointmentsRouter.get(
 appointmentsRouter.post(
   '/',
   ensureAuthenticated,
-  ensureIsTeacher,
   celebrate({
     [Segments.BODY]: {
       laboratory_number: Joi.number().required(),
@@ -30,6 +28,7 @@ appointmentsRouter.post(
       time: Joi.string().max(24).required(),
       subject: Joi.string().max(39).required(),
       classroom: Joi.string().max(13).required(),
+      status: Joi.string().required(),
     },
   }),
   appointmentsController.create,
@@ -38,6 +37,7 @@ appointmentsRouter.post(
 appointmentsRouter.put(
   '/:id',
   ensureAuthenticated,
+  ensureIsAdmin,
   celebrate({
     [Segments.BODY]: {
       teacher_id: Joi.string().required(),
@@ -48,6 +48,7 @@ appointmentsRouter.put(
       time: Joi.string().max(24).required(),
       subject: Joi.string().max(39).required(),
       classroom: Joi.string().max(13).required(),
+      status: Joi.string().required(),
     },
   }),
   appointmentsController.update,

@@ -2,13 +2,11 @@ import AppError from '@shared/errors/AppError';
 
 import DraftAppointmentsRepository from '@modules/appointments/repositories/drafts/DraftAppointmentsRepository';
 import DraftUsersRepository from '@modules/users/repositories/drafts/DraftUsersRepository';
-// import DraftLaboratoriesRepository from '@modules/laboratories/repositories/drafts/DraftLaboratoriesRepository';
 
 import CreateAppointmentService from './CreateAppointmentService';
 
 let draftAppointmentsRepository: DraftAppointmentsRepository;
 let draftUsersRepository: DraftUsersRepository;
-// let draftLaboratoriesRepository: DraftLaboratoriesRepository;
 
 let createAppointment: CreateAppointmentService;
 
@@ -16,12 +14,10 @@ describe('CreateAppointment', () => {
   beforeEach(() => {
     draftAppointmentsRepository = new DraftAppointmentsRepository();
     draftUsersRepository = new DraftUsersRepository();
-    // draftLaboratoriesRepository = new DraftLaboratoriesRepository();
 
     createAppointment = new CreateAppointmentService(
       draftAppointmentsRepository,
       draftUsersRepository,
-      // draftLaboratoriesRepository,
     );
   });
 
@@ -31,17 +27,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const appointment = await createAppointment.execute({
       teacher_id: teacher.id,
@@ -52,6 +44,7 @@ describe('CreateAppointment', () => {
       time: '1, 2',
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -63,17 +56,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     await expect(
       createAppointment.execute({
@@ -85,6 +74,7 @@ describe('CreateAppointment', () => {
         time: '1, 2',
         subject: 'subject 2',
         classroom: 'Classroom 1',
+        status: 'scheduled',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -95,17 +85,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const year = 2020;
     const month = 9;
@@ -120,6 +106,7 @@ describe('CreateAppointment', () => {
       time: '1, 2',
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     const appointment = await createAppointment.execute({
@@ -131,6 +118,7 @@ describe('CreateAppointment', () => {
       time: '3, 4',
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -142,17 +130,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const year = 2020;
     const month = 9;
@@ -168,6 +152,7 @@ describe('CreateAppointment', () => {
       time,
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     await expect(
@@ -180,6 +165,7 @@ describe('CreateAppointment', () => {
         time,
         subject: teacher.subjects.split(', ')[0],
         classroom: 'Classroom 1',
+        status: 'scheduled',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -190,17 +176,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const year = 2020;
     const month = 9;
@@ -216,6 +198,7 @@ describe('CreateAppointment', () => {
       time,
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     const appointment = await createAppointment.execute({
@@ -227,6 +210,7 @@ describe('CreateAppointment', () => {
       time,
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -236,11 +220,6 @@ describe('CreateAppointment', () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
       return new Date(2020, 8, 6).getTime();
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     await expect(
       createAppointment.execute({
@@ -252,36 +231,10 @@ describe('CreateAppointment', () => {
         time: '1, 2',
         subject: '',
         classroom: 'Classroom 1',
+        status: 'scheduled',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
-
-  // it('should not be able to create a new appointment with non existing laboratory', async () => {
-  //   jest.spyOn(Date, 'now').mockImplementationOnce(() => {
-  //     return new Date(2020, 8, 6).getTime();
-  //   });
-
-  //   const teacher = await draftUsersRepository.create({
-  //     name: 'John Doe',
-  //     email: 'johndoe@example.com',
-  //     subjects: 'subject 1',
-  //     position: 'teacher',
-  //     password: '123456',
-  //   });
-
-  //   await expect(
-  //     createAppointment.execute({
-  //       teacher_id: teacher.id,
-  //       laboratory_id: 'non existing laboratory id',
-  //       year: 2020,
-  //       month: 9,
-  //       day: 7,
-  //       time: '1, 2',
-  //       subject: teacher.subjects.split(', ')[0],
-  //       classroom: 'Classroom 1',
-  //     }),
-  //   ).rejects.toBeInstanceOf(AppError);
-  // });
 
   it('should not be able to create a new appointment in a past date', async () => {
     jest.spyOn(Date, 'now').mockImplementation(() => {
@@ -289,17 +242,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     await expect(
       createAppointment.execute({
@@ -311,6 +260,7 @@ describe('CreateAppointment', () => {
         time: '1, 2',
         subject: teacher.subjects.split(', ')[0],
         classroom: 'Classroom 1',
+        status: 'scheduled',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -321,17 +271,13 @@ describe('CreateAppointment', () => {
     });
 
     const teacher = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
       position: 'teacher',
       password: '123456',
     });
-
-    // const laboratory = await draftLaboratoriesRepository.create({
-    //   name: 'Laboratory 1',
-    //   number: 1,
-    // });
 
     const appointment = await createAppointment.execute({
       teacher_id: teacher.id,
@@ -342,6 +288,7 @@ describe('CreateAppointment', () => {
       time: '1, 2',
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
+      status: 'scheduled',
     });
 
     expect(appointment).toHaveProperty('id');

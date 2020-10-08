@@ -25,6 +25,7 @@ describe('UpdateUserAvatar', () => {
 
   it('should be able to update user with an avatar', async () => {
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
@@ -53,6 +54,7 @@ describe('UpdateUserAvatar', () => {
     const deleteFile = jest.spyOn(draftStorageProvider, 'deleteFile');
 
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',

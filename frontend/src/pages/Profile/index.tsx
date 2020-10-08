@@ -61,12 +61,16 @@ const Profile: React.FC = () => {
     });
   });
   const [selectedSubjects, setSelectedSubjects] = useState<Option[]>(() => {
-    return user.subjects.split(', ').map(subject => {
-      return {
-        label: subject,
-        value: subject,
-      };
-    });
+    if (user.subjects) {
+      return user.subjects.split(', ').map(subject => {
+        return {
+          label: subject,
+          value: subject,
+        };
+      });
+    }
+
+    return [];
   });
   const [status, setStatus] = useState<'data' | 'password' | ''>('');
 
@@ -245,6 +249,7 @@ const Profile: React.FC = () => {
 
                     <strong>Disciplinas</strong>
                     <MultiSelect
+                      isDisabled={user.position === 'admin'}
                       options={subjectsSelect}
                       placeholder="Selecione"
                       selectedOptions={selectedSubjects}

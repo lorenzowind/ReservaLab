@@ -1,17 +1,25 @@
-import React, { useRef, useCallback, useState } from 'react';
-import { FiBook, FiBookmark, FiClock, FiCpu } from 'react-icons/fi';
+import React, { useRef, useCallback, useState, useEffect } from 'react';
+import {
+  FiActivity,
+  FiBook,
+  FiBookmark,
+  FiClock,
+  FiCpu,
+  FiUser,
+} from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
-import { useAuth } from '../../../hooks/auth';
+import { useAuth, User } from '../../../hooks/auth';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getTimesArray from '../../../utils/getTimesArray';
 import getClassroomsArray from '../../../utils/getClassroomsArray';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
+import getSubjectsArray from '../../../utils/getSubjectsArray';
 
 import Modal from '..';
 import Select from '../../Select';
@@ -22,6 +30,7 @@ import Loading from '../../Loading';
 import { Form, CloseModal } from './styles';
 
 interface ICreateAppointmentData {
+  teacher_id: string;
   laboratory_number: string;
   time: string;
   year: number;
@@ -29,6 +38,7 @@ interface ICreateAppointmentData {
   day: number;
   subject: string;
   classroom: string;
+  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled' | '0';
 }
 
 interface IModalProps {
@@ -51,17 +61,20 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
   const [date, setDate] = useState(new Date());
 
   const [classroomsArray] = useState(getClassroomsArray());
-  const [subjectsArray] = useState(user.subjects.split(', '));
+  const [subjectsArray] = useState(
+    user.subjects ? user.subjects.split(', ') : getSubjectsArray(),
+  );
   const [laboratoriesArray] = useState(getLaboratoriesArray());
-
   const [timesSelect] = useState(getTimesArray());
+
+  const [teachersSelect, setTeachersSelect] = useState<User[]>([]);
 
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
       try {
         formRef.current?.setErrors({});
 
-        const schema = Yup.object().shape({
+        const schema1 = Yup.object().shape({
           laboratory_number: Yup.mixed().test(
             'match',
             'Laboratório é obrigatório',
@@ -80,9 +93,28 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           }),
         });
 
-        await schema.validate(data, {
+        await schema1.validate(data, {
           abortEarly: false,
         });
+
+        if (user.position === 'admin') {
+          const schema2 = Yup.object().shape({
+            teacher_id: Yup.mixed().test(
+              'match',
+              'Professor(a) é obrigatório',
+              () => {
+                return data.teacher_id !== '0';
+              },
+            ),
+            status: Yup.mixed().test('match', 'Status é obrigatório', () => {
+              return data.status !== '0';
+            }),
+          });
+
+          await schema2.validate(data, {
+            abortEarly: false,
+          });
+        }
 
         const laboratoryData = {
           laboratory_number: Number(data.laboratory_number),
@@ -92,16 +124,27 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           day: date.getDate(),
           subject: data.subject,
           classroom: data.classroom,
+          status: user.position === 'admin' ? data.status : 'scheduled',
         };
+
+        const requestExtension = {
+          headers: {
+            user_position: user.position,
+          },
+        };
+
+        if (user.position === 'admin') {
+          Object.assign(requestExtension, {
+            params: {
+              teacher_id: data.teacher_id,
+            },
+          });
+        }
 
         setLoading(true);
 
         await api
-          .post('appointments', laboratoryData, {
-            headers: {
-              user_position: user.position,
-            },
-          })
+          .post('appointments', laboratoryData, requestExtension)
           .then(() => {
             addToast({
               type: 'success',
@@ -136,9 +179,38 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
     [date, user.position, addToast, setIsOpen, setToRefresh],
   );
 
+  useEffect(() => {
+    const loadTeachers = async () => {
+      setLoading(true);
+      try {
+        await api
+          .get<User[]>('users/all', {
+            headers: {
+              user_position: user.position,
+            },
+          })
+          .then(response => {
+            setTeachersSelect(
+              response.data.filter(teacher => teacher.position !== 'admin'),
+            );
+          });
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro na busca por professores',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTeachers();
+  }, [addToast, user.position]);
+
   return (
     <>
       {loading && <Loading zIndex={1} />}
+
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
         <CloseModal onClick={setIsOpen}>
           <strong>X</strong>
@@ -156,6 +228,22 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           </header>
           <div>
             <section>
+              {user.position === 'admin' && (
+                <>
+                  <strong>Professor(a)</strong>
+                  <Select icon={FiUser} name="teacher_id" defaultValue="0">
+                    <option value="0" disabled>
+                      Selecione professor(a)
+                    </option>
+                    {teachersSelect.map(teacher => (
+                      <option key={teacher.id} value={teacher.id}>
+                        {teacher.name}
+                      </option>
+                    ))}
+                  </Select>
+                </>
+              )}
+
               <strong>Laboratório</strong>
               <Select icon={FiCpu} name="laboratory_number" defaultValue="0">
                 <option value="0" disabled>
@@ -181,6 +269,21 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               </Select>
             </section>
             <section>
+              {user.position === 'admin' && (
+                <>
+                  <strong>Status</strong>
+                  <Select icon={FiActivity} name="status" defaultValue="0">
+                    <option value="0" disabled>
+                      Selecione status
+                    </option>
+                    <option value="scheduled">Agendado</option>
+                    <option value="presence">Presença</option>
+                    <option value="absence">Ausência</option>
+                    <option value="non-scheduled">Não agendado</option>
+                  </Select>
+                </>
+              )}
+
               <strong>Tempo de aula</strong>
               <Select icon={FiClock} name="time" defaultValue="0">
                 <option value="0" disabled>

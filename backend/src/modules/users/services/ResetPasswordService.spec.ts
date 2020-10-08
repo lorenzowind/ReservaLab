@@ -30,6 +30,7 @@ describe('ResetPasswordService', () => {
 
   it('should be able to reset the password', async () => {
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
@@ -74,8 +75,9 @@ describe('ResetPasswordService', () => {
     ).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to reset the password if passed more than 2 hours', async () => {
+  it('should not be able to reset the password if passed more than 1 day', async () => {
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
@@ -88,7 +90,7 @@ describe('ResetPasswordService', () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();
 
-      return customDate.setHours(customDate.getHours() + 3);
+      return customDate.setHours(customDate.getHours() + 24);
     });
 
     await expect(

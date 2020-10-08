@@ -24,7 +24,10 @@ export default class AppointmentsController {
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const teacher_id = request.user.id;
+    const teacher_id = request.query.teacher_id
+      ? String(request.query.teacher_id)
+      : request.user.id;
+
     const {
       laboratory_number,
       year,
@@ -33,6 +36,7 @@ export default class AppointmentsController {
       time,
       subject,
       classroom,
+      status,
     } = request.body;
 
     const createAppointment = container.resolve(CreateAppointmentService);
@@ -46,6 +50,7 @@ export default class AppointmentsController {
       time,
       subject,
       classroom,
+      status,
     });
 
     return response.json(appointment);
@@ -62,6 +67,7 @@ export default class AppointmentsController {
       time,
       subject,
       classroom,
+      status,
     } = request.body;
 
     const updateAppointment = container.resolve(UpdateAppointmentService);
@@ -76,6 +82,7 @@ export default class AppointmentsController {
       time,
       subject,
       classroom,
+      status,
     });
 
     return response.json(appointment);

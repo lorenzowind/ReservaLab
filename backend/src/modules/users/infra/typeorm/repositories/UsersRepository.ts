@@ -32,6 +32,14 @@ class UsersRepository implements IUsersRepository {
     return findUser;
   }
 
+  public async findAllTeachers(): Promise<User[] | undefined> {
+    const findUsers = await this.ormRepository.find({
+      where: { position: 'teacher' },
+    });
+
+    return findUsers;
+  }
+
   public async create(userData: ICreateUserDTO): Promise<User> {
     const user = this.ormRepository.create(userData);
 

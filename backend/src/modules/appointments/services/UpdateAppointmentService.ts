@@ -5,7 +5,6 @@ import AppError from '@shared/errors/AppError';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-// import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
 
 import Appointment from '../infra/typeorm/entities/Appointment';
 
@@ -22,7 +21,7 @@ class UpdateAppointmentService {
     private appointmentsRepository: IAppointmentsRepository,
 
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository, // @inject('LaboratoriesRepository') // private laboratoriesRepository: ILaboratoriesRepository,
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
@@ -35,6 +34,7 @@ class UpdateAppointmentService {
     time,
     subject,
     classroom,
+    status,
   }: IRequest): Promise<Appointment> {
     const appointment = await this.appointmentsRepository.findById(id);
 
@@ -49,14 +49,6 @@ class UpdateAppointmentService {
     } else if (!checkTeacherExists.subjects.split(', ').includes(subject)) {
       throw new AppError('Informed subject is not from the teacher.');
     }
-
-    // const checkLaboratoryExists = await this.laboratoriesRepository.findById(
-    //   laboratory_id,
-    // );
-
-    // if (!checkLaboratoryExists) {
-    //   throw new AppError('Informed laboratory does not exists.');
-    // }
 
     const appointmentDate = new Date(year, month - 1, day);
 
@@ -90,6 +82,7 @@ class UpdateAppointmentService {
     appointment.time = time;
     appointment.subject = subject;
     appointment.classroom = classroom;
+    appointment.status = status;
 
     return this.appointmentsRepository.save(appointment);
   }

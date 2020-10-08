@@ -540,6 +540,14 @@ paths:
       summary: Creates an appointment.
       tags:
         - appointments
+      parameters:
+        - in: query
+          name: teacher_id
+          schema:
+            type: string
+            format: uuid
+            example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+          description: A teacher id to create the related appointment.
       security:
         - bearerAuth: []
       requestBody:

@@ -73,21 +73,24 @@ export const Form = styled(Unform)`
 
   > div {
     width: 100%;
-    margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 16px 46px 0 46px;
+    padding: 40px 46px 40px 46px;
 
     section {
       display: flex;
       flex-direction: column;
 
       > div {
-        margin: 15px 0 40px 0;
+        margin: 15px 0;
         width: 300px;
         height: 60px;
         padding: 8px 16px;
+
+        select {
+          width: 100%;
+        }
       }
     }
   }

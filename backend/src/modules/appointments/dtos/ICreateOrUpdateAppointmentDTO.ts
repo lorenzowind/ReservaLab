@@ -7,4 +7,5 @@ export default interface ICreateOrUpdateAppointmentDTO {
   time: string;
   subject: string;
   classroom: string;
+  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled';
 }

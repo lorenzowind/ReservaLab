@@ -17,6 +17,7 @@ describe('ShowUser', () => {
 
   it('should be able to show the user data', async () => {
     const createdUser = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',

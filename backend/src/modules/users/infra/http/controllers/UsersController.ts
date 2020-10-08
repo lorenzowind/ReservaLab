@@ -6,6 +6,7 @@ import CreateUserService from '@modules/users/services/CreateUserService';
 import UpdateUserService from '@modules/users/services/UpdateUserService';
 import DeleteUserService from '@modules/users/services/DeleteUserService';
 import ShowUserService from '@modules/users/services/ShowUserService';
+import ListTeachersService from '@modules/users/services/ListTeachersService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -71,5 +72,15 @@ export default class UsersController {
     const user = await showUser.execute({ user_id });
 
     return response.json(classToClass(user));
+  }
+
+  public async all(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+
+    const listTeachers = container.resolve(ListTeachersService);
+
+    const teachers = await listTeachers.execute({ user_id });
+
+    return response.json(classToClass(teachers));
   }
 }

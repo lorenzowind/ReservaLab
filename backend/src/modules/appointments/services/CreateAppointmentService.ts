@@ -5,7 +5,6 @@ import AppError from '@shared/errors/AppError';
 
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
-// import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
 
 import ICreateAppointmentDTO from '../dtos/ICreateOrUpdateAppointmentDTO';
 
@@ -18,7 +17,7 @@ class CreateAppointmentService {
     private appointmentsRepository: IAppointmentsRepository,
 
     @inject('UsersRepository')
-    private usersRepository: IUsersRepository, // @inject('LaboratoriesRepository') // private laboratoriesRepository: ILaboratoriesRepository,
+    private usersRepository: IUsersRepository,
   ) {}
 
   public async execute({
@@ -30,6 +29,7 @@ class CreateAppointmentService {
     time,
     subject,
     classroom,
+    status,
   }: ICreateAppointmentDTO): Promise<Appointment> {
     const checkTeacherExists = await this.usersRepository.findById(teacher_id);
 
@@ -38,14 +38,6 @@ class CreateAppointmentService {
     } else if (!checkTeacherExists.subjects.split(', ').includes(subject)) {
       throw new AppError('Informed subject is not from the teacher.');
     }
-
-    // const checkLaboratoryExists = await this.laboratoriesRepository.findById(
-    //   laboratory_id,
-    // );
-
-    // if (!checkLaboratoryExists) {
-    //   throw new AppError('Informed laboratory does not exists.');
-    // }
 
     const appointmentDate = new Date(year, month - 1, day, 23, 59, 59);
 
@@ -79,6 +71,7 @@ class CreateAppointmentService {
       time,
       subject,
       classroom,
+      status,
     });
 
     return appointment;

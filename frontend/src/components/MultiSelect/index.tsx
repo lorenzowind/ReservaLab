@@ -10,6 +10,7 @@ export interface Option {
 }
 
 interface MultiSelectProps {
+  isDisabled?: boolean;
   placeholder: string;
   options: Option[];
   defaultValues?: Option[];
@@ -20,6 +21,7 @@ interface MultiSelectProps {
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
+  isDisabled,
   placeholder,
   options,
   defaultValues,
@@ -49,10 +51,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   }, [selectedOptions]);
 
   return (
-    <Container style={containerStyle} isFilled={isFilled} isFocused={isFocused}>
+    <Container
+      style={containerStyle}
+      isFilled={isFilled}
+      isFocused={isFocused}
+      isDisabled={isDisabled}
+    >
       {Icon && <Icon size={20} />}
 
       <Select
+        isDisabled={isDisabled}
         isMulti
         options={options}
         onChange={handleChange}

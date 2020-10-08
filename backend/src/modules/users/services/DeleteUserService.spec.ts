@@ -39,6 +39,7 @@ describe('DeleteUser', () => {
 
   it('should be able to delete an user', async () => {
     await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
@@ -47,6 +48,7 @@ describe('DeleteUser', () => {
     });
 
     const user = await draftUsersRepository.create({
+      ra: '222222',
       name: 'John Doe II',
       email: 'johndoeII@example.com',
       subjects: 'subject 2',
@@ -63,6 +65,7 @@ describe('DeleteUser', () => {
     const deleteFile = jest.spyOn(draftStorageProvider, 'deleteFile');
 
     await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
@@ -71,6 +74,7 @@ describe('DeleteUser', () => {
     });
 
     const user = await draftUsersRepository.create({
+      ra: '222222',
       name: 'John Doe II',
       email: 'johndoeII@example.com',
       subjects: 'subject 2',

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 
 import AppError from '@shared/errors/AppError';
 
-export default function ensureUserPosition(
+export default function ensureIsAdmin(
   request: Request,
   response: Response,
   next: NextFunction,

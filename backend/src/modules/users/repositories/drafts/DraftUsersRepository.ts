@@ -27,6 +27,14 @@ export default class DraftUsersRepository implements IUsersRepository {
     return user;
   }
 
+  public async findAllTeachers(): Promise<User[] | undefined> {
+    const users = this.users.filter(
+      findUser => findUser.position === 'teacher',
+    );
+
+    return users;
+  }
+
   public async create(userData: ICreateUserDTO): Promise<User> {
     const user = new User();
 

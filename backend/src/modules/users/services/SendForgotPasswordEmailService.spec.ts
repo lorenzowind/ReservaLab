@@ -32,6 +32,7 @@ describe('SendForgotPasswordEmail', () => {
     const sendMail = jest.spyOn(draftMailProvider, 'sendMail');
 
     await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',
@@ -58,6 +59,7 @@ describe('SendForgotPasswordEmail', () => {
     const generateToken = jest.spyOn(draftUserTokensRepository, 'generate');
 
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       position: 'teacher',

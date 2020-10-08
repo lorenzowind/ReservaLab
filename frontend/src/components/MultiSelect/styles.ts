@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
+  isDisabled?: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -10,7 +11,7 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   border-radius: 13px;
   border: solid 0.5px #707070;
-  background: #fff;
+  background: ${props => (props.isDisabled ? '#e7e6e6' : '#fff')};
 
   display: flex;
   align-items: center;
@@ -48,6 +49,7 @@ export const Container = styled.div<ContainerProps>`
       border: 0;
       box-shadow: 0 0 0 0;
       cursor: pointer;
+      background: ${props => (props.isDisabled ? '#e7e6e6' : '#fff')};
 
       &:first-child {
         display: flex;

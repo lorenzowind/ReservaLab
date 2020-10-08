@@ -9,7 +9,6 @@ import {
 } from 'typeorm';
 
 import User from '@modules/users/infra/typeorm/entities/User';
-// import Laboratory from '@modules/laboratories/infra/typeorm/entities/Laboratory';
 
 @Entity('appointments')
 class Appointment {
@@ -22,13 +21,6 @@ class Appointment {
   @ManyToOne(() => User, { eager: true })
   @JoinColumn({ name: 'teacher_id' })
   teacher: User;
-
-  // @Column()
-  // laboratory_id: string;
-
-  // @ManyToOne(() => Laboratory)
-  // @JoinColumn({ name: 'laboratory_id' })
-  // laboratory: Laboratory;
 
   @Column()
   laboratory_number: number;
@@ -50,6 +42,9 @@ class Appointment {
 
   @Column()
   classroom: string;
+
+  @Column()
+  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled';
 
   @CreateDateColumn()
   created_at: Date;
