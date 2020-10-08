@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
+import { useAuth } from '../../../hooks/auth';
 
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
 import getTimesArray from '../../../utils/getTimesArray';
@@ -34,6 +35,7 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToast();
+  const { user } = useAuth();
 
   const laboratory = useMemo(() => {
     return laboratories.find(
@@ -52,6 +54,16 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
       appointment.day,
     ).toLocaleDateString();
   }, [appointment]);
+
+  const isOwn = useMemo(() => {
+    if (appointment.teacher) {
+      if (user.id === appointment.teacher.id) {
+        return true;
+      }
+    }
+
+    return false;
+  }, [appointment, user.id]);
 
   const handleDeleteAppointment = useCallback(async () => {
     try {
@@ -129,13 +141,15 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
             </section>
           </div>
 
-          <Button
-            type="button"
-            color="#9B3B37"
-            onClick={handleDeleteAppointment}
-          >
-            Excluir
-          </Button>
+          {isOwn && (
+            <Button
+              type="button"
+              color="#9B3B37"
+              onClick={handleDeleteAppointment}
+            >
+              Excluir
+            </Button>
+          )}
         </Container>
       </Modal>
     </>

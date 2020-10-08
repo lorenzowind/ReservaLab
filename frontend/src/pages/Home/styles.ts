@@ -10,6 +10,10 @@ const appearWithFade = keyframes`
   }
 `;
 
+interface LaboratoryInfoContainerProps {
+  color?: string;
+}
+
 export const Container = styled.div`
   width: 100%;
   padding: 140px 0 60px 0;
@@ -76,6 +80,24 @@ export const Schedule = styled.div`
         border-right: 3px solid #2f3342;
       }
     }
+  }
+`;
+
+export const LaboratoryInfoContainer = styled.div<LaboratoryInfoContainerProps>`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  height: 40px;
+
+  svg {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    color: #9b3b37;
+  }
+
+  h2 {
+    color: ${props => (props.color ? props.color : '#9b3b37')};
   }
 `;
 

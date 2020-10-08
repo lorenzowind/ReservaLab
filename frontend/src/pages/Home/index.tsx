@@ -3,6 +3,7 @@ import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
 
+import { FiAlertOctagon } from 'react-icons/fi';
 import api from '../../services/api';
 
 import { useAuth, User } from '../../hooks/auth';
@@ -14,6 +15,7 @@ import {
   Content,
   AppointmentsContainer,
   Calendar,
+  LaboratoryInfoContainer,
 } from './styles';
 
 import Header from '../../components/Header';
@@ -333,11 +335,18 @@ const SignIn: React.FC = () => {
               <h2>Dia {selectedDate.toLocaleDateString().substring(0, 5)}</h2>
               <h2>{getDayWeek(selectedDate.getDay())}</h2>
             </section>
-            <h2>
-              {selectedLaboratory
-                ? `Laboratório: Sala ${selectedLaboratory}`
-                : 'Nenhum laboratório selecionado'}
-            </h2>
+            <LaboratoryInfoContainer
+              color={selectedLaboratory ? '#2f3342' : ''}
+            >
+              {selectedLaboratory ? (
+                <h2>Laboratório: Sala {selectedLaboratory}</h2>
+              ) : (
+                <>
+                  <FiAlertOctagon />
+                  <h2>Nenhum laboratório selecionado</h2>
+                </>
+              )}
+            </LaboratoryInfoContainer>
 
             <AppointmentsContainer>
               <Appointments
