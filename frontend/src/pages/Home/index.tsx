@@ -100,9 +100,7 @@ const SignIn: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const [monthAvailability, setMonthAvailability] = useState<
-    MonthAvailabilityItem[]
-  >([]);
+  const [monthAvailability] = useState<MonthAvailabilityItem[]>([]);
 
   const { user } = useAuth();
   const { addToast } = useToast();

@@ -24,6 +24,7 @@ describe('AuthenticateUser', () => {
 
   it('should be able to authenticate', async () => {
     const user = await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
@@ -32,7 +33,7 @@ describe('AuthenticateUser', () => {
     });
 
     const response = await authenticateUser.execute({
-      email: 'johndoe@example.com',
+      ra: '111111',
       password: '123456',
     });
 
@@ -43,7 +44,7 @@ describe('AuthenticateUser', () => {
   it('should not be able to authenticate with non existing user', async () => {
     await expect(
       authenticateUser.execute({
-        email: 'johndoe@example.com',
+        ra: '111111',
         password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -51,6 +52,7 @@ describe('AuthenticateUser', () => {
 
   it('should not be able to authenticate with wrong password', async () => {
     await draftUsersRepository.create({
+      ra: '111111',
       name: 'John Doe',
       email: 'johndoe@example.com',
       subjects: 'subject 1',
@@ -60,7 +62,7 @@ describe('AuthenticateUser', () => {
 
     await expect(
       authenticateUser.execute({
-        email: 'johndoe@example.com',
+        ra: '111111',
         password: 'wrong-password',
       }),
     ).rejects.toBeInstanceOf(AppError);

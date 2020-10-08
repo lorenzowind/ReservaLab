@@ -1,4 +1,5 @@
 export default interface ICreateUserDTO {
+  ra: string;
   name: string;
   email: string;
   position: 'teacher' | 'admin';

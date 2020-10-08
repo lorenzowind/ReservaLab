@@ -13,7 +13,8 @@ const appearFromTop = keyframes`
 `;
 
 export const Background = styled.div`
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100%;
 
   display: flex;
   align-items: stretch;
@@ -55,6 +56,11 @@ export const Container = styled.div`
       margin: 12px 0;
       width: 550px;
       height: 60px;
+
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
 
       svg {
         width: 24px;

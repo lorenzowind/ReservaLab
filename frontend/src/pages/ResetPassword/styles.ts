@@ -10,7 +10,8 @@ const appearWithFade = keyframes`
 `;
 
 export const Background = styled.div`
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100%;
 
   display: flex;
   align-items: stretch;

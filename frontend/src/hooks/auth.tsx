@@ -4,6 +4,7 @@ import api from '../services/api';
 
 export interface User {
   id: string;
+  ra: string;
   name: string;
   email: string;
   position: 'teacher' | 'admin';
@@ -12,7 +13,7 @@ export interface User {
 }
 
 interface SignInCredentials {
-  email: string;
+  ra: string;
   password: string;
 }
 
@@ -45,9 +46,9 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState;
   });
 
-  const signIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ ra, password }) => {
     const response = await api.post<AuthState>('sessions', {
-      email,
+      ra,
       password,
     });
 

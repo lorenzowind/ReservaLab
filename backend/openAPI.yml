@@ -12,7 +12,6 @@ info:
 tags:
   - name: authentication
   - name: users
-  # - name: laboratories
   - name: appointments
 
 components:
@@ -38,6 +37,8 @@ components:
         id:
           type: string
           format: uuid
+        ra:
+          type: string
         name:
           type: string
         email:
@@ -58,21 +59,6 @@ components:
         updated_at:
           type: string
           format: dateformat
-    # Laboratory:
-    #   properties:
-    #     id:
-    #       type: string
-    #       format: uuid
-    #     name:
-    #       type: string
-    #     number:
-    #       type: number
-    #     created_at:
-    #       type: string
-    #       format: dateformat
-    #     updated_at:
-    #       type: string
-    #       format: dateformat
     Appointment:
       properties:
         id:
@@ -96,6 +82,8 @@ components:
           type: string
         classroom:
           type: string
+        status:
+          type: string
         created_at:
           type: string
           format: dateformat
@@ -116,9 +104,9 @@ paths:
             schema:
               type: object
               properties:
-                  email:
+                  ra:
                     type: string
-                    example: "user@email.com"
+                    example: "111111"
                   password:
                     type: string
                     example: "user password"
@@ -137,6 +125,9 @@ paths:
                         type: string
                         format: uuid
                         example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                      ra:
+                        type: string
+                        example: "111111"
                       name:
                         type: string
                         example: "User Name"
@@ -227,6 +218,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "user Name"
@@ -255,6 +249,9 @@ paths:
                     type: string
                     format: uuid
                     example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "User Name"
@@ -292,6 +289,9 @@ paths:
               schema:
                 type: object
                 properties:
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "New User Name"
@@ -323,6 +323,9 @@ paths:
                     type: string
                     format: uuid
                     example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "New User Name"
@@ -385,6 +388,9 @@ paths:
                     type: string
                     format: uuid
                     example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "User Name"
@@ -413,6 +419,61 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+  /users/all:
+    get:
+      summary: Gets all teachers (users).
+      tags:
+        - users
+      security:
+        - bearerAuth: []
+        - positionHeader: []
+      responses:
+        '200':
+          description: Returns a JSON array containing all teachers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                      example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                    ra:
+                      type: string
+                      example: "111111"
+                    name:
+                      type: string
+                      example: "New User Name"
+                    email:
+                      type: string
+                      format: email
+                      example: "newuser@email.com"
+                    position:
+                      type: string
+                      example: "teacher"
+                    subjects:
+                      type: string
+                      example: "Subject 1, Subject 2"
+                    avatar_url:
+                      type: string
+                      example: "https://image_upload_provider/2196cf1aec2f18533aaf-file_name.png"
+                    created_at:
+                      type: string
+                      format: dateformat
+                      example: "2020-07-02T21:57:00.421Z"
+                    updated_at:
+                      type: string
+                      format: dateformat
+                      example: "2020-07-02T21:57:00.421Z"
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ExclusiveAccess'
   /users/avatar:
     patch:
       summary: Updates the user avatar.
@@ -442,6 +503,9 @@ paths:
                     type: string
                     format: uuid
                     example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
+                  ra:
+                    type: string
+                    example: "111111"
                   name:
                     type: string
                     example: "New User Name"
@@ -471,197 +535,6 @@ paths:
         '401':
           $ref: '#/components/responses/UnauthorizedError'
 
-  # /laboratories:
-  #   post:
-  #     summary: Creates a laboratory.
-  #     tags:
-  #       - laboratories
-  #     security:
-  #       - bearerAuth: []
-  #       - positionHeader: []
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 name:
-  #                   type: string
-  #                   example: "Laboratory Name"
-  #                 number:
-  #                   type: number
-  #                   example: 1
-  #     responses:
-  #       '200':
-  #         description: Returns a JSON containing the created laboratory.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 id:
-  #                   type: string
-  #                   format: uuid
-  #                   example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-  #                 name:
-  #                   type: string
-  #                   example: "Laboratory Name"
-  #                 number:
-  #                   type: number
-  #                   example: 1
-  #                 created_at:
-  #                   type: string
-  #                   format: dateformat
-  #                   example: "2020-07-02T21:57:00.421Z"
-  #                 updated_at:
-  #                   type: string
-  #                   format: dateformat
-  #                   example: "2020-07-02T21:57:00.421Z"
-  #       '400':
-  #         $ref:  '#/components/responses/IncorrectToken'
-  #       '401':
-  #         $ref: '#/components/responses/UnauthorizedError'
-  #       '403':
-  #         $ref: '#/components/responses/ExclusiveAccess'
-  # /laboratories/{id}:
-  #   put:
-  #     summary: Updates a laboratory.
-  #     parameters:
-  #       - in: path
-  #         name: id
-  #         schema:
-  #           type: string
-  #           format: uuid
-  #           example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-  #         required: true
-  #         description: Laboratory id to update it.
-  #     tags:
-  #       - laboratories
-  #     security:
-  #       - bearerAuth: []
-  #       - positionHeader: []
-  #     requestBody:
-  #       required: true
-  #       content:
-  #         application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 name:
-  #                   type: string
-  #                   example: "Laboratory Name"
-  #                 number:
-  #                   type: number
-  #                   example: 1
-  #     responses:
-  #       '200':
-  #         description: Returns a JSON containing the updated laboratory.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: object
-  #               properties:
-  #                 id:
-  #                   type: string
-  #                   format: uuid
-  #                   example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-  #                 name:
-  #                   type: string
-  #                   example: "Laboratory Name"
-  #                 number:
-  #                   type: number
-  #                   example: 1
-  #                 created_at:
-  #                   type: string
-  #                   format: dateformat
-  #                   example: "2020-07-02T21:57:00.421Z"
-  #                 updated_at:
-  #                   type: string
-  #                   format: dateformat
-  #                   example: "2020-07-02T21:57:00.421Z"
-  #       '400':
-  #         $ref:  '#/components/responses/IncorrectToken'
-  #       '401':
-  #         $ref: '#/components/responses/UnauthorizedError'
-  #       '403':
-  #         $ref: '#/components/responses/ExclusiveAccess'
-  #   delete:
-  #     summary: Deletes a laboratory.
-  #     parameters:
-  #       - in: path
-  #         name: id
-  #         schema:
-  #           type: string
-  #           format: uuid
-  #           example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-  #         required: true
-  #         description: Laboratory id to delete it.
-  #     tags:
-  #       - laboratories
-  #     security:
-  #       - bearerAuth: []
-  #       - positionHeader: []
-  #     responses:
-  #       '200':
-  #         description: Returns a successfully deleted laboratory confirmation.
-  #       '400':
-  #         $ref:  '#/components/responses/IncorrectToken'
-  #       '401':
-  #         $ref: '#/components/responses/UnauthorizedError'
-  #       '403':
-  #         $ref: '#/components/responses/ExclusiveAccess'
-  # /laboratories/all:
-  #   get:
-  #     summary: Gets all laboratories.
-  #     tags:
-  #       - laboratories
-  #     parameters:
-  #       - in: query
-  #         name: search
-  #         schema:
-  #           type: string
-  #         description: A string to search for specific laboratories.
-  #       - in: query
-  #         name: page
-  #         schema:
-  #           type: number
-  #         description: A number to control the laboratories pagination.
-  #     security:
-  #       - bearerAuth: []
-  #     responses:
-  #       '200':
-  #         description: Returns a JSON array containing all laboratories.
-  #         content:
-  #           application/json:
-  #             schema:
-  #               type: array
-  #               items:
-  #                 type: object
-  #                 properties:
-  #                   id:
-  #                     type: string
-  #                     format: uuid
-  #                     example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-  #                   name:
-  #                     type: string
-  #                     example: "Laboratory Name"
-  #                   number:
-  #                     type: number
-  #                     example: 1
-  #                   created_at:
-  #                     type: string
-  #                     format: dateformat
-  #                     example: "2020-07-02T21:57:00.421Z"
-  #                   updated_at:
-  #                     type: string
-  #                     format: dateformat
-  #                     example: "2020-07-02T21:57:00.421Z"
-  #       '400':
-  #         $ref:  '#/components/responses/IncorrectToken'
-  #       '401':
-  #         $ref: '#/components/responses/UnauthorizedError'
-
   /appointments:
     post:
       summary: Creates an appointment.
@@ -669,7 +542,6 @@ paths:
         - appointments
       security:
         - bearerAuth: []
-        - positionHeader: []
       requestBody:
         required: true
         content:
@@ -698,6 +570,9 @@ paths:
                   classroom:
                     type: string
                     example: "Classroom 1"
+                  status:
+                    type: string
+                    example: "scheduled"
       responses:
         '200':
           description: Returns a JSON containing the created appointment.
@@ -735,6 +610,9 @@ paths:
                   classroom:
                     type: string
                     example: "Classroom 1"
+                  status:
+                    type: string
+                    example: "scheduled"
                   created_at:
                     type: string
                     format: dateformat
@@ -747,8 +625,6 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ExclusiveAccess'
   /appointments/{id}:
     put:
       summary: Updates an appointment.
@@ -797,6 +673,9 @@ paths:
                   classroom:
                     type: string
                     example: "Classroom 1"
+                  status:
+                    type: string
+                    example: "presence"
       responses:
         '200':
           description: Returns a JSON containing the updated appointment.
@@ -834,6 +713,9 @@ paths:
                   classroom:
                     type: string
                     example: "Classroom 1"
+                  status:
+                    type: string
+                    example: "presence"
                   created_at:
                     type: string
                     format: dateformat
@@ -930,6 +812,9 @@ paths:
                     classroom:
                       type: string
                       example: "Classroom 1"
+                    status:
+                      type: string
+                      example: "scheduled"
                     created_at:
                       type: string
                       format: dateformat

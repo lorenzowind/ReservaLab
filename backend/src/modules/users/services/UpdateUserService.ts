@@ -25,6 +25,7 @@ class UpdateProfileService {
 
   public async execute({
     id,
+    ra,
     name,
     email,
     position,
@@ -38,10 +39,16 @@ class UpdateProfileService {
       throw new AppError('User not found.');
     }
 
+    const userWithUpdatedRa = await this.usersRepository.findByRa(ra);
+
+    if (userWithUpdatedRa && userWithUpdatedRa.id !== id) {
+      throw new AppError('RA already in use.');
+    }
+
     const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== id) {
-      throw new AppError('Email already in use.');
+      throw new AppError('Email address already in use.');
     }
 
     if (old_password && new_password) {
@@ -57,6 +64,7 @@ class UpdateProfileService {
       user.password = await this.hashProvider.generateHash(new_password);
     }
 
+    user.ra = ra;
     user.name = name;
     user.email = email;
     user.position = position;

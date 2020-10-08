@@ -9,11 +9,12 @@ import ShowUserService from '@modules/users/services/ShowUserService';
 
 export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { name, email, position, subjects, password } = request.body;
+    const { ra, name, email, position, subjects, password } = request.body;
 
     const createUser = container.resolve(CreateUserService);
 
     const user = await createUser.execute({
+      ra,
       name,
       email,
       position,
@@ -27,6 +28,7 @@ export default class UsersController {
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
     const {
+      ra,
       name,
       email,
       position,
@@ -39,6 +41,7 @@ export default class UsersController {
 
     const user = await updateUser.execute({
       id,
+      ra,
       name,
       email,
       subjects,

@@ -20,12 +20,19 @@ class CreateUserService {
   ) {}
 
   public async execute({
+    ra,
     name,
     email,
     position,
     subjects,
     password,
   }: ICreateUserDTO): Promise<User> {
+    const checkUserRaExists = await this.usersRepository.findByRa(ra);
+
+    if (checkUserRaExists) {
+      throw new AppError('RA already used.');
+    }
+
     const checkUserEmailExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserEmailExists) {
@@ -35,6 +42,7 @@ class CreateUserService {
     const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = await this.usersRepository.create({
+      ra,
       name,
       email,
       subjects,

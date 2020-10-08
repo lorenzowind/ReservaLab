@@ -24,6 +24,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   position: relative;
+  width: 750px;
 
   display: flex;
   flex-direction: column;
@@ -42,10 +43,23 @@ export const Content = styled.div`
       align-items: center;
       justify-content: center;
     }
+  }
+`;
 
-    > button {
-      width: 350px;
-      height: 60px;
+export const ButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  animation: ${appearWithFade} 0.5s;
+
+  > button {
+    width: 350px;
+    height: 60px;
+
+    & + button {
+      margin-top: 20px;
     }
   }
 `;
@@ -96,6 +110,7 @@ export const UserImage = styled.div`
   border-radius: 50%;
   background: #bfd73e;
   position: relative;
+  margin-bottom: 28px;
 
   display: flex;
   align-items: center;
@@ -148,8 +163,10 @@ export const UserImage = styled.div`
 export const InputsSection = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  margin: 28px 0;
+  align-self: flex-start;
+  margin-bottom: 28px;
+
+  animation: ${appearWithFade} 0.5s;
 
   strong {
     font-size: 24px;

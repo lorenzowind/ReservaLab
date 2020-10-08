@@ -20,6 +20,7 @@ usersRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
+      ra: Joi.string().required(),
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       position: Joi.string().required(),
@@ -39,6 +40,7 @@ usersRouter.put(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
+      ra: Joi.string().required(),
       name: Joi.string().required(),
       email: Joi.string().email().required(),
       position: Joi.string().required(),

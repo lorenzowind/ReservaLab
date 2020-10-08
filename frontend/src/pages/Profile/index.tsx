@@ -32,10 +32,12 @@ import {
   InputsSection,
   UserImage,
   Content,
+  ButtonsContainer,
 } from './styles';
 
 interface ProfileFormData {
   name: string;
+  ra: string;
   email: string;
   subjects: string;
   password: string;
@@ -66,6 +68,7 @@ const Profile: React.FC = () => {
       };
     });
   });
+  const [status, setStatus] = useState<'data' | 'password' | ''>('');
 
   const [loading, setLoading] = useState(false);
 
@@ -74,39 +77,47 @@ const Profile: React.FC = () => {
       try {
         formRef.current?.setErrors({});
 
-        const schema1 = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .required('E-mail obrigatório')
-            .email('Digite um e-mail válido'),
-        });
-
-        await schema1.validate(data, {
-          abortEarly: false,
-        });
-
-        if (!selectedSubjects.length) {
-          throw new Error();
-        }
-
-        if (data.password || data.new_password || data.password_confirmation) {
-          const schema2 = Yup.object().shape({
-            password: Yup.string().min(6, 'Senha obrigatória'),
-            new_password: Yup.string().min(6, 'Senha obrigatória'),
-            password_confirmation: Yup.string().oneOf(
-              [Yup.ref('new_password'), undefined],
-              'Confirmação incorreta',
-            ),
+        if (status === 'data') {
+          const schema1 = Yup.object().shape({
+            name: Yup.string().required('Nome obrigatório'),
+            ra: Yup.string().required('RA obrigatório'),
+            email: Yup.string()
+              .required('E-mail obrigatório')
+              .email('Digite um e-mail válido'),
           });
 
-          await schema2.validate(data, {
+          await schema1.validate(data, {
             abortEarly: false,
           });
+
+          if (!selectedSubjects.length) {
+            throw new Error();
+          }
+        } else if (status === 'password') {
+          if (
+            data.password ||
+            data.new_password ||
+            data.password_confirmation
+          ) {
+            const schema2 = Yup.object().shape({
+              password: Yup.string().min(6, 'Senha obrigatória'),
+              new_password: Yup.string().min(6, 'Senha obrigatória'),
+              password_confirmation: Yup.string().oneOf(
+                [Yup.ref('new_password'), undefined],
+                'Confirmação incorreta',
+              ),
+            });
+
+            await schema2.validate(data, {
+              abortEarly: false,
+            });
+          }
         }
 
         const userData = {
-          name: data.name,
-          email: data.email,
+          name: data.name ? data.name : user.name,
+          ra: data.ra ? data.ra : user.ra,
+          email: data.email ? data.email : user.email,
           position: user.position,
           subjects: selectedSubjects
             .map(selectedSubject => selectedSubject.value)
@@ -141,7 +152,7 @@ const Profile: React.FC = () => {
         setLoading(false);
       }
     },
-    [addToast, selectedSubjects, updateUser, user.position],
+    [addToast, selectedSubjects, status, updateUser, user],
   );
 
   const handleSubmitAvatar = useCallback(
@@ -184,7 +195,15 @@ const Profile: React.FC = () => {
 
       <Container>
         <Content>
-          <BackSection onClick={() => history.goBack()}>
+          <BackSection
+            onClick={() => {
+              if (status !== '') {
+                setStatus('');
+              } else {
+                history.goBack();
+              }
+            }}
+          >
             <FiArrowLeft />
             <strong>Voltar</strong>
           </BackSection>
@@ -205,42 +224,86 @@ const Profile: React.FC = () => {
           </UserImage>
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <section>
-              <InputsSection>
-                <strong>Nome completo</strong>
-                <Input name="name" defaultValue={user.name} icon={FiUser} />
+            {status === 'data' && (
+              <>
+                <section>
+                  <InputsSection>
+                    <strong>Nome completo</strong>
+                    <Input name="name" defaultValue={user.name} icon={FiUser} />
 
-                <strong>Email</strong>
-                <Input name="email" defaultValue={user.email} icon={FiMail} />
+                    <strong>RA</strong>
+                    <Input name="ra" defaultValue={user.ra} icon={FiUser} />
+                  </InputsSection>
 
-                <strong>Disciplinas</strong>
-                <MultiSelect
-                  options={subjectsSelect}
-                  placeholder="Selecione"
-                  selectedOptions={selectedSubjects}
-                  setSelectedOptions={setSelectedSubjects}
-                  defaultValues={selectedSubjects}
-                  icon={FiBook}
-                />
-              </InputsSection>
+                  <InputsSection>
+                    <strong>Email</strong>
+                    <Input
+                      name="email"
+                      defaultValue={user.email}
+                      icon={FiMail}
+                    />
 
-              <InputsSection>
-                <strong>Senha atual</strong>
-                <Input name="password" type="password" icon={FiLock} />
+                    <strong>Disciplinas</strong>
+                    <MultiSelect
+                      options={subjectsSelect}
+                      placeholder="Selecione"
+                      selectedOptions={selectedSubjects}
+                      setSelectedOptions={setSelectedSubjects}
+                      defaultValues={selectedSubjects}
+                      icon={FiBook}
+                    />
+                  </InputsSection>
+                </section>
 
-                <strong>Nova senha</strong>
-                <Input name="new_password" type="password" icon={FiLock} />
+                <ButtonsContainer>
+                  <Button type="submit">Salvar</Button>
+                </ButtonsContainer>
+              </>
+            )}
 
-                <strong>Confirmar senha</strong>
-                <Input
-                  name="password_confirmation"
-                  type="password"
-                  icon={FiLock}
-                />
-              </InputsSection>
-            </section>
+            {status === 'password' && (
+              <>
+                <section>
+                  <InputsSection>
+                    <strong>Senha atual</strong>
+                    <Input name="password" type="password" icon={FiLock} />
 
-            <Button type="submit">Salvar</Button>
+                    <strong>Nova senha</strong>
+                    <Input name="new_password" type="password" icon={FiLock} />
+
+                    <strong>Confirmar senha</strong>
+                    <Input
+                      name="password_confirmation"
+                      type="password"
+                      icon={FiLock}
+                    />
+                  </InputsSection>
+                </section>
+
+                <ButtonsContainer>
+                  <Button type="submit">Salvar</Button>
+                </ButtonsContainer>
+              </>
+            )}
+
+            {status === '' && (
+              <ButtonsContainer>
+                <Button
+                  color="#59617D"
+                  type="button"
+                  onClick={() => setStatus('data')}
+                >
+                  Dados pessoais
+                </Button>
+                <Button
+                  color="#59617D"
+                  type="button"
+                  onClick={() => setStatus('password')}
+                >
+                  Senha
+                </Button>
+              </ButtonsContainer>
+            )}
           </Form>
         </Content>
       </Container>

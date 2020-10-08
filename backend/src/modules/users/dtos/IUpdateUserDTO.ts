@@ -1,4 +1,5 @@
 export default interface IUpdateUserDTO {
+  ra: string;
   name: string;
   email: string;
   subjects: string;

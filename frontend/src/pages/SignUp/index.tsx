@@ -20,6 +20,7 @@ import MultiSelect, { Option } from '../../components/MultiSelect';
 import Loading from '../../components/Loading';
 
 interface SignUpFormData {
+  ra: string;
   name: string;
   email: string;
   password: string;
@@ -52,6 +53,7 @@ const SignUp: React.FC = () => {
 
         const schema = Yup.object().shape({
           name: Yup.string().required('Nome obrigatório'),
+          ra: Yup.string().required('RA obrigatório'),
           email: Yup.string()
             .required('E-mail obrigatório')
             .email('Digite um e-mail válido'),
@@ -70,6 +72,7 @@ const SignUp: React.FC = () => {
 
         const userData = {
           name: data.name,
+          ra: data.ra,
           email: data.email,
           position: 'teacher',
           password: data.password,
@@ -119,6 +122,9 @@ const SignUp: React.FC = () => {
           <Form ref={formRef} onSubmit={handleSubmit}>
             <strong>Nome completo</strong>
             <Input name="name" icon={FiUser} />
+
+            <strong>RA</strong>
+            <Input name="ra" icon={FiUser} />
 
             <strong>Email</strong>
             <Input name="email" icon={FiMail} />

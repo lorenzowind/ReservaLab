@@ -16,6 +16,9 @@ class User {
   id: string;
 
   @Column()
+  ra: string;
+
+  @Column()
   name: string;
 
   @Column()

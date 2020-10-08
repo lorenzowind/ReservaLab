@@ -15,6 +15,12 @@ export default class DraftUsersRepository implements IUsersRepository {
     return user;
   }
 
+  public async findByRa(ra: string): Promise<User | undefined> {
+    const user = this.users.find(findUser => findUser.ra === ra);
+
+    return user;
+  }
+
   public async findByEmail(email: string): Promise<User | undefined> {
     const user = this.users.find(findUser => findUser.email === email);
 
