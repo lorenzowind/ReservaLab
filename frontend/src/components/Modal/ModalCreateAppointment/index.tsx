@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
+import moment from 'moment';
 
 import api from '../../../services/api';
 
@@ -116,6 +117,12 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           });
         }
 
+        const checkDate = moment().diff(date, 'days');
+
+        if (checkDate <= -14) {
+          throw new Error();
+        }
+
         const AppointmentData = {
           laboratory_number: Number(data.laboratory_number),
           time: data.time,
@@ -169,8 +176,11 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         addToast({
           type: 'error',
           title: 'Erro na criação de agendamento',
-          description:
-            'Ocorreu um erro ao criar o agendamento, cheque as credenciais.',
+          description: `Verifique ${
+            user.position === 'admin'
+              ? 'se a disciplina selecionada corresponde ao professor,'
+              : ''
+          } se a data é válida ou se não há um agendamento existente no mesmo horário.`,
         });
       } finally {
         setLoading(false);

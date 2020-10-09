@@ -26,6 +26,7 @@ import Loading from '../../components/Loading';
 
 import ModalCreateAppointment from '../../components/Modal/ModalCreateAppointment';
 import ModalAppointmentInfo from '../../components/Modal/ModalAppointmentInfo';
+import ModalDeleteAppointments from '../../components/Modal/ModalDeleteAppointments';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -96,6 +97,7 @@ const SignIn: React.FC = () => {
 
   const [modalCreateOpen, setModalCreateOpen] = useState(false);
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
+  const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
 
   const [toRefresh, setToRefresh] = useState(true);
 
@@ -242,6 +244,10 @@ const SignIn: React.FC = () => {
     setModalInfoOpen(!modalInfoOpen);
   }
 
+  function toggleModalDelete(): void {
+    setModalDeleteOpen(!modalDeleteOpen);
+  }
+
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter(monthDay => !monthDay.available)
@@ -321,6 +327,12 @@ const SignIn: React.FC = () => {
         setToRefresh={setToRefresh}
       />
 
+      <ModalDeleteAppointments
+        isOpen={modalDeleteOpen}
+        setIsOpen={toggleModalDelete}
+        setToRefresh={setToRefresh}
+      />
+
       <Container>
         <Laboratories
           selectedLaboratory={selectedLaboratory}
@@ -395,6 +407,18 @@ const SignIn: React.FC = () => {
             >
               + Agendar laboratório
             </Button>
+
+            {user.position === 'admin' && (
+              <Button
+                type="button"
+                color="#9B3B37"
+                onClick={() => {
+                  setModalDeleteOpen(!modalDeleteOpen);
+                }}
+              >
+                Apagar agendamentos
+              </Button>
+            )}
           </section>
         </Content>
       </Container>

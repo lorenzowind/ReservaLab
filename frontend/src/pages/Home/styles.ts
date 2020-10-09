@@ -27,14 +27,21 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+
   width: 1120px;
   margin-top: 20px;
-  display: flex;
 
-  button {
-    margin-top: 30px;
-    height: 60px;
-    width: 100%;
+  > section {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      margin-top: 30px;
+      height: 60px;
+      width: 380px;
+    }
   }
 `;
 
