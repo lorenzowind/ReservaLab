@@ -635,7 +635,7 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
   /appointments/{id}:
     put:
-      summary: Updates an appointment.
+      summary: Updates an appointment status.
       parameters:
         - in: path
           name: id
@@ -656,31 +656,6 @@ paths:
               schema:
                 type: object
                 properties:
-                  teacher_id:
-                    type: string
-                    format: uuid
-                    example: "3c68c90a-009b-4c59-9c7f-dab2774e9a57"
-                  laboratory_number:
-                    type: number
-                    example: 1
-                  time:
-                    type: string
-                    example: "1, 2"
-                  year:
-                    type: number
-                    example: 2020
-                  month:
-                    type: number
-                    example: 9
-                  day:
-                    type: number
-                    example: 2
-                  subject:
-                    type: string
-                    example: "Subject Name"
-                  classroom:
-                    type: string
-                    example: "Classroom 1"
                   status:
                     type: string
                     example: "presence"
