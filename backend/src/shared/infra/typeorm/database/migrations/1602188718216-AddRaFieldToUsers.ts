@@ -9,7 +9,6 @@ export default class AddRaFieldToUsers1602188718216
         name: 'ra',
         type: 'varchar(12)',
         isUnique: true,
-        isNullable: true,
       }),
     );
   }
