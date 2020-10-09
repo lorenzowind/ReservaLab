@@ -6,7 +6,7 @@ import AppError from '@shared/errors/AppError';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
 
-import ICreateAppointmentDTO from '../dtos/ICreateOrUpdateAppointmentDTO';
+import ICreateAppointmentDTO from '../dtos/ICreateAppointmentDTO';
 
 import Appointment from '../infra/typeorm/entities/Appointment';
 

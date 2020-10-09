@@ -1,10 +1,15 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { FiActivity } from 'react-icons/fi';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import * as Yup from 'yup';
 
 import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
 import { useAuth } from '../../../hooks/auth';
 
+import getValidationErrors from '../../../utils/getValidationErrors';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
 import getTimesArray from '../../../utils/getTimesArray';
 
@@ -13,8 +18,13 @@ import { IAppointment } from '../../../pages/Home';
 import Modal from '..';
 import Button from '../../Button';
 import Loading from '../../Loading';
+import Select from '../../Select';
 
-import { Container, CloseModal } from './styles';
+import { Container, OptionsContainer, CloseModal } from './styles';
+
+interface IStatusData {
+  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled' | '0';
+}
 
 interface IModalProps {
   appointment: IAppointment;
@@ -32,6 +42,8 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
   setIsOpen,
   setToRefresh,
 }) => {
+  const formRef = useRef<FormHandles>(null);
+
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToast();
@@ -57,13 +69,13 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
 
   const isOwn = useMemo(() => {
     if (appointment.teacher) {
-      if (user.id === appointment.teacher.id) {
+      if (user.id === appointment.teacher.id || user.position === 'admin') {
         return true;
       }
     }
 
     return false;
-  }, [appointment, user.id]);
+  }, [appointment, user]);
 
   const handleDeleteAppointment = useCallback(async () => {
     try {
@@ -87,6 +99,62 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
       setLoading(false);
     }
   }, [addToast, appointment, setIsOpen, setToRefresh]);
+
+  const handleSubmit = useCallback(
+    async (data: IStatusData) => {
+      try {
+        formRef.current?.setErrors({});
+
+        const schema = Yup.object().shape({
+          status: Yup.mixed().test('match', 'Status é obrigatório', () => {
+            return data.status !== '0';
+          }),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        const appointmentData = {
+          status: data.status,
+        };
+
+        setLoading(true);
+
+        await api
+          .put(`appointments/${appointment.id}`, appointmentData, {
+            headers: {
+              user_position: user.position,
+            },
+          })
+          .then(() => {
+            addToast({
+              type: 'success',
+              title: 'Status do agendamento alterado com sucesso',
+            });
+
+            setIsOpen();
+            setToRefresh(true);
+          });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na alteração do status',
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, appointment, setIsOpen, setToRefresh, user.position],
+  );
 
   return (
     <>
@@ -141,15 +209,37 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
             </section>
           </div>
 
-          {isOwn && (
-            <Button
-              type="button"
-              color="#9B3B37"
-              onClick={handleDeleteAppointment}
-            >
-              Excluir
-            </Button>
-          )}
+          <OptionsContainer isCompleteFormat={user.position === 'admin'}>
+            {isOwn && (
+              <Button
+                type="button"
+                color="#9B3B37"
+                onClick={handleDeleteAppointment}
+              >
+                Excluir
+              </Button>
+            )}
+
+            {user.position === 'admin' && (
+              <Form ref={formRef} onSubmit={handleSubmit}>
+                <Select
+                  icon={FiActivity}
+                  name="status"
+                  defaultValue={appointment.status}
+                >
+                  <option value="0" disabled>
+                    Selecione status
+                  </option>
+                  <option value="scheduled">Agendado</option>
+                  <option value="presence">Presença</option>
+                  <option value="absence">Ausência</option>
+                  <option value="non-scheduled">Não agendado</option>
+                </Select>
+
+                <Button type="submit">Salvar</Button>
+              </Form>
+            )}
+          </OptionsContainer>
         </Container>
       </Modal>
     </>

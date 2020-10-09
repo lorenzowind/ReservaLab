@@ -1,4 +1,4 @@
-export default interface ICreateOrUpdateAppointmentDTO {
+export default interface ICreateAppointmentDTO {
   teacher_id: string;
   laboratory_number: number;
   year: number;

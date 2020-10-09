@@ -4,7 +4,7 @@ import { classToClass } from 'class-transformer';
 
 import ListAppointmentsService from '@modules/appointments/services/ListAppointmentsService';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
-import UpdateAppointmentService from '@modules/appointments/services/UpdateAppointmentService';
+import UpdateAppointmentStatusService from '@modules/appointments/services/UpdateAppointmentStatusService';
 import DeleteAppointmentService from '@modules/appointments/services/DeleteAppointmentService';
 import DeleteAllAppointmentsService from '@modules/appointments/services/DeleteAllAppointmentsService';
 
@@ -58,30 +58,14 @@ export default class AppointmentsController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-    const {
-      teacher_id,
-      laboratory_number,
-      year,
-      month,
-      day,
-      time,
-      subject,
-      classroom,
-      status,
-    } = request.body;
+    const { status } = request.body;
 
-    const updateAppointment = container.resolve(UpdateAppointmentService);
+    const updateAppointmentStatus = container.resolve(
+      UpdateAppointmentStatusService,
+    );
 
-    const appointment = await updateAppointment.execute({
+    const appointment = await updateAppointmentStatus.execute({
       id,
-      teacher_id,
-      laboratory_number,
-      year,
-      month,
-      day,
-      time,
-      subject,
-      classroom,
       status,
     });
 

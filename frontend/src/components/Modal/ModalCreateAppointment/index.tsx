@@ -116,7 +116,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           });
         }
 
-        const laboratoryData = {
+        const AppointmentData = {
           laboratory_number: Number(data.laboratory_number),
           time: data.time,
           year: date.getFullYear(),
@@ -144,7 +144,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(true);
 
         await api
-          .post('appointments', laboratoryData, requestExtension)
+          .post('appointments', AppointmentData, requestExtension)
           .then(() => {
             addToast({
               type: 'success',
@@ -204,7 +204,9 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
       }
     };
 
-    loadTeachers();
+    if (user.position === 'admin') {
+      loadTeachers();
+    }
   }, [addToast, user.position]);
 
   return (

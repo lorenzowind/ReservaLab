@@ -37,6 +37,26 @@ const Appointments: React.FC<AppointmentsProps> = ({
     [setSelectedAppointment, toggleModalInfo],
   );
 
+  const getRelatedColor = useCallback(
+    (status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled') => {
+      switch (status) {
+        case 'scheduled': {
+          return '#F3F300';
+        }
+        case 'presence': {
+          return '#719F52';
+        }
+        case 'absence': {
+          return '#BF1515';
+        }
+        default: {
+          return '#E6AD00';
+        }
+      }
+    },
+    [],
+  );
+
   return (
     <Container>
       <LeftColumn>
@@ -131,7 +151,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
         <InfoSection>
           <strong>Professor(a)</strong>
           <NameSection
-            isOccupied={!!appointments.first}
+            color={
+              appointments.first
+                ? getRelatedColor(appointments.first.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.first);
             }}
@@ -141,7 +165,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.second}
+            color={
+              appointments.second
+                ? getRelatedColor(appointments.second.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.second);
             }}
@@ -154,7 +182,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             <strong>-</strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.third}
+            color={
+              appointments.third
+                ? getRelatedColor(appointments.third.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.third);
             }}
@@ -164,7 +196,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.fourth}
+            color={
+              appointments.fourth
+                ? getRelatedColor(appointments.fourth.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.fourth);
             }}
@@ -174,7 +210,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.extra1}
+            color={
+              appointments.extra1
+                ? getRelatedColor(appointments.extra1.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.extra1);
             }}
@@ -184,7 +224,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.extra2}
+            color={
+              appointments.extra2
+                ? getRelatedColor(appointments.extra2.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.extra2);
             }}
@@ -194,7 +238,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.fifth}
+            color={
+              appointments.fifth
+                ? getRelatedColor(appointments.fifth.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.fifth);
             }}
@@ -204,7 +252,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.sixth}
+            color={
+              appointments.sixth
+                ? getRelatedColor(appointments.sixth.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.sixth);
             }}
@@ -217,7 +269,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             <strong>-</strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.seventh}
+            color={
+              appointments.seventh
+                ? getRelatedColor(appointments.seventh.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.seventh);
             }}
@@ -227,7 +283,11 @@ const Appointments: React.FC<AppointmentsProps> = ({
             </strong>
           </NameSection>
           <NameSection
-            isOccupied={!!appointments.eighth}
+            color={
+              appointments.eighth
+                ? getRelatedColor(appointments.eighth.status)
+                : ''
+            }
             onClick={() => {
               handleSelectAppointment(appointments.eighth);
             }}
@@ -239,12 +299,24 @@ const Appointments: React.FC<AppointmentsProps> = ({
         </InfoSection>
         <DetailsSection>
           <strong>Turma</strong>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.first
+                ? getRelatedColor(appointments.first.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.first ? appointments.first.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.second
+                ? getRelatedColor(appointments.second.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.second ? appointments.second.classroom : '-'}
             </strong>
@@ -252,32 +324,68 @@ const Appointments: React.FC<AppointmentsProps> = ({
           <ClassroomSection>
             <strong>-</strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.third
+                ? getRelatedColor(appointments.third.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.third ? appointments.third.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.fourth
+                ? getRelatedColor(appointments.fourth.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.fourth ? appointments.fourth.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.extra1
+                ? getRelatedColor(appointments.extra1.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.extra1 ? appointments.extra1.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.extra2
+                ? getRelatedColor(appointments.extra2.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.extra2 ? appointments.extra2.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.fifth
+                ? getRelatedColor(appointments.fifth.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.fifth ? appointments.fifth.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.sixth
+                ? getRelatedColor(appointments.sixth.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.sixth ? appointments.sixth.classroom : '-'}
             </strong>
@@ -285,12 +393,24 @@ const Appointments: React.FC<AppointmentsProps> = ({
           <ClassroomSection>
             <strong>-</strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.seventh
+                ? getRelatedColor(appointments.seventh.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.seventh ? appointments.seventh.classroom : '-'}
             </strong>
           </ClassroomSection>
-          <ClassroomSection>
+          <ClassroomSection
+            color={
+              appointments.eighth
+                ? getRelatedColor(appointments.eighth.status)
+                : ''
+            }
+          >
             <strong>
               {appointments.eighth ? appointments.eighth.classroom : '-'}
             </strong>

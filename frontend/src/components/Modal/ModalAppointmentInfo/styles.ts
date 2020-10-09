@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface OptionsContainerProps {
+  isCompleteFormat?: boolean;
+}
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,7 +36,6 @@ export const Container = styled.div`
 
   > div {
     width: 100%;
-    margin-top: 10px;
     padding: 25px 46px;
     display: flex;
     flex-direction: row;
@@ -57,11 +60,43 @@ export const Container = styled.div`
       justify-content: space-between;
     }
   }
+`;
+
+export const OptionsContainer = styled.section<OptionsContainerProps>`
+  width: 100%;
+  padding: 25px 46px;
+  display: flex;
+  flex-direction: row;
+  justify-content: ${props =>
+    props.isCompleteFormat ? 'space-between' : 'center'};
+  align-items: flex-start;
 
   > button {
     height: 60px;
     width: 50%;
-    margin: 25px 0;
+  }
+
+  > form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 40%;
+
+    > div {
+      height: 60px;
+
+      select {
+        cursor: pointer;
+      }
+    }
+
+    > button {
+      height: 60px;
+      width: 100%;
+      margin-top: 10px;
+    }
   }
 `;
 

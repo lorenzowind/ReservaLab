@@ -40,14 +40,6 @@ appointmentsRouter.put(
   ensureIsAdmin,
   celebrate({
     [Segments.BODY]: {
-      teacher_id: Joi.string().required(),
-      laboratory_number: Joi.number().required(),
-      year: Joi.number().required(),
-      month: Joi.number().required(),
-      day: Joi.number().required(),
-      time: Joi.string().max(24).required(),
-      subject: Joi.string().max(39).required(),
-      classroom: Joi.string().max(13).required(),
       status: Joi.string().required(),
     },
   }),

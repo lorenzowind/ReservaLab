@@ -4,8 +4,13 @@ import styled, { css } from 'styled-components';
 interface IntervalSectionProps {
   isExpanded?: boolean;
 }
+
 interface NameSectionProps {
-  isOccupied?: boolean;
+  color?: string;
+}
+
+interface ClassroomSectionProps {
+  color?: string;
 }
 
 export const Container = styled.div`
@@ -165,17 +170,17 @@ export const NameSection = styled.div<NameSectionProps>`
   margin: 2px 0;
   width: 275px;
   height: 40px;
-  background: #bfd73e;
+  background: ${props => (props.color ? props.color : '#bfd73e')};
   border-radius: 5px;
   color: #fff;
 
   ${props =>
-    props.isOccupied &&
+    props.color &&
     css`
       cursor: pointer;
 
       &:hover {
-        background: ${shade(0.2, '#bfd73e')};
+        background: ${shade(0.2, props.color)};
       }
     `}
 
@@ -189,14 +194,14 @@ export const NameSection = styled.div<NameSectionProps>`
   }
 `;
 
-export const ClassroomSection = styled.div`
+export const ClassroomSection = styled.div<ClassroomSectionProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 2px 0;
   width: 113px;
   height: 40px;
-  background: #bfd73e;
+  background: ${props => (props.color ? props.color : '#bfd73e')};
   border-radius: 5px;
   color: #fff;
 
