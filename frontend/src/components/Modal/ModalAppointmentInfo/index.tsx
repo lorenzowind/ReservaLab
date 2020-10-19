@@ -122,11 +122,7 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
         setLoading(true);
 
         await api
-          .put(`appointments/${appointment.id}`, appointmentData, {
-            headers: {
-              user_position: user.position,
-            },
-          })
+          .put(`appointments/${appointment.id}`, appointmentData)
           .then(() => {
             addToast({
               type: 'success',
@@ -153,7 +149,7 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [addToast, appointment, setIsOpen, setToRefresh, user.position],
+    [addToast, appointment, setIsOpen, setToRefresh],
   );
 
   return (

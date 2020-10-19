@@ -134,11 +134,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           status: user.position === 'admin' ? data.status : 'scheduled',
         };
 
-        const requestExtension = {
-          headers: {
-            user_position: user.position,
-          },
-        };
+        const requestExtension = {};
 
         if (user.position === 'admin') {
           Object.assign(requestExtension, {
@@ -193,17 +189,11 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
     const loadTeachers = async () => {
       setLoading(true);
       try {
-        await api
-          .get<User[]>('users/all', {
-            headers: {
-              user_position: user.position,
-            },
-          })
-          .then(response => {
-            setTeachersSelect(
-              response.data.filter(teacher => teacher.position !== 'admin'),
-            );
-          });
+        await api.get<User[]>('users/all').then(response => {
+          setTeachersSelect(
+            response.data.filter(teacher => teacher.position !== 'admin'),
+          );
+        });
       } catch (err) {
         addToast({
           type: 'error',

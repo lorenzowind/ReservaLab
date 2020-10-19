@@ -34,11 +34,7 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
       setLoading(true);
 
       await api
-        .delete(`appointments/clean/${onlyOld ? 'old' : 'all'}`, {
-          headers: {
-            user_position: user.position,
-          },
-        })
+        .delete(`appointments/clean/${onlyOld ? 'old' : 'all'}`)
         .then(() => {
           addToast({
             type: 'success',
@@ -58,7 +54,7 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [addToast, onlyOld, setIsOpen, setToRefresh, user.position]);
+  }, [addToast, onlyOld, setIsOpen, setToRefresh]);
 
   return (
     <>
