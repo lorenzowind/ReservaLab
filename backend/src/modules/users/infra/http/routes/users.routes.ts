@@ -48,7 +48,7 @@ usersRouter.put(
       subjects: Joi.string().when('position', {
         is: 'teacher',
         then: Joi.required(),
-        otherwise: Joi.optional(),
+        otherwise: Joi.allow(''),
       }),
       old_password: Joi.string().min(6).allow(''),
       new_password: Joi.string().min(6).allow(''),
