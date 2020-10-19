@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
-import ensureIsAdmin from '@shared/infra/http/middlewares/ensureIsAdmin';
 
 import AppointmentsController from '../controllers/AppointmentsController';
 
@@ -37,7 +36,6 @@ appointmentsRouter.post(
 appointmentsRouter.put(
   '/:id',
   ensureAuthenticated,
-  ensureIsAdmin,
   celebrate({
     [Segments.BODY]: {
       status: Joi.string().required(),
@@ -55,7 +53,6 @@ appointmentsRouter.delete(
 appointmentsRouter.delete(
   '/clean/:operation',
   ensureAuthenticated,
-  ensureIsAdmin,
   appointmentsController.clean,
 );
 
