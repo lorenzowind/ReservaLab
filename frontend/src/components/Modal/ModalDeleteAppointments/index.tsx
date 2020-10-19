@@ -1,8 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { FiActivity } from 'react-icons/fi';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import * as Yup from 'yup';
+import React, { useCallback, useState } from 'react';
 
 import api from '../../../services/api';
 
@@ -27,8 +23,6 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
   setIsOpen,
   setToRefresh,
 }) => {
-  const formRef = useRef<FormHandles>(null);
-
   const [onlyOld, setOnlyOld] = useState(false);
   const [loading, setLoading] = useState(false);
 
