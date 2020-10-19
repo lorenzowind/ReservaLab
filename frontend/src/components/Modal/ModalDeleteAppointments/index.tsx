@@ -3,7 +3,6 @@ import React, { useCallback, useState } from 'react';
 import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
-import { useAuth } from '../../../hooks/auth';
 
 import Modal from '..';
 import Button from '../../Button';
@@ -27,7 +26,6 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToast();
-  const { user } = useAuth();
 
   const handleDeleteAppointments = useCallback(async () => {
     try {
