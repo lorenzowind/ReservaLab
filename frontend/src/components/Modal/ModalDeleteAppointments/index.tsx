@@ -1,13 +1,8 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { FiActivity } from 'react-icons/fi';
-import { FormHandles } from '@unform/core';
-import { Form } from '@unform/web';
-import * as Yup from 'yup';
+import React, { useCallback, useState } from 'react';
 
 import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
-import { useAuth } from '../../../hooks/auth';
 
 import Modal from '..';
 import Button from '../../Button';
@@ -27,24 +22,17 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
   setIsOpen,
   setToRefresh,
 }) => {
-  const formRef = useRef<FormHandles>(null);
-
   const [onlyOld, setOnlyOld] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToast();
-  const { user } = useAuth();
 
   const handleDeleteAppointments = useCallback(async () => {
     try {
       setLoading(true);
 
       await api
-        .delete(`appointments/clean/${onlyOld ? 'old' : 'all'}`, {
-          headers: {
-            user_position: user.position,
-          },
-        })
+        .delete(`appointments/clean/${onlyOld ? 'old' : 'all'}`)
         .then(() => {
           addToast({
             type: 'success',
@@ -64,7 +52,7 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [addToast, onlyOld, setIsOpen, setToRefresh, user.position]);
+  }, [addToast, onlyOld, setIsOpen, setToRefresh]);
 
   return (
     <>
