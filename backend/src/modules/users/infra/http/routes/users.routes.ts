@@ -5,7 +5,6 @@ import { celebrate, Segments, Joi } from 'celebrate';
 import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@shared/infra/http/middlewares/ensureAuthenticated';
-import ensureIsAdmin from '@shared/infra/http/middlewares/ensureIsAdmin';
 
 import UsersController from '../controllers/UsersController';
 import UserAvatarController from '../controllers/UserAvatarController';
@@ -48,7 +47,7 @@ usersRouter.put(
       subjects: Joi.string().when('position', {
         is: 'teacher',
         then: Joi.required(),
-        otherwise: Joi.optional(),
+        otherwise: Joi.allow(''),
       }),
       old_password: Joi.string().min(6).allow(''),
       new_password: Joi.string().min(6).allow(''),
@@ -61,12 +60,7 @@ usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
 usersRouter.get('/', ensureAuthenticated, usersController.show);
 
-usersRouter.get(
-  '/all',
-  ensureAuthenticated,
-  ensureIsAdmin,
-  usersController.all,
-);
+usersRouter.get('/all', ensureAuthenticated, usersController.all);
 
 usersRouter.patch(
   '/avatar',

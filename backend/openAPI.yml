@@ -3,6 +3,8 @@ openapi: 3.0.0
 servers:
   - description: Development server URL
     url: http://127.0.0.1:3333/
+  - description: Production test server URL
+    url: https://reservalab.api-sact-test.com/
 
 info:
   description: HTTP Requests guide to utilize the ReservaLab API.
@@ -20,17 +22,11 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-    positionHeader:
-      type: apiKey
-      in: header
-      name: user_position
   responses:
     UnauthorizedError:
       description: JWT token | User position is missing
     IncorrectToken:
       description: Invalid JWT token
-    ExclusiveAccess:
-      description: Exclusive for specific user position
   schemas:
     User:
       properties:
@@ -360,7 +356,6 @@ paths:
         - users
       security:
         - bearerAuth: []
-        - positionHeader: []
       responses:
         '200':
           description: Returns a successfully deleted user confirmation.
@@ -368,8 +363,6 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ExclusiveAccess'
     get:
       summary: Gets the authenticated user.
       tags:
@@ -426,7 +419,6 @@ paths:
         - users
       security:
         - bearerAuth: []
-        - positionHeader: []
       responses:
         '200':
           description: Returns a JSON array containing all teachers.
@@ -472,8 +464,6 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ExclusiveAccess'
   /users/avatar:
     patch:
       summary: Updates the user avatar.
@@ -825,7 +815,6 @@ paths:
         - appointments
       security:
         - bearerAuth: []
-        - positionHeader: []
       responses:
         '200':
           description: Returns a successfully deleted appointments confirmation.
@@ -833,5 +822,3 @@ paths:
           $ref:  '#/components/responses/IncorrectToken'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
-        '403':
-          $ref: '#/components/responses/ExclusiveAccess'
