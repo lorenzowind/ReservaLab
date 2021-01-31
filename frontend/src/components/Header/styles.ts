@@ -31,10 +31,8 @@ export const Container = styled.div<HeaderProps>`
       animation: ${appearFromTop} 1s;
     `}
 
-  h1 {
-    font-size: 36px;
-    font-weight: 700;
-    color: #bfd73e;
+  img {
+    width: 160px;
     margin: 0 60px;
   }
 

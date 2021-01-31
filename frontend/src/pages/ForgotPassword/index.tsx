@@ -16,6 +16,8 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 
+import logoImg from '../../assets/logo.svg';
+
 interface ForgotPasswordFormData {
   email: string;
 }
@@ -82,7 +84,7 @@ const ForgotPassword: React.FC = () => {
 
       <Background>
         <Container>
-          <h1>ReservaLab</h1>
+          <img src={logoImg} alt="Logo" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <strong>E-mail</strong>

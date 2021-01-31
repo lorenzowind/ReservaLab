@@ -6,6 +6,8 @@ import { useAuth } from '../../hooks/auth';
 
 import { Container, UserAvatar } from './styles';
 
+import logoImg from '../../assets/logo.svg';
+
 interface HeaderProps {
   isAdmin: boolean;
   isHome: boolean;
@@ -19,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin, isHome }) => {
   return (
     <Container isHome={isHome}>
       <div>
-        <h1>ReservaLab</h1>
+        <img src={logoImg} alt="Logo" />
 
         <section>
           <strong>{isAdmin ? 'Administrador:' : 'Bem vindo,'}</strong>

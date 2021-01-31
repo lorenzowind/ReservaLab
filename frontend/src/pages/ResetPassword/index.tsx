@@ -16,6 +16,8 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
 
+import logoImg from '../../assets/logo.svg';
+
 interface ResetPasswordFormData {
   password: string;
   password_confirmation: string;
@@ -91,7 +93,7 @@ const ResetPassword: React.FC = () => {
 
       <Background>
         <Container>
-          <h1>ReservaLab</h1>
+          <img src={logoImg} alt="Logo" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <strong>Nova senha</strong>

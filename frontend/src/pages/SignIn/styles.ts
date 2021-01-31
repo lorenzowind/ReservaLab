@@ -32,10 +32,8 @@ export const Container = styled.div`
 
   animation: ${appearFromTop} 1s;
 
-  h1 {
-    font-size: 84px;
-    font-weight: 700;
-    color: #bfd73e;
+  img {
+    width: 320px;
   }
 
   form {

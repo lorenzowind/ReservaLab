@@ -19,6 +19,8 @@ import Button from '../../components/Button';
 import MultiSelect, { Option } from '../../components/MultiSelect';
 import Loading from '../../components/Loading';
 
+import logoImg from '../../assets/logo.svg';
+
 interface SignUpFormData {
   ra: string;
   name: string;
@@ -117,7 +119,7 @@ const SignUp: React.FC = () => {
 
       <Background>
         <Container>
-          <h1>ReservaLab</h1>
+          <img src={logoImg} alt="Logo" />
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <strong>Nome completo</strong>
