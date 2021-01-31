@@ -3,7 +3,7 @@ import DayPicker, { DayModifiers } from 'react-day-picker';
 
 import 'react-day-picker/lib/style.css';
 
-import { FiAlertOctagon } from 'react-icons/fi';
+import { FiAlertOctagon, FiHelpCircle } from 'react-icons/fi';
 import api from '../../services/api';
 
 import { useAuth, User } from '../../hooks/auth';
@@ -16,6 +16,7 @@ import {
   AppointmentsContainer,
   Calendar,
   LaboratoryInfoContainer,
+  HelpButton,
 } from './styles';
 
 import Header from '../../components/Header';
@@ -27,6 +28,7 @@ import Loading from '../../components/Loading';
 import ModalCreateAppointment from '../../components/Modal/ModalCreateAppointment';
 import ModalAppointmentInfo from '../../components/Modal/ModalAppointmentInfo';
 import ModalDeleteAppointments from '../../components/Modal/ModalDeleteAppointments';
+import ModalHelp from '../../components/Modal/ModalHelp';
 
 interface MonthAvailabilityItem {
   day: number;
@@ -99,6 +101,7 @@ const SignIn: React.FC = () => {
   const [modalCreateOpen, setModalCreateOpen] = useState(false);
   const [modalInfoOpen, setModalInfoOpen] = useState(false);
   const [modalDeleteOpen, setModalDeleteOpen] = useState(false);
+  const [modalHelpOpen, setModalHelpOpen] = useState(false);
 
   const [toRefresh, setToRefresh] = useState(true);
 
@@ -249,6 +252,10 @@ const SignIn: React.FC = () => {
     setModalDeleteOpen(!modalDeleteOpen);
   }
 
+  function toggleModalHelp(): void {
+    setModalHelpOpen(!modalHelpOpen);
+  }
+
   const disabledDays = useMemo(() => {
     const dates = monthAvailability
       .filter(monthDay => !monthDay.available)
@@ -335,6 +342,12 @@ const SignIn: React.FC = () => {
         setIsOpen={toggleModalDelete}
         setToRefresh={setToRefresh}
       />
+
+      <ModalHelp isOpen={modalHelpOpen} setIsOpen={toggleModalHelp} />
+
+      <HelpButton type="button" onClick={toggleModalHelp}>
+        <FiHelpCircle />
+      </HelpButton>
 
       <Container>
         <Laboratories

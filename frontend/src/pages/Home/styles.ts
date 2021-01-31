@@ -26,6 +26,38 @@ export const Container = styled.div`
   animation: ${appearWithFade} 1s;
 `;
 
+export const HelpButton = styled.button`
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  margin-bottom: 30px;
+  margin-right: 60px;
+  width: 60px;
+  height: 60px;
+  border: 0;
+  background: #2f3342;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+
+  animation: ${appearWithFade} 1s;
+
+  svg {
+    width: 60px;
+    height: 60px;
+    color: #f8f8f8;
+    transition: color 0.2s;
+  }
+
+  &:hover {
+    color: ${shade(0.2, '#2f3342')};
+
+    svg {
+      color: ${shade(0.2, '#f8f8f8')};
+    }
+  }
+`;
+
 export const Content = styled.div`
   display: flex;
   flex-direction: row;
