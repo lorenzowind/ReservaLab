@@ -42,6 +42,7 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
           });
 
           setIsOpen();
+          setOnlyOld(false);
           setToRefresh(true);
         });
     } catch (err) {

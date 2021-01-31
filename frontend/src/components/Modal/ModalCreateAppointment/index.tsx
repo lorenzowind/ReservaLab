@@ -44,12 +44,16 @@ interface ICreateAppointmentData {
 
 interface IModalProps {
   isOpen: boolean;
+  selectedLaboratory: number;
+  selectedDate: Date;
   setIsOpen: () => void;
   setToRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalCreateAppointment: React.FC<IModalProps> = ({
   isOpen,
+  selectedLaboratory,
+  selectedDate,
   setIsOpen,
   setToRefresh,
 }) => {
@@ -59,10 +63,12 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(selectedDate);
+
+  const [selectedTeacherId, setSelectedTeacherId] = useState('');
 
   const [classroomsArray] = useState(getClassroomsArray());
-  const [subjectsArray] = useState(
+  const [subjectsArray, setSubjectsArray] = useState(
     user.subjects ? user.subjects.split(', ') : getSubjectsArray(),
   );
   const [laboratoriesArray] = useState(getLaboratoriesArray());
@@ -209,6 +215,24 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
     }
   }, [addToast, user.position]);
 
+  useEffect(() => {
+    setDate(selectedDate);
+  }, [selectedDate]);
+
+  useEffect(() => {
+    const selectedTeacher = teachersSelect.find(
+      teacher => teacher.id === selectedTeacherId,
+    );
+
+    if (selectedTeacher && selectedTeacher.subjects) {
+      setSubjectsArray(
+        getSubjectsArray().filter(subject =>
+          selectedTeacher.subjects.split(', ').includes(subject),
+        ),
+      );
+    }
+  }, [selectedTeacherId, teachersSelect]);
+
   return (
     <>
       {loading && <Loading zIndex={1} />}
@@ -233,7 +257,12 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               {user.position === 'admin' && (
                 <>
                   <strong>Professor(a)</strong>
-                  <Select icon={FiUser} name="teacher_id" defaultValue="0">
+                  <Select
+                    icon={FiUser}
+                    name="teacher_id"
+                    defaultValue="0"
+                    onChange={e => setSelectedTeacherId(e.target.value)}
+                  >
                     <option value="0" disabled>
                       Selecione professor(a)
                     </option>
@@ -247,7 +276,11 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               )}
 
               <strong>Laboratório</strong>
-              <Select icon={FiCpu} name="laboratory_number" defaultValue="0">
+              <Select
+                icon={FiCpu}
+                name="laboratory_number"
+                defaultValue={selectedLaboratory}
+              >
                 <option value="0" disabled>
                   Selecione laboratório
                 </option>

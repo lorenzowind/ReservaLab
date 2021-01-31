@@ -323,6 +323,8 @@ const SignIn: React.FC = () => {
 
       <ModalCreateAppointment
         isOpen={modalCreateOpen}
+        selectedLaboratory={selectedLaboratory}
+        selectedDate={selectedDate}
         setIsOpen={toggleModalCreate}
         setToRefresh={setToRefresh}
       />
@@ -372,7 +374,6 @@ const SignIn: React.FC = () => {
             <Calendar>
               <DayPicker
                 weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
-                fromMonth={new Date()}
                 disabledDays={[{ daysOfWeek: [0, 6] }, ...disabledDays]}
                 modifiers={{
                   available: {
