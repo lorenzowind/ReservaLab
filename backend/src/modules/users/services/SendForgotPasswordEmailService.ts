@@ -45,7 +45,7 @@ class SendForgotPasswordEmailService {
         name: user.name,
         email: user.email,
       },
-      subject: '[ReservaLab] Recuperação de senha',
+      subject: '[Alocação de Laboratórios FMM] Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {

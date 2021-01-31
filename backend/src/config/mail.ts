@@ -15,7 +15,7 @@ export default {
   defaults: {
     from: {
       email: 'lorenzomart01@gmail.com',
-      name: 'Suporte ReservaLab',
+      name: 'Suporte Alocação de Laboratórios FMM',
     },
   },
 } as IMailConfig;
