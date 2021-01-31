@@ -45,6 +45,7 @@ export interface IAppointment {
   subject: string;
   classroom: string;
   status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled';
+  observations: string;
 }
 
 export interface IFilteredAppointments {

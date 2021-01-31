@@ -29,6 +29,7 @@ import DateInput from '../../DateInput';
 import Loading from '../../Loading';
 
 import { Form, CloseModal } from './styles';
+import Textarea from '../../Textarea';
 
 interface ICreateAppointmentData {
   teacher_id: string;
@@ -40,6 +41,7 @@ interface ICreateAppointmentData {
   subject: string;
   classroom: string;
   status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled' | '0';
+  observations: string;
 }
 
 interface IModalProps {
@@ -125,7 +127,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 
         const checkDate = moment().diff(date, 'days');
 
-        if (checkDate <= -14) {
+        if (checkDate <= -14 || date.getDay() === 6 || date.getDay() === 0) {
           throw new Error();
         }
 
@@ -138,6 +140,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           subject: data.subject,
           classroom: data.classroom,
           status: user.position === 'admin' ? data.status : 'scheduled',
+          observations: data.observations ? data.observations : '',
         };
 
         const requestExtension = {};
@@ -344,6 +347,11 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
               </Select>
             </section>
           </div>
+
+          <section>
+            <strong>Observações</strong>
+            <Textarea name="observations" placeholder="Opcional" />
+          </section>
 
           <Button type="submit">Agendar</Button>
         </Form>

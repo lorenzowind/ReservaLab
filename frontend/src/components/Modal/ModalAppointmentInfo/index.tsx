@@ -205,6 +205,13 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
             </section>
           </div>
 
+          {appointment.observations && (
+            <section>
+              <h1>Observações:</h1>
+              <p>{appointment.observations}</p>
+            </section>
+          )}
+
           <OptionsContainer isCompleteFormat={user.position === 'admin'}>
             {isOwn && (
               <Button

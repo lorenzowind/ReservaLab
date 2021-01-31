@@ -30,6 +30,7 @@ class CreateAppointmentService {
     subject,
     classroom,
     status,
+    observations,
   }: ICreateAppointmentDTO): Promise<Appointment> {
     const checkTeacherExists = await this.usersRepository.findById(teacher_id);
 
@@ -72,6 +73,7 @@ class CreateAppointmentService {
       subject,
       classroom,
       status,
+      observations,
     });
 
     return appointment;

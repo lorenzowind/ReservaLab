@@ -37,6 +37,7 @@ export default class AppointmentsController {
       subject,
       classroom,
       status,
+      observations,
     } = request.body;
 
     const createAppointment = container.resolve(CreateAppointmentService);
@@ -51,6 +52,7 @@ export default class AppointmentsController {
       subject,
       classroom,
       status,
+      observations,
     });
 
     return response.json(appointment);

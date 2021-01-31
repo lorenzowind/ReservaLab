@@ -28,6 +28,7 @@ appointmentsRouter.post(
       subject: Joi.string().max(39).required(),
       classroom: Joi.string().max(13).required(),
       status: Joi.string().required(),
+      observations: Joi.string().allow(''),
     },
   }),
   appointmentsController.create,

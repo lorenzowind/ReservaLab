@@ -36,7 +36,7 @@ export const Container = styled.div`
 
   > div {
     width: 100%;
-    padding: 25px 46px;
+    padding: 25px 46px 25px 46px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -58,6 +58,24 @@ export const Container = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+    }
+  }
+
+  > section {
+    width: 100%;
+    padding: 0px 46px 25px 46px;
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: #2f3342;
+    }
+
+    p {
+      font-size: 20px;
+      font-weight: 500;
+      color: #2f3342;
     }
   }
 `;

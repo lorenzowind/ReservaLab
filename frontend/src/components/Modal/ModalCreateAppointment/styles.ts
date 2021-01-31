@@ -76,7 +76,7 @@ export const Form = styled(Unform)`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 40px 46px 40px 46px;
+    padding: 40px 46px 0px 46px;
 
     section {
       display: flex;
@@ -92,6 +92,18 @@ export const Form = styled(Unform)`
           width: 100%;
         }
       }
+    }
+  }
+
+  > section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 46px 40px 46px;
+
+    textarea {
+      margin-top: 15px;
+      height: 120px;
     }
   }
 

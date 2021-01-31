@@ -46,6 +46,9 @@ class Appointment {
   @Column()
   status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled';
 
+  @Column()
+  observations: string;
+
   @CreateDateColumn()
   created_at: Date;
 
