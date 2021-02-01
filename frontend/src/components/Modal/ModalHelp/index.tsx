@@ -28,18 +28,18 @@ const ModalHelp: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
 
           <section>
             <h1>1.</h1>
-            <p>Selecione um laboratório no mapa.</p>
+            <p>Selecione um laboratório no "Mapa de laboratórios".</p>
           </section>
 
           <section>
             <h1>2.</h1>
-            <p>Selecione um dia no calendário.</p>
+            <p>Selecione um dia no "Calendário".</p>
           </section>
 
           <section>
             <h1>3.</h1>
             <p>
-              Verifique no cabeçalho de agendamentos se os dados selecionados
+              Verifique no cabeçalho de "Agendamentos" se os dados selecionados
               estão corretos.
             </p>
           </section>

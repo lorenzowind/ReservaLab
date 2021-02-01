@@ -69,6 +69,14 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
 
+    &:nth-child(2) {
+      > strong {
+        font-weight: 700;
+        font-size: 42px;
+        color: #bfd73e;
+      }
+    }
+
     button {
       margin-top: 30px;
       height: 60px;
@@ -142,6 +150,7 @@ export const LaboratoryInfoContainer = styled.div<LaboratoryInfoContainerProps>`
 
 export const Calendar = styled.aside`
   width: 380px;
+  margin-top: 10px;
 
   .DayPicker {
     background: #bfd73e;

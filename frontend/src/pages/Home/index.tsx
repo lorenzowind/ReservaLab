@@ -385,6 +385,7 @@ const SignIn: React.FC = () => {
           </Schedule>
 
           <section>
+            <strong>Calendário</strong>
             <Calendar>
               <DayPicker
                 weekdaysShort={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
