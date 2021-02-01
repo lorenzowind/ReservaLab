@@ -36,6 +36,28 @@ interface IModalProps {
 const laboratories = getLaboratoriesArray();
 const times = getTimesArray();
 
+function getStatus(
+  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled',
+) {
+  switch (status) {
+    case 'scheduled': {
+      return 'Agendado';
+    }
+    case 'presence': {
+      return 'Presença';
+    }
+    case 'absence': {
+      return 'Ausência';
+    }
+    case 'non-scheduled': {
+      return 'Não agendado';
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
 const ModalAppointmentInfo: React.FC<IModalProps> = ({
   appointment,
   isOpen,
@@ -205,12 +227,17 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
             </section>
           </div>
 
-          {appointment.observations && (
-            <section>
-              <h1>Observações:</h1>
-              <p>{appointment.observations}</p>
-            </section>
-          )}
+          <section>
+            <h1>
+              Status: <strong>{getStatus(appointment.status)}</strong>
+            </h1>
+            {appointment.observations && (
+              <>
+                <h1>Observações:</h1>
+                <p>{appointment.observations}</p>
+              </>
+            )}
+          </section>
 
           <OptionsContainer isCompleteFormat={user.position === 'admin'}>
             {isOwn && (
