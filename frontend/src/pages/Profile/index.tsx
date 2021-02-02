@@ -195,7 +195,7 @@ const Profile: React.FC = () => {
     <>
       {loading && <Loading zIndex={1} />}
 
-      <Header isAdmin={user.position === 'admin'} isHome={false} />
+      <Header isHome={false} />
 
       <Container>
         <Content>

@@ -76,7 +76,7 @@ interface IAppointments {
   eighth: IAppointment[];
 }
 
-const SignIn: React.FC = () => {
+const Home: React.FC = () => {
   const [appointments, setAppointments] = useState<IAppointments>({
     first: [],
     second: [],
@@ -320,7 +320,7 @@ const SignIn: React.FC = () => {
     <>
       {loading && <Loading zIndex={1} />}
 
-      <Header isAdmin={user.position === 'admin'} isHome />
+      <Header isHome />
 
       <ModalAppointmentInfo
         appointment={selectedAppointment}
@@ -442,4 +442,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default Home;

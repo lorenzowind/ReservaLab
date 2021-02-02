@@ -157,4 +157,8 @@ export const PageButton = styled.button<PageButtonProps>`
   &:hover {
     color: ${shade(0.2, '#bfd73e')};
   }
+
+  & + button {
+    margin-left: 60px;
+  }
 `;

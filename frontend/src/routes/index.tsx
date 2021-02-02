@@ -10,6 +10,7 @@ import ResetPassword from '../pages/ResetPassword';
 
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
+import Teachers from '../pages/Teachers';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -20,6 +21,7 @@ const Routes: React.FC = () => (
 
     <Route path="/home" component={Home} isPrivate />
     <Route path="/profile" component={Profile} isPrivate />
+    <Route path="/teachers" component={Teachers} isPrivate />
   </Switch>
 );
 

@@ -10,11 +10,10 @@ import { Container, UserAvatar, SubContainer, PageButton } from './styles';
 import logoImg from '../../assets/logo.svg';
 
 interface HeaderProps {
-  isAdmin: boolean;
   isHome: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ isAdmin, isHome }) => {
+const Header: React.FC<HeaderProps> = ({ isHome }) => {
   const history = useHistory();
   const location = useLocation();
 
@@ -32,7 +31,9 @@ const Header: React.FC<HeaderProps> = ({ isAdmin, isHome }) => {
           <img src={logoImg} alt="Logo" />
 
           <section>
-            <strong>{isAdmin ? 'Administrador:' : 'Bem vindo,'}</strong>
+            <strong>
+              {user.position === 'admin' ? 'Administrador:' : 'Bem vindo,'}
+            </strong>
             <h2>{user.name}</h2>
           </section>
         </div>
@@ -61,6 +62,16 @@ const Header: React.FC<HeaderProps> = ({ isAdmin, isHome }) => {
           >
             Agendamentos
           </PageButton>
+
+          {user.position === 'admin' && (
+            <PageButton
+              isSelected={page === '/teachers'}
+              type="button"
+              onClick={() => history.push('/teachers')}
+            >
+              Professores
+            </PageButton>
+          )}
         </div>
       </SubContainer>
     </>
