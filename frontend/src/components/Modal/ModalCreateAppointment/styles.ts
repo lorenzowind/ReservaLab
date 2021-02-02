@@ -25,6 +25,7 @@ export const Form = styled(Unform)`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     padding: 16px 46px;
 
     width: 100%;
@@ -36,7 +37,6 @@ export const Form = styled(Unform)`
       font-weight: 700;
       font-size: 32px;
       color: #bfd73e;
-      text-align: right;
 
       margin-right: 20px;
       width: 300px;
@@ -50,8 +50,7 @@ export const Form = styled(Unform)`
         align-items: center;
         justify-content: center;
 
-        width: 280px;
-        margin-left: 20px;
+        width: 250px;
         height: 50px;
         border-radius: 13px;
         border: solid 0.5px #707070;

@@ -10,7 +10,9 @@ import api from '../../services/api';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Loading from '../../components/Loading';
-import ModalUpdateTeacher from '../../components/Modal/ModalUpdateTeacher';
+import ModalTeacher, {
+  ModalTeacherOption,
+} from '../../components/Modal/ModalTeacher';
 
 import { Container, Content, TableContainer } from './styles';
 
@@ -20,7 +22,10 @@ const Teachers: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [toRefresh, setToRefresh] = useState(true);
 
-  const [modalUpdateTeacherOpen, setModalUpdateTeacherOpen] = useState(false);
+  const [modalTeacherOpen, setModalTeacherOpen] = useState(false);
+  const [modalTeacherOption, setModalTeacherOption] = useState<
+    ModalTeacherOption
+  >('create');
 
   const [teacherSearch, setTeacherSearch] = useState('');
   const [teachers, setTeachers] = useState<User[]>([]);
@@ -35,9 +40,7 @@ const Teachers: React.FC = () => {
       await api
         .get<User[]>(`users/all?search=${teacherSearch}`)
         .then(response => {
-          setTeachers(
-            response.data.filter(user => user.position === 'teacher'),
-          );
+          setTeachers(response.data);
 
           if (!response.data.length) {
             addToast({
@@ -62,9 +65,7 @@ const Teachers: React.FC = () => {
         setLoading(true);
 
         await api.get<User[]>('users/all').then(response => {
-          setTeachers(
-            response.data.filter(user => user.position === 'teacher'),
-          );
+          setTeachers(response.data);
         });
       } catch (err) {
         addToast({
@@ -82,18 +83,19 @@ const Teachers: React.FC = () => {
     }
   }, [addToast, toRefresh]);
 
-  const toggleModalUpdateTeacher = useCallback(() => {
-    setModalUpdateTeacherOpen(!modalUpdateTeacherOpen);
-  }, [modalUpdateTeacherOpen]);
+  const toggleModalTeacher = useCallback(() => {
+    setModalTeacherOpen(!modalTeacherOpen);
+  }, [modalTeacherOpen]);
 
   return (
     <>
       {loading && <Loading zIndex={1} />}
 
-      <ModalUpdateTeacher
+      <ModalTeacher
+        option={modalTeacherOption}
         teacher={selectedTeacher}
-        isOpen={modalUpdateTeacherOpen}
-        setIsOpen={toggleModalUpdateTeacher}
+        isOpen={modalTeacherOpen}
+        setIsOpen={toggleModalTeacher}
         setToRefresh={setToRefresh}
       />
 
@@ -103,30 +105,35 @@ const Teachers: React.FC = () => {
         <Content>
           <strong>Professores</strong>
 
-          <form>
-            <strong>Pesquisar professor(a)</strong>
-            <div>
-              <input
-                type="text"
-                placeholder="Nome"
-                value={teacherSearch}
-                onChange={e => setTeacherSearch(e.target.value)}
-              />
+          <h2>Pesquisar professor(a)</h2>
 
-              <button type="button" onClick={handleSearch}>
-                <FiSearch />
-              </button>
-            </div>
-          </form>
+          <div>
+            <form>
+              <div>
+                <input
+                  type="text"
+                  placeholder="Nome"
+                  value={teacherSearch}
+                  onChange={e => setTeacherSearch(e.target.value)}
+                />
 
-          <Button
-            type="button"
-            onClick={() => {
-              history.push('add-teacher');
-            }}
-          >
-            + Adicionar professor(a)
-          </Button>
+                <button type="button" onClick={handleSearch}>
+                  <FiSearch />
+                </button>
+              </div>
+            </form>
+
+            <Button
+              type="button"
+              onClick={() => {
+                setSelectedTeacher({} as User);
+                setModalTeacherOption('create');
+                toggleModalTeacher();
+              }}
+            >
+              + Adicionar professor(a)
+            </Button>
+          </div>
 
           <TableContainer>
             <thead>
@@ -150,7 +157,8 @@ const Teachers: React.FC = () => {
                       type="button"
                       onClick={() => {
                         setSelectedTeacher(teacher);
-                        toggleModalUpdateTeacher();
+                        setModalTeacherOption('update');
+                        toggleModalTeacher();
                       }}
                     >
                       <FiEdit2 />
