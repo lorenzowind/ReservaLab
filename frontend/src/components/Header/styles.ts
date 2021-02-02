@@ -14,6 +14,10 @@ interface HeaderProps {
   isHome: boolean;
 }
 
+interface PageButtonProps {
+  isSelected: boolean;
+}
+
 export const Container = styled.div<HeaderProps>`
   display: flex;
   justify-content: space-between;
@@ -23,7 +27,6 @@ export const Container = styled.div<HeaderProps>`
   height: 100px;
   position: absolute;
   background: #f8f8f8;
-  border-bottom: solid 0.5px #707070;
 
   ${props =>
     props.isHome &&
@@ -114,5 +117,44 @@ export const UserAvatar = styled.button`
 
   &:hover {
     background: ${shade(0.2, '#bfd73e')};
+  }
+`;
+
+export const SubContainer = styled.div<HeaderProps>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  height: 75px;
+  margin-top: 100px;
+  position: absolute;
+  background: ${shade(0.05, '#f8f8f8')};
+  border-bottom: solid 0.5px #707070;
+
+  ${props =>
+    props.isHome &&
+    css`
+      animation: ${appearFromTop} 1s;
+    `}
+
+  div {
+    display: flex;
+    align-items: center;
+    margin: 0 60px;
+  }
+`;
+
+export const PageButton = styled.button<PageButtonProps>`
+  border: 0;
+  background: none;
+
+  font-size: 24px;
+  font-weight: 500;
+  color: ${props => (props.isSelected ? shade(0.2, '#bfd73e') : '#bfd73e')};
+  transition: color 0.2s;
+
+  &:hover {
+    color: ${shade(0.2, '#bfd73e')};
   }
 `;

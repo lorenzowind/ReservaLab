@@ -16,7 +16,7 @@ interface LaboratoryInfoContainerProps {
 
 export const Container = styled.div`
   width: 100%;
-  padding: 140px 0 60px 0;
+  padding: 215px 0 60px 0;
 
   display: flex;
   flex-direction: column;
