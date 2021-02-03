@@ -1,13 +1,17 @@
 import AppError from '@shared/errors/AppError';
 
+import DraftMailProvider from '@shared/container/providers/MailProvider/drafts/DraftMailProvider';
 import DraftHashProvider from '../providers/HashProvider/drafts/DraftHashProvider';
 
 import DraftUsersRepository from '../repositories/drafts/DraftUsersRepository';
+import DraftUserTokensRepository from '../repositories/drafts/DraftUserTokensRepository';
 
 import CreateUserService from './CreateUserService';
 
 let draftUsersRepository: DraftUsersRepository;
+let draftUserTokensRepository: DraftUserTokensRepository;
 
+let draftMailProvider: DraftMailProvider;
 let draftHashProvider: DraftHashProvider;
 
 let createUser: CreateUserService;
@@ -15,10 +19,17 @@ let createUser: CreateUserService;
 describe('CreateUser', () => {
   beforeEach(() => {
     draftUsersRepository = new DraftUsersRepository();
+    draftUserTokensRepository = new DraftUserTokensRepository();
 
     draftHashProvider = new DraftHashProvider();
+    draftMailProvider = new DraftMailProvider();
 
-    createUser = new CreateUserService(draftUsersRepository, draftHashProvider);
+    createUser = new CreateUserService(
+      draftUsersRepository,
+      draftHashProvider,
+      draftMailProvider,
+      draftUserTokensRepository,
+    );
   });
 
   it('should be able to create a new user', async () => {

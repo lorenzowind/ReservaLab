@@ -48,6 +48,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -60,6 +61,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -72,6 +74,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -84,6 +87,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     deleteAllAppointments.execute('all');
@@ -125,6 +129,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -137,6 +142,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -149,6 +155,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -161,6 +168,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     jest.spyOn(Date, 'now').mockClear();
@@ -212,6 +220,7 @@ describe('DeleteAllAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await expect(

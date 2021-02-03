@@ -65,6 +65,11 @@ const ResetPassword: React.FC = () => {
           token,
         });
 
+        addToast({
+          type: 'success',
+          title: 'Senha salva com sucesso!',
+        });
+
         history.push('/');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -78,7 +83,7 @@ const ResetPassword: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro ao resetar senha',
-          description: 'Ocorreu um erro ao resetar sua senha, tente novamente.',
+          description: 'Ocorreu um erro ao salvar sua senha, tente novamente.',
         });
       } finally {
         setLoading(false);
@@ -102,7 +107,7 @@ const ResetPassword: React.FC = () => {
             <strong>Confirmar senha</strong>
             <Input name="password_confirmation" icon={FiLock} type="password" />
 
-            <Button type="submit">Alterar senha</Button>
+            <Button type="submit">Salvar senha</Button>
           </Form>
         </Container>
       </Background>

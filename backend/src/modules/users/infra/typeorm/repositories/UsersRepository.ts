@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Like, Repository } from 'typeorm';
 import { v4 } from 'uuid';
 
 import IUsersRepository from '@modules/users/repositories/IUsersRepository';
@@ -32,9 +32,9 @@ class UsersRepository implements IUsersRepository {
     return findUser;
   }
 
-  public async findAllTeachers(): Promise<User[] | undefined> {
+  public async findAllTeachers(search: string): Promise<User[] | undefined> {
     const findUsers = await this.ormRepository.find({
-      where: { position: 'teacher' },
+      where: { position: 'teacher', name: Like(`%${search}%`) },
     });
 
     return findUsers;

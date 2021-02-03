@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FiEdit2, FiSearch } from 'react-icons/fi';
 
-import { User } from '../../hooks/auth';
+import { User, useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 
 import api from '../../services/api';
@@ -32,6 +32,13 @@ const Teachers: React.FC = () => {
   const [selectedTeacher, setSelectedTeacher] = useState<User>({} as User);
 
   const { addToast } = useToast();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user.position !== 'admin') {
+      history.push('home');
+    }
+  }, [history, user.position]);
 
   const handleSearch = useCallback(async () => {
     try {

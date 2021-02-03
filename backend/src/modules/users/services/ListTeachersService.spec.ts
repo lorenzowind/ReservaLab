@@ -45,6 +45,7 @@ describe('ListTeachers', () => {
 
     const users = await listTeachers.execute({
       user_id: createdUser.id,
+      search: '',
     });
 
     expect(users).toHaveLength(2);
@@ -62,6 +63,7 @@ describe('ListTeachers', () => {
 
     const users = await listTeachers.execute({
       user_id: createdUser.id,
+      search: '',
     });
 
     expect(users).toHaveLength(0);
@@ -71,6 +73,7 @@ describe('ListTeachers', () => {
     expect(
       listTeachers.execute({
         user_id: 'non existing user',
+        search: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

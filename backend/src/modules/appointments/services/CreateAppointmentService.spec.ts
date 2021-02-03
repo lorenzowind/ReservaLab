@@ -45,6 +45,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -75,6 +76,7 @@ describe('CreateAppointment', () => {
         subject: 'subject 2',
         classroom: 'Classroom 1',
         status: 'scheduled',
+        observations: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -107,6 +109,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     const appointment = await createAppointment.execute({
@@ -119,6 +122,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -153,6 +157,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await expect(
@@ -166,6 +171,7 @@ describe('CreateAppointment', () => {
         subject: teacher.subjects.split(', ')[0],
         classroom: 'Classroom 1',
         status: 'scheduled',
+        observations: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -199,6 +205,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     const appointment = await createAppointment.execute({
@@ -211,6 +218,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     expect(appointment).toHaveProperty('id');
@@ -232,6 +240,7 @@ describe('CreateAppointment', () => {
         subject: '',
         classroom: 'Classroom 1',
         status: 'scheduled',
+        observations: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -261,6 +270,7 @@ describe('CreateAppointment', () => {
         subject: teacher.subjects.split(', ')[0],
         classroom: 'Classroom 1',
         status: 'scheduled',
+        observations: '',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
@@ -289,6 +299,7 @@ describe('CreateAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     expect(appointment).toHaveProperty('id');

@@ -105,6 +105,7 @@ const ModalTeacher: React.FC<IModalProps> = ({
           subjects: selectedSubjects
             .map(selectedSubject => selectedSubject.value)
             .join(', '),
+          password: '',
         };
 
         if (option === 'create') {

@@ -40,6 +40,7 @@ describe('ListAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -52,6 +53,7 @@ describe('ListAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 2',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -64,6 +66,7 @@ describe('ListAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 3',
       status: 'scheduled',
+      observations: '',
     });
 
     await draftAppointmentsRepository.create({
@@ -76,6 +79,7 @@ describe('ListAppointments', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     const response = await listAppointments.execute(2020, 9, 7);

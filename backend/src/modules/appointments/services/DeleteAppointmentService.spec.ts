@@ -50,6 +50,7 @@ describe('DeleteAppointment', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 1',
       status: 'scheduled',
+      observations: '',
     });
 
     await deleteAppointment.execute(appointment.id);

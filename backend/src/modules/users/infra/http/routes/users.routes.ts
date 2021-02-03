@@ -29,7 +29,7 @@ usersRouter.post(
         then: Joi.required(),
         otherwise: Joi.allow(''),
       }),
-      password: Joi.string().required(),
+      password: Joi.string().min(6).allow(''),
     },
   }),
   usersController.create,
@@ -59,6 +59,29 @@ usersRouter.put(
 usersRouter.delete('/', ensureAuthenticated, usersController.delete);
 
 usersRouter.get('/', ensureAuthenticated, usersController.show);
+
+usersRouter.put(
+  '/:id',
+  ensureAuthenticated,
+  celebrate({
+    [Segments.BODY]: {
+      ra: Joi.string().required(),
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      position: Joi.string().required(),
+      subjects: Joi.string().when('position', {
+        is: 'teacher',
+        then: Joi.required(),
+        otherwise: Joi.allow(''),
+      }),
+      old_password: Joi.string().min(6).allow(''),
+      new_password: Joi.string().min(6).allow(''),
+    },
+  }),
+  usersController.updateTeacher,
+);
+
+usersRouter.delete('/:id', ensureAuthenticated, usersController.deleteTeacher);
 
 usersRouter.get('/all', ensureAuthenticated, usersController.all);
 

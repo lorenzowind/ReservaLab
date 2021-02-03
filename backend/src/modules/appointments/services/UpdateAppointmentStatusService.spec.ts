@@ -44,6 +44,7 @@ describe('UpdateAppointmentStatus', () => {
       subject: teacher.subjects.split(', ')[0],
       classroom: 'Classroom 2',
       status: 'scheduled',
+      observations: '',
     });
 
     const updatedAppointment = await updateAppointment.execute({

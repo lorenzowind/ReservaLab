@@ -74,12 +74,61 @@ export default class UsersController {
     return response.json(classToClass(user));
   }
 
+  public async updateTeacher(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+    const {
+      ra,
+      name,
+      email,
+      position,
+      subjects,
+      old_password,
+      new_password,
+    } = request.body;
+
+    const updateTeacher = container.resolve(UpdateUserService);
+
+    const user = await updateTeacher.execute({
+      id,
+      ra,
+      name,
+      email,
+      subjects,
+      position,
+      old_password,
+      new_password,
+    });
+
+    return response.json(classToClass(user));
+  }
+
+  public async deleteTeacher(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const { id } = request.params;
+
+    const deleteTeacher = container.resolve(DeleteUserService);
+
+    await deleteTeacher.execute(id);
+
+    return response.status(200).send();
+  }
+
   public async all(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
 
+    const { search = '' } = request.query;
+
     const listTeachers = container.resolve(ListTeachersService);
 
-    const teachers = await listTeachers.execute({ user_id });
+    const teachers = await listTeachers.execute({
+      user_id,
+      search: String(search),
+    });
 
     return response.json(classToClass(teachers));
   }

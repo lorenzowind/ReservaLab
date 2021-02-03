@@ -27,9 +27,10 @@ export default class DraftUsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async findAllTeachers(): Promise<User[] | undefined> {
+  public async findAllTeachers(search: string): Promise<User[] | undefined> {
     const users = this.users.filter(
-      findUser => findUser.position === 'teacher',
+      findUser =>
+        findUser.position === 'teacher' && findUser.name.includes(search),
     );
 
     return users;

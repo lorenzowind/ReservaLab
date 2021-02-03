@@ -8,6 +8,7 @@ import User from '../infra/typeorm/entities/User';
 
 interface IRequest {
   user_id: string;
+  search: string;
 }
 
 @injectable()
@@ -17,14 +18,17 @@ class ListTeachersService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute({ user_id }: IRequest): Promise<User[] | undefined> {
+  public async execute({
+    user_id,
+    search,
+  }: IRequest): Promise<User[] | undefined> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
       throw new AppError('User not found.');
     }
 
-    const users = await this.usersRepository.findAllTeachers();
+    const users = await this.usersRepository.findAllTeachers(search);
 
     return users;
   }
