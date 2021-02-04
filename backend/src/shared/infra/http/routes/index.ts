@@ -7,7 +7,7 @@ import passwordRouter from '@modules/users/infra/http/routes/password.routes';
 import appointmentsRouter from '@modules/appointments/infra/http/routes/appointments.routes';
 import subjectsRouter from '@modules/subjects/infra/http/routes/subjects.routes';
 import laboratoriesRouter from '@modules/laboratories/infra/http/routes/laboratories.routes';
-import classroomRouter from '@modules/classroom/infra/http/routes/classroom.routes';
+import classroomsRouter from '@modules/classrooms/infra/http/routes/classrooms.routes';
 
 const routes = Router();
 
@@ -18,6 +18,6 @@ routes.use('/password', passwordRouter);
 routes.use('/appointments', appointmentsRouter);
 routes.use('/subjects', subjectsRouter);
 routes.use('/laboratories', laboratoriesRouter);
-routes.use('/classrooms', classroomRouter);
+routes.use('/classrooms', classroomsRouter);
 
 export default routes;
