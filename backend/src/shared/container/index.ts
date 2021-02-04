@@ -18,6 +18,9 @@ import SubjectsRepository from '@modules/subjects/infra/typeorm/repositories/Sub
 import ILaboratoriesRepository from '@modules/laboratories/repositories/ILaboratoriesRepository';
 import LaboratoriesRepository from '@modules/laboratories/infra/typeorm/repositories/LaboratoriesRepository';
 
+import IClassroomsRepository from '@modules/classrooms/repositories/IClassroomsRepository';
+import ClassroomsRepository from '@modules/classrooms/infra/typeorm/repositories/ClassroomsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -41,4 +44,9 @@ container.registerSingleton<ISubjectsRepository>(
 container.registerSingleton<ILaboratoriesRepository>(
   'LaboratoriesRepository',
   LaboratoriesRepository,
+);
+
+container.registerSingleton<IClassroomsRepository>(
+  'ClassroomsRepository',
+  ClassroomsRepository,
 );
