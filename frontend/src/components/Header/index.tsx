@@ -64,13 +64,23 @@ const Header: React.FC<HeaderProps> = ({ isHome }) => {
           </PageButton>
 
           {user.position === 'admin' && (
-            <PageButton
-              isSelected={page === '/teachers'}
-              type="button"
-              onClick={() => history.push('/teachers')}
-            >
-              Professores
-            </PageButton>
+            <>
+              <PageButton
+                isSelected={page === '/teachers'}
+                type="button"
+                onClick={() => history.push('/teachers')}
+              >
+                Professores
+              </PageButton>
+
+              <PageButton
+                isSelected={page === '/configurations'}
+                type="button"
+                onClick={() => history.push('/configurations')}
+              >
+                Configurações
+              </PageButton>
+            </>
           )}
         </div>
       </SubContainer>

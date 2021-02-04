@@ -20,6 +20,6 @@ classroomsRouter.post(
   classroomsController.save,
 );
 
-classroomsRouter.get('/', ensureAuthenticated, classroomsController.show);
+classroomsRouter.get('/', classroomsController.show);
 
 export default classroomsRouter;

@@ -20,6 +20,6 @@ subjectsRouter.post(
   subjectsController.save,
 );
 
-subjectsRouter.get('/', ensureAuthenticated, subjectsController.show);
+subjectsRouter.get('/', subjectsController.show);
 
 export default subjectsRouter;

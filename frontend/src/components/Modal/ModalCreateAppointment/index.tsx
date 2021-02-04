@@ -15,12 +15,13 @@ import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
 import { useAuth, User } from '../../../hooks/auth';
+import { useSubjects } from '../../../hooks/subjects';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getTimesArray from '../../../utils/getTimesArray';
 import getClassroomsArray from '../../../utils/getClassroomsArray';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
-import getSubjectsArray from '../../../utils/getSubjectsArray';
+// import getSubjectsArray from '../../../utils/getSubjectsArray';
 
 import Modal from '..';
 import Select from '../../Select';
@@ -63,6 +64,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 
   const { addToast } = useToast();
   const { user } = useAuth();
+  const { subjects } = useSubjects();
 
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(selectedDate);
@@ -71,7 +73,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 
   const [classroomsArray] = useState(getClassroomsArray());
   const [subjectsArray, setSubjectsArray] = useState(
-    user.subjects ? user.subjects.split(', ') : getSubjectsArray(),
+    user.subjects ? user.subjects.split(', ') : subjects,
   );
   const [laboratoriesArray] = useState(getLaboratoriesArray());
   const [timesSelect] = useState(getTimesArray());
@@ -229,12 +231,12 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 
     if (selectedTeacher && selectedTeacher.subjects) {
       setSubjectsArray(
-        getSubjectsArray().filter(subject =>
+        subjects.filter(subject =>
           selectedTeacher.subjects.split(', ').includes(subject),
         ),
       );
     }
-  }, [selectedTeacherId, teachersSelect]);
+  }, [selectedTeacherId, subjects, teachersSelect]);
 
   return (
     <>

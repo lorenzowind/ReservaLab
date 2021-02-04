@@ -20,6 +20,6 @@ laboratoriesRouter.post(
   laboratoriesController.save,
 );
 
-laboratoriesRouter.get('/', ensureAuthenticated, laboratoriesController.show);
+laboratoriesRouter.get('/', laboratoriesController.show);
 
 export default laboratoriesRouter;
