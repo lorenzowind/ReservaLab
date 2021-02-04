@@ -9,7 +9,7 @@ import api from '../services/api';
 
 import getSubjectsArray from '../utils/getSubjectsArray';
 
-interface SubjectsState {
+export interface SubjectsState {
   subjects: string;
 }
 

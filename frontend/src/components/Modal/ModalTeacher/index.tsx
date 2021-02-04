@@ -117,7 +117,7 @@ const ModalTeacher: React.FC<IModalProps> = ({
         addToast({
           type: 'success',
           title: `Cadastro ${
-            option === 'create' ? 'inserido' : 'atualizado'
+            option === 'create' ? 'inserido' : 'salvo'
           } com sucesso!`,
         });
 
@@ -134,9 +134,9 @@ const ModalTeacher: React.FC<IModalProps> = ({
 
         addToast({
           type: 'error',
-          title: `Erro na ${
-            option === 'create' ? 'inserção' : 'atualização'
-          } do cadastro`,
+          title: `Erro ao ${
+            option === 'create' ? 'adicionar' : 'salvar'
+          } o cadastro`,
         });
       } finally {
         setLoading(false);
@@ -179,9 +179,7 @@ const ModalTeacher: React.FC<IModalProps> = ({
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <header>
-            <h1>
-              {option === 'create' ? 'Adicionar' : 'Atualizar'} professor(a)
-            </h1>
+            <h1>{option === 'create' ? 'Adicionar' : 'Salvar'} professor(a)</h1>
           </header>
 
           <section>
@@ -231,7 +229,7 @@ const ModalTeacher: React.FC<IModalProps> = ({
                 Excluir
               </Button>
 
-              <Button type="submit">Atualizar</Button>
+              <Button type="submit">Salvar</Button>
             </div>
           )}
         </Form>

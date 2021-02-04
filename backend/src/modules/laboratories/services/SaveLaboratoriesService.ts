@@ -30,7 +30,11 @@ class SaveLaboratoriesService {
       }
     }
 
-    await this.laboratoriesRepository.clear();
+    const currentLaboratories = await this.laboratoriesRepository.get();
+
+    if (currentLaboratories) {
+      await this.laboratoriesRepository.clear();
+    }
 
     const data = await this.laboratoriesRepository.save({
       laboratories,

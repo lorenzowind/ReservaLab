@@ -26,8 +26,11 @@ class SaveClassroomsService {
         throw new AppError('Informed classrooms are not valid.');
       }
     }
+    const currentClassrooms = await this.classroomsRepository.get();
 
-    await this.classroomsRepository.clear();
+    if (currentClassrooms) {
+      await this.classroomsRepository.clear();
+    }
 
     const data = await this.classroomsRepository.save({
       classrooms,

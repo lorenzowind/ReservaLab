@@ -182,6 +182,7 @@ export const TableContainer = styled.table`
     text-align: center;
 
     font-size: 20px;
+    color: #2f3342;
     padding: 10px 5px;
     max-width: 250px;
     min-width: 250px;

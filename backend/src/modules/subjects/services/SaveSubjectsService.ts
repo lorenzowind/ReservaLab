@@ -27,7 +27,11 @@ class SaveSubjectsService {
       }
     }
 
-    await this.subjectsRepository.clear();
+    const currentSubjects = await this.subjectsRepository.get();
+
+    if (currentSubjects) {
+      await this.subjectsRepository.clear();
+    }
 
     const data = await this.subjectsRepository.save({
       subjects,
