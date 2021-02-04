@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useAuth } from '../../../hooks/auth';
+
 import Modal from '..';
 
 import { Container, CloseModal } from './styles';
@@ -10,6 +12,8 @@ interface IModalProps {
 }
 
 const ModalHelp: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
+  const { user } = useAuth();
+
   return (
     <>
       <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -66,8 +70,10 @@ const ModalHelp: React.FC<IModalProps> = ({ isOpen, setIsOpen }) => {
           <section>
             <h1>2.</h1>
             <p>
-              Selecione uma data, laboratório, tempo de aula, turma, disciplina
-              do agendamento e insira observações se necessário.
+              Selecione uma data,{' '}
+              {user.position === 'admin' ? 'professor, status, ' : ''}
+              laboratório, tempo de aula, turma, disciplina do agendamento e
+              insira observações se necessário.
             </p>
           </section>
 

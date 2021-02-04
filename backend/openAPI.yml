@@ -15,6 +15,8 @@ tags:
   - name: authentication
   - name: users
   - name: appointments
+  - name: subjects
+  - name: laboratories
 
 components:
   securitySchemes:
@@ -942,6 +944,114 @@ paths:
       responses:
         '200':
           description: Returns a successfully deleted appointments confirmation.
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /subjects:
+    post:
+      summary: Saves the current subjects.
+      tags:
+        - subjects
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subjects:
+                  type: string
+                  example: "Subject 01, Subject 02, Subject 03"
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns a JSON containing the saved subjects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subjects:
+                    type: string
+                    example: "Subject 01, Subject 02, Subject 03"
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    get:
+      summary: Get the current subjects.
+      tags:
+        - subjects
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns a JSON containing the current subjects.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subjects:
+                    type: string
+                    example: "Subject 01, Subject 02, Subject 03"
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /laboratories:
+    post:
+      summary: Saves the current laboratories.
+      tags:
+        - laboratories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                laboratories:
+                  type: string
+                  example: "Laboratory 01, Laboratory 02, Laboratory 03"
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns a JSON containing the saved laboratories.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  laboratories:
+                    type: string
+                    example: "Laboratory 01, Laboratory 02, Laboratory 03"
+        '400':
+          $ref:  '#/components/responses/IncorrectToken'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+    get:
+      summary: Get the current laboratories.
+      tags:
+        - laboratories
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Returns a JSON containing the current laboratories.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  laboratories:
+                    type: string
+                    example: "Laboratory 01, Laboratory 02, Laboratory 03"
         '400':
           $ref:  '#/components/responses/IncorrectToken'
         '401':
