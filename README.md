@@ -39,13 +39,13 @@ $ cd backend
 // Install application dependencies
 $ yarn
 ```
-- Install MySQL and Adminer Docker images using docker-compose:
+- Install MySQL, MongoDB, and Adminer Docker images using docker-compose:
 ```bash
 // Run the Docker images
 $ docker-compose up -d
 ```
 - Create a file called .env based on .env.example and enter your AWS credentials;
-- Create a file called .ormconfig.json based on .ormconfig.example.json and insert the MySQL host and port according to the previously installed Docker images, in addition to exchanging the src recipient for dist and .ts for .js;
+- Create a file called .ormconfig.json based on .ormconfig.example.json and insert the MySQL and MongoDB host and port according to the previously installed Docker images, in addition to exchanging the src recipient for dist and .ts for .js;
 - Configure the credentials of the MySQL Docker image using the following commands:
 ```bash
 // Enter the MySQL image bash
@@ -88,7 +88,7 @@ $ yarn start
 ## Built With
 * Framework for platform frontend: [React.js](https://reactjs.org/)
 * Backend Framework: [Node.js](https://nodejs.org)
-* Database technology: [MySQL](https://www.mysql.com/)
+* Database technology: [MySQL](https://www.mysql.com/) and [MongoDB](https://www.mongodb.com/)
 * Backend data processing technology: [TypeORM](https://typeorm.io)
 * Technology for testing implementation: [Jest](https://jestjs.io/)
 * API documentation tool: [SwaggerHUB](https://swagger.io/tools/swaggerhub/)

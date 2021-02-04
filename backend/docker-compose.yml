@@ -22,6 +22,12 @@ services:
     networks:
       - mysql-compose-network
 
+  reservalab_mongodb:
+    image: mongo
+    container_name: reservalab_mongodb
+    ports:
+      - 27017:27017
+
 networks:
   mysql-compose-network:
     driver: bridge

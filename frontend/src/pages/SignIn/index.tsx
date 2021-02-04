@@ -93,9 +93,9 @@ const SignIn: React.FC = () => {
 
             <Button type="submit">Entrar</Button>
 
-            <h2>
+            {/* <h2>
               Não tem conta? <Link to="signup">Crie agora!</Link>
-            </h2>
+            </h2> */}
           </Form>
         </Container>
       </Background>
