@@ -6,6 +6,7 @@ interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
   isErrored: boolean;
+  isDisabled?: boolean;
 }
 
 export const Container = styled.div<ContainerProps>`
@@ -13,7 +14,7 @@ export const Container = styled.div<ContainerProps>`
   width: 100%;
   border-radius: 13px;
   border: solid 0.5px #707070;
-  background: #fff;
+  background: ${props => (props.isDisabled ? '#e7e6e6' : '#fff')};
 
   display: flex;
   align-items: center;

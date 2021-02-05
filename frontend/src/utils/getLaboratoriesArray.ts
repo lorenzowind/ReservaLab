@@ -1,121 +1,156 @@
-export interface Laboratory {
-  name: string;
-  number: number;
-}
+import { Laboratory } from '../components/Laboratories';
 
 export default function getLaboratoriesArray(): Laboratory[] {
   return [
     {
-      name: 'Telec',
-      number: 1,
-    },
-    {
-      name: 'Info 05',
-      number: 2,
-    },
-    {
-      name: 'Info 03',
-      number: 3,
-    },
-    {
       name: 'Info 01',
-      number: 4,
+      classroomNumber: 4,
+      positionNumber: 0,
     },
     {
       name: 'Info 02',
-      number: 5,
+      classroomNumber: 5,
+      positionNumber: 1,
     },
     {
       name: 'Info 04',
-      number: 6,
+      classroomNumber: 6,
+      positionNumber: 2,
     },
     {
       name: 'EE 01',
-      number: 7,
-    },
-    {
-      name: 'RTDTV',
-      number: 8,
-    },
-    {
-      name: 'SMT',
-      number: 9,
+      classroomNumber: 7,
+      positionNumber: 3,
     },
     {
       name: 'APH 02',
-      number: 10,
+      classroomNumber: 10,
+      positionNumber: 4,
     },
     {
-      name: 'CLP 02',
-      number: 11,
+      name: '-',
+      classroomNumber: 0,
+      positionNumber: 5,
     },
     {
-      name: 'Prototipagem',
-      number: 12,
+      name: '-',
+      classroomNumber: 0,
+      positionNumber: 6,
+    },
+    {
+      name: 'RTDTV',
+      classroomNumber: 8,
+      positionNumber: 7,
+    },
+    {
+      name: 'Info 03',
+      classroomNumber: 3,
+      positionNumber: 8,
+    },
+    {
+      name: 'Info 05',
+      classroomNumber: 2,
+      positionNumber: 9,
+    },
+    {
+      name: 'Telec',
+      classroomNumber: 1,
+      positionNumber: 10,
     },
     {
       name: 'APH 01',
-      number: 13,
+      classroomNumber: 13,
+      positionNumber: 11,
     },
     {
-      name: 'Física 02',
-      number: 14,
+      name: 'SMT',
+      classroomNumber: 9,
+      positionNumber: 12,
     },
     {
-      name: 'Química 02',
-      number: 15,
+      name: 'Prototipagem',
+      classroomNumber: 12,
+      positionNumber: 13,
     },
     {
-      name: 'Biologia 02',
-      number: 16,
+      name: 'CLP 02',
+      classroomNumber: 11,
+      positionNumber: 14,
     },
     {
       name: 'Info 06',
-      number: 17,
+      classroomNumber: 17,
+      positionNumber: 15,
     },
     {
       name: 'Artes',
-      number: 18,
+      classroomNumber: 18,
+      positionNumber: 16,
     },
     {
       name: 'Química 01',
-      number: 19,
+      classroomNumber: 19,
+      positionNumber: 17,
     },
     {
       name: 'EE 02',
-      number: 20,
-    },
-    {
-      name: 'Robótica Educacional',
-      number: 21,
-    },
-    {
-      name: 'Física 01',
-      number: 22,
-    },
-    {
-      name: 'ACR',
-      number: 23,
+      classroomNumber: 20,
+      positionNumber: 18,
     },
     {
       name: 'RCNC',
-      number: 24,
+      classroomNumber: 24,
+      positionNumber: 19,
     },
     {
-      name: 'Projetos',
-      number: 26,
+      name: 'ACR',
+      classroomNumber: 23,
+      positionNumber: 20,
     },
     {
-      name: 'IME',
-      number: 25,
+      name: 'Física 01',
+      classroomNumber: 22,
+      positionNumber: 21,
     },
     {
-      name: 'Biologia 01',
-      number: 27,
+      name: 'Robótica Educacional',
+      classroomNumber: 21,
+      positionNumber: 22,
+    },
+    {
+      name: 'Biologia 02',
+      classroomNumber: 16,
+      positionNumber: 23,
+    },
+    {
+      name: 'Química 02',
+      classroomNumber: 15,
+      positionNumber: 24,
+    },
+    {
+      name: 'Física 02',
+      classroomNumber: 14,
+      positionNumber: 25,
     },
     {
       name: 'CLP 01',
-      number: 28,
+      classroomNumber: 28,
+      positionNumber: 26,
+    },
+    {
+      name: 'Biologia 01',
+      classroomNumber: 27,
+      positionNumber: 27,
+    },
+    {
+      name: 'Projetos',
+      classroomNumber: 26,
+      positionNumber: 28,
+    },
+    {
+      name: 'IME',
+      classroomNumber: 25,
+      positionNumber: 29,
     },
   ];
 }

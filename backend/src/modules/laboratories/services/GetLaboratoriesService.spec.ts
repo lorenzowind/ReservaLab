@@ -15,11 +15,12 @@ describe('GetLaboratories', () => {
 
   it('should be able to get the laboratories', async () => {
     await fakeLaboratoriesRepository.save({
-      laboratories: 'Laboratory 01, Laboratory 02, Laboratory 03',
+      laboratories_names: 'Laboratory 01, Laboratory 02, Laboratory 03',
+      laboratories_numbers: '01, 02, 03',
     });
 
     expect(
-      (await getLaboratories.execute()).laboratories.split(', '),
+      (await getLaboratories.execute()).laboratories_names.split(', '),
     ).toHaveLength(3);
   });
 });

@@ -90,11 +90,9 @@ const Home: React.FC = () => {
     eighth: [],
   });
 
-  const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>({
-    name: '',
-    classroomNumber: -1,
-    positionNumber: -1,
-  });
+  const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>(
+    {} as Laboratory,
+  );
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -378,10 +376,13 @@ const Home: React.FC = () => {
               <h2>{getDayWeek(selectedDate.getDay())}</h2>
             </section>
             <LaboratoryInfoContainer
-              color={selectedLaboratory ? '#2f3342' : ''}
+              color={selectedLaboratory.classroomNumber ? '#2f3342' : ''}
             >
-              {selectedLaboratory ? (
-                <h2>Laboratório: Sala {selectedLaboratory.classroomNumber}</h2>
+              {selectedLaboratory.classroomNumber ? (
+                <h2>
+                  Laboratório: {selectedLaboratory.name}, Sala{' '}
+                  {selectedLaboratory.classroomNumber}
+                </h2>
               ) : (
                 <>
                   <FiAlertOctagon />

@@ -14,7 +14,8 @@ laboratoriesRouter.post(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      laboratories: Joi.string().required(),
+      laboratories_names: Joi.string().required(),
+      laboratories_numbers: Joi.string().required(),
     },
   }),
   laboratoriesController.save,

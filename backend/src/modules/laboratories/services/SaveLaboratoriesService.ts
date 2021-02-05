@@ -15,19 +15,14 @@ class SaveLaboratoriesService {
   ) {}
 
   public async execute({
-    laboratories,
+    laboratories_names,
+    laboratories_numbers,
   }: ISaveLaboratoriesDTO): Promise<Laboratory> {
-    const laboratoriesArray = laboratories.split(', ');
+    const laboratoriesNamesArray = laboratories_names.split(', ');
+    const laboratoriesNumbersArray = laboratories_numbers.split(', ');
 
-    for (let i = 0; i < laboratoriesArray.length; i += 1) {
-      const findLaboratory = laboratoriesArray.find(
-        (laboratory, index) =>
-          laboratory === laboratoriesArray[i] && index !== i,
-      );
-
-      if (findLaboratory) {
-        throw new AppError('Informed laboratories are not valid.');
-      }
+    if (laboratoriesNamesArray.length !== laboratoriesNumbersArray.length) {
+      throw new AppError('Informed laboratories are not valid.');
     }
 
     const currentLaboratories = await this.laboratoriesRepository.get();
@@ -37,7 +32,8 @@ class SaveLaboratoriesService {
     }
 
     const data = await this.laboratoriesRepository.save({
-      laboratories,
+      laboratories_names,
+      laboratories_numbers,
     });
 
     return data;

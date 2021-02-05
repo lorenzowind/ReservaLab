@@ -73,7 +73,8 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
 
   const laboratory = useMemo(() => {
     return laboratories.find(
-      findLaboratory => findLaboratory.number === appointment.laboratory_number,
+      findLaboratory =>
+        findLaboratory.classroomNumber === appointment.laboratory_number,
     );
   }, [appointment]);
 
@@ -202,7 +203,7 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
                 Laboratório:
                 <strong>
                   {laboratory
-                    ? ` ${laboratory.name} (Sala ${laboratory.number})`
+                    ? ` ${laboratory.name} (Sala ${laboratory.classroomNumber})`
                     : ''}
                 </strong>
               </h1>

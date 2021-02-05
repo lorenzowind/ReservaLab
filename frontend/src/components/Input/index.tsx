@@ -12,12 +12,14 @@ import { useField } from '@unform/core';
 import { Container, Error } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  isDisabled?: boolean;
   name: string;
   containerStyle?: object;
   icon?: React.ComponentType<IconBaseProps>;
 }
 
 const Input: React.FC<InputProps> = ({
+  isDisabled,
   name,
   containerStyle = {},
   icon: Icon,
@@ -54,9 +56,11 @@ const Input: React.FC<InputProps> = ({
       isErrored={!!error}
       isFilled={isFilled}
       isFocused={isFocused}
+      isDisabled={isDisabled}
     >
       {Icon && <Icon size={20} />}
       <input
+        disabled={isDisabled}
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}

@@ -6,11 +6,14 @@ import GetLaboratoriesService from '@modules/laboratories/services/GetLaboratori
 
 export default class LaboratoriesController {
   public async save(request: Request, response: Response): Promise<Response> {
-    const { laboratories } = request.body;
+    const { laboratories_names, laboratories_numbers } = request.body;
 
     const saveLaboratories = container.resolve(SaveLaboratoriesService);
 
-    const data = await saveLaboratories.execute({ laboratories });
+    const data = await saveLaboratories.execute({
+      laboratories_names,
+      laboratories_numbers,
+    });
 
     return response.json(data);
   }

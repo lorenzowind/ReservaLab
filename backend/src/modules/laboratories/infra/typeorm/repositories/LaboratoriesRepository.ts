@@ -18,9 +18,13 @@ class LaboratoriesRepository implements ILaboratoriesRepository {
   }
 
   public async save({
-    laboratories,
+    laboratories_names,
+    laboratories_numbers,
   }: ISaveLaboratoriesDTO): Promise<Laboratory> {
-    const data = this.ormRepository.create({ laboratories });
+    const data = this.ormRepository.create({
+      laboratories_names,
+      laboratories_numbers,
+    });
 
     await this.ormRepository.save(data);
 

@@ -1049,9 +1049,12 @@ paths:
             schema:
               type: object
               properties:
-                laboratories:
+                laboratories_names:
                   type: string
                   example: "Laboratory 01, Laboratory 02, Laboratory 03"
+                laboratories_numbers:
+                  type: string
+                  example: "01, 02, 03"
       security:
         - bearerAuth: []
       responses:
@@ -1062,9 +1065,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  laboratories:
+                  laboratories_names:
                     type: string
                     example: "Laboratory 01, Laboratory 02, Laboratory 03"
+                  laboratories_numbers:
+                    type: string
+                    example: "01, 02, 03"
         '400':
           $ref:  '#/components/responses/IncorrectToken'
         '401':
@@ -1081,9 +1087,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  laboratories:
+                  laboratories_names:
                     type: string
                     example: "Laboratory 01, Laboratory 02, Laboratory 03"
+                  laboratories_numbers:
+                    type: string
+                    example: "01, 02, 03"
 
   /classrooms:
     post:

@@ -30,6 +30,7 @@
     "camelcase": "off",
     "prettier/prettier": "error",
     "jsx-a11y/control-has-associated-label": "off",
+    "no-nested-ternary": "off",
     "no-unused-expressions": "off",
     "no-unused-vars": "off",
     "react/jsx-one-expression-per-line": "off",

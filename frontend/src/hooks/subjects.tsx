@@ -15,7 +15,7 @@ export interface SubjectsState {
 
 interface SubjectsContextData {
   subjects: string[];
-  setSubjects(subjects: string): void;
+  setSubjects(data: SubjectsState): void;
 }
 
 const SubjectsContext = createContext<SubjectsContextData>(
@@ -41,8 +41,8 @@ const SubjectsProvider: React.FC = ({ children }) => {
     }
   }, [currentSubjects]);
 
-  const setSubjects = useCallback((subjects: string) => {
-    setCurrentSubjects(subjects.split(', '));
+  const setSubjects = useCallback((data: SubjectsState) => {
+    setCurrentSubjects(data.subjects.split(', '));
   }, []);
 
   return (

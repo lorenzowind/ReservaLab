@@ -12,7 +12,10 @@ class Laboratory {
   id: string;
 
   @Column()
-  laboratories: string;
+  laboratories_names: string;
+
+  @Column()
+  laboratories_numbers: string;
 
   @CreateDateColumn()
   created_at: Date;

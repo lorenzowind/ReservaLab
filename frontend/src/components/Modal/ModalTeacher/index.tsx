@@ -179,7 +179,9 @@ const ModalTeacher: React.FC<IModalProps> = ({
 
         <Form ref={formRef} onSubmit={handleSubmit}>
           <header>
-            <h1>{option === 'create' ? 'Adicionar' : 'Salvar'} professor(a)</h1>
+            <h1>
+              {option === 'create' ? 'Adicionar' : 'Alterar'} professor(a)
+            </h1>
           </header>
 
           <section>

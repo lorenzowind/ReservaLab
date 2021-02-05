@@ -1,3 +1,4 @@
 export default interface ISaveLaboratoriesDTO {
-  laboratories: string;
+  laboratories_names: string;
+  laboratories_numbers: string;
 }

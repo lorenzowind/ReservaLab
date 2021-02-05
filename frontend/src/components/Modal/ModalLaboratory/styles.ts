@@ -45,6 +45,12 @@ export const Form = styled(Unform)`
     flex-direction: column;
     padding: 20px 66px 20px 66px;
 
+    aside {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     > div {
       margin: 10px 0px;
       width: 100%;

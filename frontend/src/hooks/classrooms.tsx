@@ -15,7 +15,7 @@ export interface ClassroomsState {
 
 interface ClassroomsContextData {
   classrooms: string[];
-  setClassrooms(classrooms: string): void;
+  setClassrooms(data: ClassroomsState): void;
 }
 
 const ClassroomsContext = createContext<ClassroomsContextData>(
@@ -41,8 +41,8 @@ const ClassroomsProvider: React.FC = ({ children }) => {
     }
   }, [currentClassrooms]);
 
-  const setClassrooms = useCallback((classrooms: string) => {
-    setCurrentClassrooms(classrooms.split(', '));
+  const setClassrooms = useCallback((data: ClassroomsState) => {
+    setCurrentClassrooms(data.classrooms.split(', '));
   }, []);
 
   return (

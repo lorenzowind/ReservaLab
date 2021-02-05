@@ -96,6 +96,7 @@ export const OptionsContainer = styled.section<OptionsContainerProps>`
   > button {
     height: 60px;
     width: 50%;
+    margin-right: 15px;
   }
 
   > form {
@@ -103,8 +104,9 @@ export const OptionsContainer = styled.section<OptionsContainerProps>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-left: 15px;
 
-    width: 40%;
+    width: 50%;
 
     > div {
       height: 60px;

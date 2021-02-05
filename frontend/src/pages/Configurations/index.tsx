@@ -30,11 +30,9 @@ const Configurations: React.FC = () => {
   const [newClassroom, setNewClassroom] = useState('');
   const [currentClassrooms, setCurrentClassrooms] = useState(classrooms);
 
-  const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>({
-    name: '',
-    classroomNumber: -1,
-    positionNumber: -1,
-  });
+  const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>(
+    {} as Laboratory,
+  );
 
   useEffect(() => {
     setCurrentSubjects(subjects);
@@ -109,7 +107,7 @@ const Configurations: React.FC = () => {
           subjects: currentSubjects.join(', '),
         })
         .then(response => {
-          setSubjects(response.data.subjects);
+          setSubjects(response.data);
 
           addToast({
             type: 'success',
@@ -135,7 +133,7 @@ const Configurations: React.FC = () => {
           classrooms: currentClassrooms.join(', '),
         })
         .then(response => {
-          setClassrooms(response.data.classrooms);
+          setClassrooms(response.data);
 
           addToast({
             type: 'success',
@@ -154,11 +152,7 @@ const Configurations: React.FC = () => {
 
   function toggleModalLaboratory(): void {
     if (modalLaboratoryOpen) {
-      setSelectedLaboratory({
-        name: '',
-        classroomNumber: -1,
-        positionNumber: -1,
-      });
+      setSelectedLaboratory({} as Laboratory);
     }
 
     setModalLaboratoryOpen(!modalLaboratoryOpen);
@@ -177,6 +171,17 @@ const Configurations: React.FC = () => {
       <Header isHome />
 
       <Container>
+        <Content>
+          <main>
+            <Laboratories
+              operationContext="update"
+              selectedLaboratory={selectedLaboratory}
+              setSelectedLaboratory={setSelectedLaboratory}
+              toggleModalLaboratory={toggleModalLaboratory}
+            />
+          </main>
+        </Content>
+
         <Content>
           <strong>Disciplinas</strong>
 
@@ -259,17 +264,6 @@ const Configurations: React.FC = () => {
           <Button type="button" onClick={handleSaveClassrooms}>
             Salvar
           </Button>
-        </Content>
-
-        <Content>
-          <main>
-            <Laboratories
-              operationContext="update"
-              selectedLaboratory={selectedLaboratory}
-              setSelectedLaboratory={setSelectedLaboratory}
-              toggleModalLaboratory={toggleModalLaboratory}
-            />
-          </main>
         </Content>
       </Container>
     </>

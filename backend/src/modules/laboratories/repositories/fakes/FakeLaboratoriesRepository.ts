@@ -15,13 +15,15 @@ export default class FakeLaboratoriesRepository
   }
 
   public async save({
-    laboratories,
+    laboratories_names,
+    laboratories_numbers,
   }: ISaveLaboratoriesDTO): Promise<Laboratory> {
     const data = new Laboratory();
 
     Object.assign(data, {
       id: new ObjectID(),
-      laboratories,
+      laboratories_names,
+      laboratories_numbers,
     });
 
     this.laboratories.push(data);

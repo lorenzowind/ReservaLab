@@ -16,12 +16,13 @@ import api from '../../../services/api';
 import { useToast } from '../../../hooks/toast';
 import { useAuth, User } from '../../../hooks/auth';
 import { useSubjects } from '../../../hooks/subjects';
+import { useClassrooms } from '../../../hooks/classrooms';
+import { useLaboratories } from '../../../hooks/laboratories';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getTimesArray from '../../../utils/getTimesArray';
 import getClassroomsArray from '../../../utils/getClassroomsArray';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
-// import getSubjectsArray from '../../../utils/getSubjectsArray';
 
 import Modal from '..';
 import Select from '../../Select';
@@ -65,20 +66,43 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
   const { addToast } = useToast();
   const { user } = useAuth();
   const { subjects } = useSubjects();
+  const { classrooms } = useClassrooms();
+  const { laboratories } = useLaboratories();
 
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(selectedDate);
 
   const [selectedTeacherId, setSelectedTeacherId] = useState('');
 
-  const [classroomsArray] = useState(getClassroomsArray());
+  const [laboratoriesArray, setLaboratoriesArray] = useState(laboratories);
+  const [classroomsArray, setClassroomsArray] = useState(classrooms);
   const [subjectsArray, setSubjectsArray] = useState(
     user.subjects ? user.subjects.split(', ') : subjects,
   );
-  const [laboratoriesArray] = useState(getLaboratoriesArray());
+
   const [timesSelect] = useState(getTimesArray());
 
   const [teachersSelect, setTeachersSelect] = useState<User[]>([]);
+
+  useEffect(() => {
+    if (subjects && !user.subjects) {
+      setSubjectsArray(subjects);
+    }
+  }, [subjects, user.subjects]);
+
+  useEffect(() => {
+    if (laboratories) {
+      setLaboratoriesArray(
+        laboratories.filter(laboratory => laboratory.classroomNumber !== 0),
+      );
+    }
+  }, [laboratories]);
+
+  useEffect(() => {
+    if (classrooms) {
+      setClassroomsArray(classrooms);
+    }
+  }, [classrooms]);
 
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
@@ -290,7 +314,10 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
                   Selecione laboratório
                 </option>
                 {laboratoriesArray.map(laboratory => (
-                  <option key={laboratory.number} value={laboratory.number}>
+                  <option
+                    key={laboratory.positionNumber}
+                    value={laboratory.classroomNumber}
+                  >
                     {laboratory.name}
                   </option>
                 ))}
