@@ -168,7 +168,7 @@ const Configurations: React.FC = () => {
         setIsOpen={toggleModalLaboratory}
       />
 
-      <Header isHome />
+      <Header isHome={false} />
 
       <Container>
         <Content>

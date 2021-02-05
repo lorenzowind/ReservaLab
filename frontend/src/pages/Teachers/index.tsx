@@ -106,7 +106,7 @@ const Teachers: React.FC = () => {
         setToRefresh={setToRefresh}
       />
 
-      <Header isHome />
+      <Header isHome={false} />
 
       <Container>
         <Content>
