@@ -86,7 +86,7 @@ class CreateUserService {
         name: user.name,
         email: user.email,
       },
-      subject: '[Alocação de Laboratórios FMM] Definição de senha',
+      subject: '[Agenda de Laboratórios FMM] Definição de senha',
       templateData: {
         file: createPasswordTemplate,
         variables: {
