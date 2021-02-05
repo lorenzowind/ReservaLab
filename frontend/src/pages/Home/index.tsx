@@ -21,7 +21,7 @@ import {
 
 import Header from '../../components/Header';
 import Button from '../../components/Button';
-import Laboratories from '../../components/Laboratories';
+import Laboratories, { Laboratory } from '../../components/Laboratories';
 import Appointments from '../../components/Appointments';
 import Loading from '../../components/Loading';
 
@@ -90,7 +90,11 @@ const Home: React.FC = () => {
     eighth: [],
   });
 
-  const [selectedLaboratory, setSelectedLaboratory] = useState(0);
+  const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>({
+    name: '',
+    classroomNumber: -1,
+    positionNumber: -1,
+  });
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -274,43 +278,53 @@ const Home: React.FC = () => {
     const auxFilteredAppointments: IFilteredAppointments = {} as IFilteredAppointments;
 
     auxFilteredAppointments.first = appointments.first.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.second = appointments.second.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.third = appointments.third.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.fourth = appointments.fourth.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.extra1 = appointments.extra1.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.extra2 = appointments.extra2.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.fifth = appointments.fifth.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.sixth = appointments.sixth.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.seventh = appointments.seventh.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     auxFilteredAppointments.eighth = appointments.eighth.find(
-      appointment => appointment.laboratory_number === selectedLaboratory,
+      appointment =>
+        appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
 
     return auxFilteredAppointments;
@@ -331,7 +345,7 @@ const Home: React.FC = () => {
 
       <ModalCreateAppointment
         isOpen={modalCreateOpen}
-        selectedLaboratory={selectedLaboratory}
+        selectedLaboratory={selectedLaboratory.classroomNumber}
         selectedDate={selectedDate}
         setIsOpen={toggleModalCreate}
         setToRefresh={setToRefresh}
@@ -351,6 +365,7 @@ const Home: React.FC = () => {
 
       <Container>
         <Laboratories
+          operationContext="read"
           selectedLaboratory={selectedLaboratory}
           setSelectedLaboratory={setSelectedLaboratory}
         />
@@ -366,7 +381,7 @@ const Home: React.FC = () => {
               color={selectedLaboratory ? '#2f3342' : ''}
             >
               {selectedLaboratory ? (
-                <h2>Laboratório: Sala {selectedLaboratory}</h2>
+                <h2>Laboratório: Sala {selectedLaboratory.classroomNumber}</h2>
               ) : (
                 <>
                   <FiAlertOctagon />
