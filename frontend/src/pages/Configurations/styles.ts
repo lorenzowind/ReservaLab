@@ -95,7 +95,7 @@ export const Content = styled.div`
     }
   }
 
-  section {
+  > section {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -116,7 +116,7 @@ export const Content = styled.div`
   }
 `;
 
-export const SubjectContainer = styled.div`
+export const ItemContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
