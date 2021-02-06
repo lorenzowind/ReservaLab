@@ -54,7 +54,7 @@ export const LaboratoryMap = styled.div`
   align-items: center;
   justify-content: center;
   padding: 30px;
-  margin: 20px 0;
+  margin-top: 20px;
 
   nav {
     display: flex;

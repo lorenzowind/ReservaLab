@@ -251,7 +251,67 @@ export const SubContainer = styled.div<HeaderProps>`
   }
 `;
 
-export const PageButton = styled.button<PageButtonProps>`
+export const PageButton = styled.section<PageButtonProps>`
+  position: relative;
+
+  > button,
+  nav {
+    border: 0;
+    background: none;
+
+    font-size: 24px;
+    font-weight: 500;
+    color: ${props => (props.isSelected ? shade(0.2, '#bfd73e') : '#bfd73e')};
+    transition: color 0.2s;
+  }
+
+  & + section {
+    margin-left: 60px;
+  }
+
+  > aside {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    margin-top: 15px;
+    margin-right: 15px;
+    width: 380px;
+    top: 0;
+    transition: visibility 0.2s, opacity 0.2s linear;
+
+    background: white;
+
+    border-radius: 6px;
+    border: solid 3px #bfd73e;
+
+    > article {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 15px;
+
+      strong {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &:hover {
+    > button {
+      color: ${shade(0.2, '#bfd73e')};
+    }
+
+    > aside {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+`;
+
+export const SubButton = styled.button<PageButtonProps>`
   border: 0;
   background: none;
 
@@ -262,9 +322,5 @@ export const PageButton = styled.button<PageButtonProps>`
 
   &:hover {
     color: ${shade(0.2, '#bfd73e')};
-  }
-
-  & + button {
-    margin-left: 60px;
   }
 `;

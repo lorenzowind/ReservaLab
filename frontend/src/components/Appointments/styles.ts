@@ -13,14 +13,18 @@ interface ClassroomSectionProps {
   color?: string;
 }
 
-export const Container = styled.div`
+interface ContainerProps {
+  operationContext: 'read' | 'update';
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   margin-top: 10px;
   padding: 20px;
-  width: 675px;
+  width: ${props => (props.operationContext === 'read' ? '675' : '380')}px;
   height: auto;
 
   border: 5px solid #bfd73e;
@@ -28,16 +32,16 @@ export const Container = styled.div`
   border-radius: 13px;
 `;
 
-export const LeftColumn = styled.div`
+export const LeftColumn = styled.div<ContainerProps>`
   height: 100%;
-  width: 210px;
-  margin-right: 5px;
+  width: ${props => (props.operationContext === 'read' ? '210' : '380')}px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
   > strong {
+    align-self: center;
     font-weight: 700;
     font-size: 24px;
     color: #bfd73e;
@@ -50,7 +54,7 @@ export const RightColumn = styled.div`
   display: flex;
   flex-direction: row;
   width: 394px;
-  margin-left: 5px;
+  margin-left: 10px;
 `;
 
 export const InfoSection = styled.div`
@@ -88,9 +92,32 @@ export const DetailsSection = styled.div`
 export const TimeSection = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 
   > strong {
     margin-right: 10px;
+  }
+
+  > section {
+    display: flex;
+  }
+
+  > button {
+    border: 0;
+    background: none;
+    margin-left: 30px;
+
+    svg {
+      color: #9b3b37;
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      svg {
+        color: ${shade(0.2, '#9b3b37')};
+      }
+    }
   }
 `;
 
@@ -133,33 +160,6 @@ export const IntervalSection = styled.div<IntervalSectionProps>`
   > strong {
     font-size: 20px;
     font-weight: 700;
-  }
-`;
-
-export const LunchSection = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  > strong {
-    font-weight: 700;
-    word-break: break-all;
-    padding: 0 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px 0;
-    width: 55px;
-    margin-right: 2px;
-    height: 84px;
-    background: #bfd73e;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 10px;
-  }
-
-  > div {
-    display: flex;
-    flex-direction: column;
   }
 `;
 

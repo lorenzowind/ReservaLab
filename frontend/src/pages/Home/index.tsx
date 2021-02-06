@@ -393,6 +393,7 @@ const Home: React.FC = () => {
 
             <AppointmentsContainer>
               <Appointments
+                operationContext="read"
                 appointments={filteredAppointments}
                 setSelectedAppointment={setSelectedAppointment}
                 toggleModalInfo={toggleModalInfo}

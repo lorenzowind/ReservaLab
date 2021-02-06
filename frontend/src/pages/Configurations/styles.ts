@@ -12,7 +12,7 @@ const appearWithFade = keyframes`
 
 export const Container = styled.div`
   width: 100%;
-  padding: 215px 0 60px 0;
+  padding: 195px 0 60px 0;
 
   display: flex;
   flex-direction: column;
@@ -27,6 +27,7 @@ export const Content = styled.div`
   flex-direction: column;
 
   width: 1120px;
+  margin: 20px 0;
 
   > strong {
     font-weight: 700;

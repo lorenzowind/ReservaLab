@@ -63,7 +63,7 @@ export const Content = styled.div`
   flex-direction: row;
 
   width: 1120px;
-  margin-top: 20px;
+  margin-top: 40px;
 
   > section {
     display: flex;

@@ -45,5 +45,13 @@ export const LaboratoryContainer = styled.div<LaboratoryContainerProps>`
     svg {
       color: #fff;
     }
+
+    strong {
+      opacity: 0.5;
+    }
+
+    h2 {
+      opacity: 0.5;
+    }
   }
 `;
