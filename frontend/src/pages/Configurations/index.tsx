@@ -7,6 +7,7 @@ import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
 import { useSubjects, SubjectsState } from '../../hooks/subjects';
 import { useClassrooms, ClassroomsState } from '../../hooks/classrooms';
+import { useSchedules, SchedulesState } from '../../hooks/schedules';
 
 import Laboratories, { Laboratory } from '../../components/Laboratories';
 import Appointments from '../../components/Appointments';
@@ -15,6 +16,7 @@ import Loading from '../../components/Loading';
 import Button from '../../components/Button';
 
 import ModalLaboratory from '../../components/Modal/ModalLaboratory';
+import ModalCreateSchedule from '../../components/Modal/ModalCreateSchedule';
 
 import { Container, Content, ItemContainer } from './styles';
 
@@ -26,10 +28,12 @@ const Configurations: React.FC = () => {
   const { addToast } = useToast();
   const { subjects, setSubjects } = useSubjects();
   const { classrooms, setClassrooms } = useClassrooms();
+  const { schedules, setSchedules } = useSchedules();
 
   const [loading, setLoading] = useState(false);
   const [context, setContext] = useState<ContextType>('');
   const [modalLaboratoryOpen, setModalLaboratoryOpen] = useState(false);
+  const [modalScheduleOpen, setModalScheduleOpen] = useState(false);
 
   const [newSubject, setNewSubject] = useState('');
   const [currentSubjects, setCurrentSubjects] = useState(subjects);
@@ -175,12 +179,64 @@ const Configurations: React.FC = () => {
     }
   }, [addToast, currentClassrooms, setClassrooms]);
 
+  const handleRemoveSchedule = useCallback(
+    async (index: number) => {
+      try {
+        setLoading(true);
+
+        const data: SchedulesState[] = schedules.reduce(
+          (
+            newSchedules: SchedulesState[],
+            schedule: SchedulesState,
+            currentIndex,
+          ) => {
+            if (currentIndex !== index) {
+              newSchedules.push({
+                schedule_name: schedule.schedule_name,
+                schedule_begin: schedule.schedule_begin,
+                schedule_end: schedule.schedule_end,
+              });
+            }
+
+            return newSchedules;
+          },
+          [],
+        );
+
+        await api
+          .post<SchedulesState[]>('schedules', {
+            data,
+          })
+          .then(response => {
+            setSchedules(response.data);
+
+            addToast({
+              type: 'success',
+              title: 'Horário removido com sucesso!',
+            });
+          });
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao remover o horário',
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, schedules, setSchedules],
+  );
+
   function toggleModalLaboratory(): void {
     if (modalLaboratoryOpen) {
       setSelectedLaboratory({} as Laboratory);
     }
 
     setModalLaboratoryOpen(!modalLaboratoryOpen);
+  }
+
+  function toggleModalSchedule(): void {
+    setModalScheduleOpen(!modalScheduleOpen);
   }
 
   return (
@@ -193,6 +249,10 @@ const Configurations: React.FC = () => {
         setIsOpen={toggleModalLaboratory}
       />
 
+      <ModalCreateSchedule
+        isOpen={modalScheduleOpen}
+        setIsOpen={toggleModalSchedule}
+      />
       <Header isHome={false} />
 
       <Container>
@@ -213,9 +273,11 @@ const Configurations: React.FC = () => {
           <Content>
             <strong>Horários</strong>
 
-            <Appointments operationContext="update" />
-
-            <Button type="button">Salvar</Button>
+            <Appointments
+              operationContext="update"
+              handleRemoveSchedule={handleRemoveSchedule}
+              toggleModalSchedule={toggleModalSchedule}
+            />
           </Content>
         )}
 

@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
+
 import api from '../services/api';
 
 import getSubjectsArray from '../utils/getSubjectsArray';
@@ -31,9 +32,9 @@ const SubjectsProvider: React.FC = ({ children }) => {
 
       if (response.data.subjects) {
         setCurrentSubjects(response.data.subjects.split(', '));
+      } else {
+        setCurrentSubjects(getSubjectsArray());
       }
-
-      setCurrentSubjects(getSubjectsArray());
     };
 
     if (!currentSubjects.length) {

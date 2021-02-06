@@ -11,14 +11,13 @@ import { useAuth } from '../../../hooks/auth';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
-import getTimesArray from '../../../utils/getTimesArray';
-
-import { IAppointment } from '../../../pages/Home';
+import getSchedulesArray from '../../../utils/getSchedulesArray';
 
 import Modal from '..';
 import Button from '../../Button';
 import Loading from '../../Loading';
 import Select from '../../Select';
+import { IAppointment } from '../../Appointments';
 
 import { Container, OptionsContainer, CloseModal } from './styles';
 
@@ -34,7 +33,7 @@ interface IModalProps {
 }
 
 const laboratories = getLaboratoriesArray();
-const times = getTimesArray();
+const schedules = getSchedulesArray();
 
 function getStatus(
   status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled',
@@ -78,8 +77,12 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
     );
   }, [appointment]);
 
-  const time = useMemo(() => {
-    return times.find(findTime => findTime.value === appointment.time);
+  const schedule = useMemo(() => {
+    return schedules.find(
+      findTime =>
+        `${findTime.schedule_begin} - ${findTime.schedule_end}` ===
+        appointment.time,
+    );
   }, [appointment]);
 
   const date = useMemo(() => {
@@ -197,7 +200,13 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
               </h1>
               <h1>
                 Tempo de aula:
-                <strong>{time ? ` ${time.label}` : ''}</strong>
+                <strong>
+                  {schedule
+                    ? schedule.schedule_name
+                      ? ` ${schedule.schedule_name}`
+                      : ` ${schedule.schedule_begin} - ${schedule.schedule_end}`
+                    : ''}
+                </strong>
               </h1>
               <h1>
                 Laboratório:

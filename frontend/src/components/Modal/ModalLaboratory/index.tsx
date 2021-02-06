@@ -144,7 +144,7 @@ const ModalLaboratory: React.FC<IModalProps> = ({
 
           <section>
             <aside>
-              <strong>O laboratório está indisponível</strong>
+              <strong>O laboratório está indisponível?</strong>
               <SwitchInput
                 isChecked={unavailableLaboratory}
                 setIsChecked={() => {

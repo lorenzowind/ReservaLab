@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 import { FiAlertOctagon, FiHelpCircle } from 'react-icons/fi';
 import api from '../../services/api';
 
-import { useAuth, User } from '../../hooks/auth';
+import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
 
 import {
@@ -22,7 +22,7 @@ import {
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import Laboratories, { Laboratory } from '../../components/Laboratories';
-import Appointments from '../../components/Appointments';
+import Appointments, { IAppointment } from '../../components/Appointments';
 import Loading from '../../components/Loading';
 
 import ModalCreateAppointment from '../../components/Modal/ModalCreateAppointment';
@@ -35,60 +35,8 @@ interface MonthAvailabilityItem {
   available: boolean;
 }
 
-export interface IAppointment {
-  id: string;
-  teacher_id: string;
-  teacher: User;
-  laboratory_number: number;
-  time: string;
-  year: number;
-  month: number;
-  day: number;
-  subject: string;
-  classroom: string;
-  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled';
-  observations: string;
-}
-
-export interface IFilteredAppointments {
-  first: IAppointment | undefined;
-  second: IAppointment | undefined;
-  third: IAppointment | undefined;
-  fourth: IAppointment | undefined;
-  extra1: IAppointment | undefined;
-  extra2: IAppointment | undefined;
-  fifth: IAppointment | undefined;
-  sixth: IAppointment | undefined;
-  seventh: IAppointment | undefined;
-  eighth: IAppointment | undefined;
-}
-
-interface IAppointments {
-  first: IAppointment[];
-  second: IAppointment[];
-  third: IAppointment[];
-  fourth: IAppointment[];
-  extra1: IAppointment[];
-  extra2: IAppointment[];
-  fifth: IAppointment[];
-  sixth: IAppointment[];
-  seventh: IAppointment[];
-  eighth: IAppointment[];
-}
-
 const Home: React.FC = () => {
-  const [appointments, setAppointments] = useState<IAppointments>({
-    first: [],
-    second: [],
-    third: [],
-    fourth: [],
-    extra1: [],
-    extra2: [],
-    fifth: [],
-    sixth: [],
-    seventh: [],
-    eighth: [],
-  });
+  const [appointments, setAppointments] = useState<IAppointment[]>([]);
 
   const [selectedLaboratory, setSelectedLaboratory] = useState<Laboratory>(
     {} as Laboratory,
@@ -128,66 +76,7 @@ const Home: React.FC = () => {
             },
           })
           .then(response => {
-            const auxAppointments: IAppointments = {
-              first: [],
-              second: [],
-              third: [],
-              fourth: [],
-              extra1: [],
-              extra2: [],
-              fifth: [],
-              sixth: [],
-              seventh: [],
-              eighth: [],
-            };
-
-            // eslint-disable-next-line array-callback-return
-            response.data.map(appointment => {
-              switch (appointment.time) {
-                case '1': {
-                  auxAppointments.first.push(appointment);
-                  break;
-                }
-                case '2': {
-                  auxAppointments.second.push(appointment);
-                  break;
-                }
-                case '3': {
-                  auxAppointments.third.push(appointment);
-                  break;
-                }
-                case '4': {
-                  auxAppointments.fourth.push(appointment);
-                  break;
-                }
-                case '5': {
-                  auxAppointments.fifth.push(appointment);
-                  break;
-                }
-                case '6': {
-                  auxAppointments.sixth.push(appointment);
-                  break;
-                }
-                case '7': {
-                  auxAppointments.seventh.push(appointment);
-                  break;
-                }
-                case '8': {
-                  auxAppointments.eighth.push(appointment);
-                  break;
-                }
-                case 'extra1': {
-                  auxAppointments.extra1.push(appointment);
-                  break;
-                }
-                default: {
-                  auxAppointments.extra2.push(appointment);
-                  break;
-                }
-              }
-            });
-
-            setAppointments(auxAppointments);
+            setAppointments(response.data);
           });
       } catch (err) {
         addToast({
@@ -273,59 +162,10 @@ const Home: React.FC = () => {
   }, [currentMonth, monthAvailability]);
 
   const filteredAppointments = useMemo(() => {
-    const auxFilteredAppointments: IFilteredAppointments = {} as IFilteredAppointments;
-
-    auxFilteredAppointments.first = appointments.first.find(
+    return appointments.filter(
       appointment =>
         appointment.laboratory_number === selectedLaboratory.classroomNumber,
     );
-
-    auxFilteredAppointments.second = appointments.second.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.third = appointments.third.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.fourth = appointments.fourth.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.extra1 = appointments.extra1.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.extra2 = appointments.extra2.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.fifth = appointments.fifth.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.sixth = appointments.sixth.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.seventh = appointments.seventh.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    auxFilteredAppointments.eighth = appointments.eighth.find(
-      appointment =>
-        appointment.laboratory_number === selectedLaboratory.classroomNumber,
-    );
-
-    return auxFilteredAppointments;
   }, [appointments, selectedLaboratory]);
 
   return (

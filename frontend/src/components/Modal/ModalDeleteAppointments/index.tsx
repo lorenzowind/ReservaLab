@@ -70,7 +70,7 @@ const ModalDeleteAppointments: React.FC<IModalProps> = ({
             </h1>
           </header>
           <div>
-            <strong>Apenas agendamentos antigos</strong>
+            <strong>Apenas agendamentos antigos?</strong>
             <SwitchInput isChecked={onlyOld} setIsChecked={setOnlyOld} />
           </div>
 

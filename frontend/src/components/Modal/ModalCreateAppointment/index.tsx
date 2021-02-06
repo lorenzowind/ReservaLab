@@ -16,11 +16,11 @@ import api from '../../../services/api';
 import { useToast } from '../../../hooks/toast';
 import { useAuth, User } from '../../../hooks/auth';
 import { useSubjects } from '../../../hooks/subjects';
+import { useSchedules } from '../../../hooks/schedules';
 import { useClassrooms } from '../../../hooks/classrooms';
 import { useLaboratories } from '../../../hooks/laboratories';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
-import getTimesArray from '../../../utils/getTimesArray';
 
 import Modal from '..';
 import Select from '../../Select';
@@ -64,6 +64,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
   const { addToast } = useToast();
   const { user } = useAuth();
   const { subjects } = useSubjects();
+  const { schedules } = useSchedules();
   const { classrooms } = useClassrooms();
   const { laboratories } = useLaboratories();
 
@@ -74,11 +75,10 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
 
   const [laboratoriesArray, setLaboratoriesArray] = useState(laboratories);
   const [classroomsArray, setClassroomsArray] = useState(classrooms);
+  const [schedulesArray, setSchedulesArray] = useState(schedules);
   const [subjectsArray, setSubjectsArray] = useState(
     user.subjects ? user.subjects.split(', ') : subjects,
   );
-
-  const [timesSelect] = useState(getTimesArray());
 
   const [teachersSelect, setTeachersSelect] = useState<User[]>([]);
 
@@ -102,6 +102,12 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
     }
   }, [classrooms]);
 
+  useEffect(() => {
+    if (schedules) {
+      setSchedulesArray(schedules);
+    }
+  }, [schedules]);
+
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
       try {
@@ -116,7 +122,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
             },
           ),
           time: Yup.mixed().test('match', 'Tempo de aula é obrigatório', () => {
-            return data.subject !== '0';
+            return data.time !== '0';
           }),
           subject: Yup.mixed().test('match', 'Disciplina é obrigatória', () => {
             return data.subject !== '0';
@@ -354,9 +360,14 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
                 <option value="0" disabled>
                   Selecione tempo
                 </option>
-                {timesSelect.map(time => (
-                  <option key={time.label} value={time.value}>
-                    {time.label}
+                {schedulesArray.map(schedule => (
+                  <option
+                    key={schedule.schedule_begin + schedule.schedule_end}
+                    value={schedule.schedule_begin + schedule.schedule_end}
+                  >
+                    {schedule.schedule_name
+                      ? `${schedule.schedule_name} (${schedule.schedule_begin} - ${schedule.schedule_end})`
+                      : `${schedule.schedule_begin} - ${schedule.schedule_end}`}
                   </option>
                 ))}
               </Select>

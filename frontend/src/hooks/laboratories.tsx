@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
+
 import api from '../services/api';
 
 import getLaboratoriesArray from '../utils/getLaboratoriesArray';
@@ -51,9 +52,9 @@ const LaboratoriesProvider: React.FC = ({ children }) => {
             };
           }),
         );
+      } else {
+        setCurrentLaboratories(getLaboratoriesArray());
       }
-
-      setCurrentLaboratories(getLaboratoriesArray());
     };
 
     if (!currentLaboratories.length) {

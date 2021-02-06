@@ -18,8 +18,7 @@ class SaveSchedulesService {
     for (let i = 0; i < data.length; i += 1) {
       const foundSchedule = data.find(
         (schedule, index) =>
-          (schedule.schedule_name === data[i].schedule_name ||
-            schedule.schedule_begin === data[i].schedule_begin ||
+          (schedule.schedule_begin === data[i].schedule_begin ||
             schedule.schedule_end === data[i].schedule_end) &&
           index !== i,
       );
@@ -31,7 +30,7 @@ class SaveSchedulesService {
 
     const currentSchedules = await this.schedulesRepository.get();
 
-    if (currentSchedules) {
+    if (currentSchedules.length) {
       await this.schedulesRepository.clear();
     }
 

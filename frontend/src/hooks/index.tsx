@@ -6,6 +6,7 @@ import { CurrentPageProvider } from './currentPage';
 import { SubjectsProvider } from './subjects';
 import { ClassroomsProvider } from './classrooms';
 import { LaboratoriesProvider } from './laboratories';
+import { SchedulesProvider } from './schedules';
 
 const AppProvider: React.FC = ({ children }) => (
   <AuthProvider>
@@ -13,7 +14,9 @@ const AppProvider: React.FC = ({ children }) => (
       <CurrentPageProvider>
         <SubjectsProvider>
           <ClassroomsProvider>
-            <LaboratoriesProvider>{children}</LaboratoriesProvider>
+            <LaboratoriesProvider>
+              <SchedulesProvider>{children}</SchedulesProvider>
+            </LaboratoriesProvider>
           </ClassroomsProvider>
         </SubjectsProvider>
       </CurrentPageProvider>

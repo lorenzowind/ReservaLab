@@ -46,7 +46,7 @@ describe('SaveSchedules', () => {
       },
       {
         schedule_name: '1st Time',
-        schedule_begin: '08:10',
+        schedule_begin: '07:10',
         schedule_end: '09:00',
       },
     ];

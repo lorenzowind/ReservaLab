@@ -14,11 +14,13 @@ schedulesRouter.post(
   ensureAuthenticated,
   celebrate({
     [Segments.BODY]: {
-      data: Joi.array().required().items({
-        schedule_name: Joi.string().required(),
-        schedule_begin: Joi.string().required(),
-        schedule_end: Joi.string().required(),
-      }),
+      data: Joi.array()
+        .required()
+        .items({
+          schedule_name: Joi.string().allow(''),
+          schedule_begin: Joi.string().required(),
+          schedule_end: Joi.string().required(),
+        }),
     },
   }),
   schedulesController.save,

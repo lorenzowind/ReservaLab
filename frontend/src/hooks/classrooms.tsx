@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
+
 import api from '../services/api';
 
 import getClassroomsArray from '../utils/getClassroomsArray';
@@ -31,9 +32,9 @@ const ClassroomsProvider: React.FC = ({ children }) => {
 
       if (response.data.classrooms) {
         setCurrentClassrooms(response.data.classrooms.split(', '));
+      } else {
+        setCurrentClassrooms(getClassroomsArray());
       }
-
-      setCurrentClassrooms(getClassroomsArray());
     };
 
     if (!currentClassrooms.length) {
