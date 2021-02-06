@@ -18,11 +18,11 @@ class SaveClassroomsService {
     const classroomsArray = classrooms.split(', ');
 
     for (let i = 0; i < classroomsArray.length; i += 1) {
-      const findClassroom = classroomsArray.find(
+      const foundClassroom = classroomsArray.find(
         (classroom, index) => classroom === classroomsArray[i] && index !== i,
       );
 
-      if (findClassroom) {
+      if (foundClassroom) {
         throw new AppError('Informed classrooms are not valid.');
       }
     }

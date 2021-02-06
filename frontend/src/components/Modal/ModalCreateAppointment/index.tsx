@@ -21,8 +21,6 @@ import { useLaboratories } from '../../../hooks/laboratories';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
 import getTimesArray from '../../../utils/getTimesArray';
-import getClassroomsArray from '../../../utils/getClassroomsArray';
-import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
 
 import Modal from '..';
 import Select from '../../Select';

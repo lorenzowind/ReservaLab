@@ -8,6 +8,7 @@ import appointmentsRouter from '@modules/appointments/infra/http/routes/appointm
 import subjectsRouter from '@modules/subjects/infra/http/routes/subjects.routes';
 import laboratoriesRouter from '@modules/laboratories/infra/http/routes/laboratories.routes';
 import classroomsRouter from '@modules/classrooms/infra/http/routes/classrooms.routes';
+import schedulesRouter from '@modules/schedules/infra/http/routes/schedules.routes';
 
 const routes = Router();
 
@@ -19,5 +20,6 @@ routes.use('/appointments', appointmentsRouter);
 routes.use('/subjects', subjectsRouter);
 routes.use('/laboratories', laboratoriesRouter);
 routes.use('/classrooms', classroomsRouter);
+routes.use('/schedules', schedulesRouter);
 
 export default routes;

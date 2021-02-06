@@ -21,6 +21,9 @@ import LaboratoriesRepository from '@modules/laboratories/infra/typeorm/reposito
 import IClassroomsRepository from '@modules/classrooms/repositories/IClassroomsRepository';
 import ClassroomsRepository from '@modules/classrooms/infra/typeorm/repositories/ClassroomsRepository';
 
+import ISchedulesRepository from '@modules/schedules/repositories/ISchedulesRepository';
+import SchedulesRepository from '@modules/schedules/infra/typeorm/repositories/SchedulesRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -49,4 +52,9 @@ container.registerSingleton<ILaboratoriesRepository>(
 container.registerSingleton<IClassroomsRepository>(
   'ClassroomsRepository',
   ClassroomsRepository,
+);
+
+container.registerSingleton<ISchedulesRepository>(
+  'SchedulesRepository',
+  SchedulesRepository,
 );
