@@ -149,6 +149,8 @@ export const NotificationIcon = styled.div`
     margin-top: 15px;
     margin-right: 15px;
     width: 380px;
+    max-height: 560px;
+    overflow-y: auto;
     top: 0;
     transition: visibility 0.2s, opacity 0.2s linear;
 
@@ -156,6 +158,19 @@ export const NotificationIcon = styled.div`
 
     border-radius: 6px;
     border: solid 3px #bfd73e;
+
+    &::-webkit-scrollbar {
+      width: 7px;
+    }
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #888;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
 
     > article {
       display: flex;

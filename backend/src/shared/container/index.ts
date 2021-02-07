@@ -24,6 +24,9 @@ import ClassroomsRepository from '@modules/classrooms/infra/typeorm/repositories
 import ISchedulesRepository from '@modules/schedules/repositories/ISchedulesRepository';
 import SchedulesRepository from '@modules/schedules/infra/typeorm/repositories/SchedulesRepository';
 
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
+import NotificationsRepository from '@modules/notifications/infra/typeorm/repositories/NotificationsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -57,4 +60,9 @@ container.registerSingleton<IClassroomsRepository>(
 container.registerSingleton<ISchedulesRepository>(
   'SchedulesRepository',
   SchedulesRepository,
+);
+
+container.registerSingleton<INotificationsRepository>(
+  'NotificationsRepository',
+  NotificationsRepository,
 );
