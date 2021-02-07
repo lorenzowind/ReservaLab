@@ -23,13 +23,14 @@ import { useLaboratories } from '../../../hooks/laboratories';
 import getValidationErrors from '../../../utils/getValidationErrors';
 
 import Modal from '..';
+import { getStatus } from '../ModalAppointmentInfo';
 import Select from '../../Select';
 import Button from '../../Button';
 import DateInput from '../../DateInput';
 import Loading from '../../Loading';
+import Textarea from '../../Textarea';
 
 import { Form, CloseModal } from './styles';
-import Textarea from '../../Textarea';
 
 interface ICreateAppointmentData {
   teacher_id: string;
@@ -108,6 +109,36 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
     }
   }, [schedules]);
 
+  const getLaboratoryName = useCallback(
+    (laboratory_number: number) => {
+      const laboratory = laboratories.find(
+        findLaboratory => findLaboratory.classroomNumber === laboratory_number,
+      );
+
+      if (laboratory) {
+        return laboratory.name;
+      }
+
+      return '';
+    },
+    [laboratories],
+  );
+
+  const getScheduleName = useCallback(
+    (time: string) => {
+      const schedule = schedules.find(
+        findTime => findTime.schedule_begin + findTime.schedule_end === time,
+      );
+
+      if (schedule) {
+        return schedule.schedule_name;
+      }
+
+      return '';
+    },
+    [schedules],
+  );
+
   const handleSubmit = useCallback(
     async (data: ICreateAppointmentData) => {
       try {
@@ -161,7 +192,7 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
           throw new Error();
         }
 
-        const AppointmentData = {
+        const appointmentData = {
           laboratory_number: Number(data.laboratory_number),
           time: data.time,
           year: date.getFullYear(),
@@ -186,8 +217,8 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(true);
 
         await api
-          .post('appointments', AppointmentData, requestExtension)
-          .then(() => {
+          .post('appointments', appointmentData, requestExtension)
+          .then(async () => {
             addToast({
               type: 'success',
               title: 'Agendamento criado com sucesso',
@@ -195,6 +226,24 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
                 data.laboratory_number,
               )}.`,
             });
+
+            if (user.position === 'admin') {
+              await api.post('notifications', {
+                type: 'schedules',
+                description: `Um agendamento para o dia ${new Date(
+                  appointmentData.year,
+                  appointmentData.month - 1,
+                  appointmentData.day,
+                ).toLocaleDateString()}, ${getScheduleName(
+                  appointmentData.time,
+                )}, no laboratório ${getLaboratoryName(
+                  appointmentData.laboratory_number,
+                )}, foi criado com o status de ${getStatus({
+                  status: data.status,
+                })}.`,
+                recipient_user_id: data.teacher_id,
+              });
+            }
 
             setIsOpen();
             setToRefresh(true);
@@ -221,7 +270,15 @@ const ModalCreateAppointment: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [date, user.position, addToast, setIsOpen, setToRefresh],
+    [
+      user,
+      date,
+      addToast,
+      setIsOpen,
+      setToRefresh,
+      getScheduleName,
+      getLaboratoryName,
+    ],
   );
 
   useEffect(() => {

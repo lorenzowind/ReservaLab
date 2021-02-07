@@ -7,6 +7,7 @@ import { SubjectsProvider } from './subjects';
 import { ClassroomsProvider } from './classrooms';
 import { LaboratoriesProvider } from './laboratories';
 import { SchedulesProvider } from './schedules';
+import { NotificationsProvider } from './notifications';
 
 const AppProvider: React.FC = ({ children }) => (
   <AuthProvider>
@@ -15,7 +16,9 @@ const AppProvider: React.FC = ({ children }) => (
         <SubjectsProvider>
           <ClassroomsProvider>
             <LaboratoriesProvider>
-              <SchedulesProvider>{children}</SchedulesProvider>
+              <SchedulesProvider>
+                <NotificationsProvider>{children}</NotificationsProvider>
+              </SchedulesProvider>
             </LaboratoriesProvider>
           </ClassroomsProvider>
         </SubjectsProvider>

@@ -18,6 +18,10 @@ interface PageButtonProps {
   isSelected: boolean;
 }
 
+interface NotificationItemProps {
+  isSelected: boolean;
+}
+
 export const Container = styled.div<HeaderProps>`
   display: flex;
   justify-content: space-between;
@@ -194,14 +198,13 @@ export const NotificationIcon = styled.div`
   }
 `;
 
-export const NotificationItem = styled.div`
+export const NotificationItem = styled.div<NotificationItemProps>`
   margin: 15px;
   padding: 15px;
 
-  background: white;
+  background: #2f3342;
 
-  border-radius: 3px;
-  border: solid 1px #bfd73e;
+  border-radius: 13px;
 
   display: flex;
   flex-direction: row;
@@ -212,15 +215,24 @@ export const NotificationItem = styled.div`
     flex: 1;
     margin-right: 12px;
 
-    strong {
-      font-size: 18px;
+    h3 {
+      font-size: 12px;
       font-weight: 500;
+      margin-bottom: 4px;
+      color: ${props => (props.isSelected ? shade(0.2, '#bfd73e') : '#bfd73e')};
+    }
+
+    strong {
+      font-size: 16px;
+      font-weight: 500;
+      color: #f8f8f8;
     }
 
     h2 {
       margin-top: 6px;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
+      color: ${shade(0.2, '#f8f8f8')};
     }
   }
 

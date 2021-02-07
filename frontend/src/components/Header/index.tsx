@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FiBell, FiTrash, FiUser } from 'react-icons/fi';
 import { useHistory, useLocation } from 'react-router-dom';
 
+import api from '../../services/api';
+
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
+import { useNotifications } from '../../hooks/notifications';
 import { useCurrentPage } from '../../hooks/currentPage';
 
 import {
@@ -17,8 +21,47 @@ import {
 
 import logoImg from '../../assets/logo.svg';
 
+import Loading from '../Loading';
+
 interface HeaderProps {
   isHome: boolean;
+}
+
+function getType(type: 'schedules' | 'support' | 'programs') {
+  switch (type) {
+    case 'schedules': {
+      return 'AGENDAMENTOS';
+    }
+    case 'support': {
+      return 'SUPORTE';
+    }
+    case 'programs': {
+      return 'PROGRAMAS';
+    }
+    default: {
+      return '';
+    }
+  }
+}
+
+function getNotificationSelection(
+  type: 'schedules' | 'support' | 'programs',
+  location: string,
+) {
+  switch (type) {
+    case 'schedules': {
+      return location === '/home';
+    }
+    case 'support': {
+      return location === '/support';
+    }
+    case 'programs': {
+      return location === '/programs';
+    }
+    default: {
+      return false;
+    }
+  }
 }
 
 const Header: React.FC<HeaderProps> = ({ isHome }) => {
@@ -26,14 +69,40 @@ const Header: React.FC<HeaderProps> = ({ isHome }) => {
   const location = useLocation();
 
   const { user, signOut } = useAuth();
+  const { addToast } = useToast();
+  const { notifications, getNotifications } = useNotifications();
   const { page, setCurrentPage } = useCurrentPage();
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setCurrentPage(location.pathname);
   }, [location.pathname, setCurrentPage]);
 
+  const handleDeleteNotification = useCallback(
+    async (id: string) => {
+      try {
+        setLoading(true);
+
+        await api.delete(`notifications/${id}`);
+
+        getNotifications();
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Erro ao excluir notificação',
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [addToast, getNotifications],
+  );
+
   return (
     <>
+      {loading && <Loading zIndex={1} />}
+
       <Container isHome={isHome}>
         <div>
           <img src={logoImg} alt="Logo" />
@@ -42,6 +111,7 @@ const Header: React.FC<HeaderProps> = ({ isHome }) => {
             <strong>
               {user.position === 'admin' ? 'Administrador:' : 'Bem vindo,'}
             </strong>
+
             <h2>{user.name}</h2>
           </section>
         </div>
@@ -55,20 +125,36 @@ const Header: React.FC<HeaderProps> = ({ isHome }) => {
             <FiBell />
 
             <aside>
-              {/* <NotificationItem>
-                <section>
-                  <strong>Notificação 01</strong>
-                  <h2>19:10</h2>
-                </section>
+              {notifications.length ? (
+                notifications.map(notification => (
+                  <NotificationItem
+                    isSelected={getNotificationSelection(
+                      notification.type,
+                      location.pathname,
+                    )}
+                    key={notification.id}
+                  >
+                    <section>
+                      <h3>{getType(notification.type)}</h3>
+                      <strong>{notification.description}</strong>
+                      <h2>
+                        {new Date(notification.created_at).toLocaleDateString()}
+                      </h2>
+                    </section>
 
-                <button type="button">
-                  <FiTrash />
-                </button>
-              </NotificationItem> */}
-
-              <article>
-                <strong>Você não tem notificações!</strong>
-              </article>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteNotification(notification.id)}
+                    >
+                      <FiTrash />
+                    </button>
+                  </NotificationItem>
+                ))
+              ) : (
+                <article>
+                  <strong>Você não tem notificações!</strong>
+                </article>
+              )}
             </aside>
           </NotificationIcon>
 

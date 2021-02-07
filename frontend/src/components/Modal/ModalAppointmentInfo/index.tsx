@@ -8,10 +8,10 @@ import api from '../../../services/api';
 
 import { useToast } from '../../../hooks/toast';
 import { useAuth } from '../../../hooks/auth';
+import { useLaboratories } from '../../../hooks/laboratories';
+import { useSchedules } from '../../../hooks/schedules';
 
 import getValidationErrors from '../../../utils/getValidationErrors';
-import getLaboratoriesArray from '../../../utils/getLaboratoriesArray';
-import getSchedulesArray from '../../../utils/getSchedulesArray';
 
 import Modal from '..';
 import Button from '../../Button';
@@ -32,12 +32,7 @@ interface IModalProps {
   setToRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const laboratories = getLaboratoriesArray();
-const schedules = getSchedulesArray();
-
-function getStatus(
-  status: 'scheduled' | 'presence' | 'absence' | 'non-scheduled',
-) {
+export function getStatus({ status }: IStatusData) {
   switch (status) {
     case 'scheduled': {
       return 'Agendado';
@@ -68,6 +63,8 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
   const [loading, setLoading] = useState(false);
 
   const { addToast } = useToast();
+  const { laboratories } = useLaboratories();
+  const { schedules } = useSchedules();
   const { user } = useAuth();
 
   const laboratory = useMemo(() => {
@@ -75,15 +72,14 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
       findLaboratory =>
         findLaboratory.classroomNumber === appointment.laboratory_number,
     );
-  }, [appointment]);
+  }, [appointment.laboratory_number, laboratories]);
 
   const schedule = useMemo(() => {
     return schedules.find(
       findTime =>
-        `${findTime.schedule_begin} - ${findTime.schedule_end}` ===
-        appointment.time,
+        findTime.schedule_begin + findTime.schedule_end === appointment.time,
     );
-  }, [appointment]);
+  }, [appointment.time, schedules]);
 
   const date = useMemo(() => {
     return new Date(
@@ -149,10 +145,26 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
 
         await api
           .put(`appointments/${appointment.id}`, appointmentData)
-          .then(() => {
+          .then(async () => {
             addToast({
               type: 'success',
               title: 'Status do agendamento alterado com sucesso',
+            });
+
+            await api.post('notifications', {
+              type: 'schedules',
+              description: `O status do agendamento do dia ${new Date(
+                appointment.year,
+                appointment.month - 1,
+                appointment.day,
+              ).toLocaleDateString()}, ${
+                schedule ? schedule.schedule_name : ''
+              }, no laboratório ${
+                laboratory ? laboratory.name : ''
+              }, foi alterado para ${getStatus({
+                status: data.status,
+              })}.`,
+              recipient_user_id: appointment.teacher_id,
             });
 
             setIsOpen();
@@ -175,7 +187,7 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
         setLoading(false);
       }
     },
-    [addToast, appointment, setIsOpen, setToRefresh],
+    [addToast, appointment, laboratory, schedule, setIsOpen, setToRefresh],
   );
 
   return (
@@ -239,7 +251,12 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
 
           <section>
             <h1>
-              Status: <strong>{getStatus(appointment.status)}</strong>
+              Status:{' '}
+              <strong>
+                {getStatus({
+                  status: appointment.status,
+                })}
+              </strong>
             </h1>
             {appointment.observations && (
               <>
