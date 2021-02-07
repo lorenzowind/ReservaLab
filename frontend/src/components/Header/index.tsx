@@ -13,6 +13,7 @@ import {
   Container,
   UserAvatar,
   NotificationIcon,
+  NotificationSubIcon,
   NotificationItem,
   SubContainer,
   PageButton,
@@ -122,6 +123,12 @@ const Header: React.FC<HeaderProps> = ({ isHome }) => {
           </button>
 
           <NotificationIcon>
+            {notifications.length ? (
+              <NotificationSubIcon>{notifications.length}</NotificationSubIcon>
+            ) : (
+              <></>
+            )}
+
             <FiBell />
 
             <aside>

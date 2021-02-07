@@ -198,6 +198,24 @@ export const NotificationIcon = styled.div`
   }
 `;
 
+export const NotificationSubIcon = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  font-size: 10px;
+  margin: 0px 0px -5px -5px;
+  background: #9b3b37;
+  color: #fff;
+`;
+
 export const NotificationItem = styled.div<NotificationItemProps>`
   margin: 15px;
   padding: 15px;

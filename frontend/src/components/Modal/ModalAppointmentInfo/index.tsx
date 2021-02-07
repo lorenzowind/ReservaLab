@@ -103,11 +103,27 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
     try {
       setLoading(true);
 
-      await api.delete(`appointments/${appointment.id}`).then(() => {
+      await api.delete(`appointments/${appointment.id}`).then(async () => {
         addToast({
           type: 'success',
           title: 'Agendamento excluído com sucesso',
         });
+
+        if (user.position === 'admin') {
+          await api.post('notifications', {
+            type: 'schedules',
+            description: `O agendamento para o dia ${new Date(
+              appointment.year,
+              appointment.month - 1,
+              appointment.day,
+            ).toLocaleDateString()}, ${
+              schedule ? schedule.schedule_name : ''
+            }, no laboratório ${
+              laboratory ? laboratory.name : ''
+            }, foi excluído.`,
+            recipient_user_id: appointment.teacher_id,
+          });
+        }
 
         setIsOpen();
         setToRefresh(true);
@@ -120,7 +136,15 @@ const ModalAppointmentInfo: React.FC<IModalProps> = ({
     } finally {
       setLoading(false);
     }
-  }, [addToast, appointment, setIsOpen, setToRefresh]);
+  }, [
+    addToast,
+    appointment,
+    laboratory,
+    schedule,
+    setIsOpen,
+    setToRefresh,
+    user.position,
+  ]);
 
   const handleSubmit = useCallback(
     async (data: IStatusData) => {
