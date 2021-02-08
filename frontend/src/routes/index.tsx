@@ -12,6 +12,9 @@ import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Teachers from '../pages/Teachers';
 import Configurations from '../pages/Configurations';
+import Support from '../pages/Support';
+import Programs from '../pages/Programs';
+import Reports from '../pages/Reports';
 
 const Routes: React.FC = () => (
   <Switch>
@@ -24,6 +27,9 @@ const Routes: React.FC = () => (
     <Route path="/profile" component={Profile} isPrivate />
     <Route path="/teachers" component={Teachers} isPrivate />
     <Route path="/configurations" component={Configurations} isPrivate />
+    <Route path="/support" component={Support} isPrivate />
+    <Route path="/programs" component={Programs} isPrivate />
+    <Route path="/reports" component={Reports} isPrivate />
   </Switch>
 );
 
